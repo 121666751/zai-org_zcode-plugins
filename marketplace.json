@@ -772,6 +772,115 @@
       "source": "./plugins/hyper3d-rodin",
       "category": "developer-tools",
       "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/hyper3d-rodin/icon.jpg"
+    },
+    {
+      "name": "zcode-mcp-app-dev",
+      "version": "0.1.1",
+      "description": "Develop MCP Apps for ZCode with official SDKs and a small host-extension reference.",
+      "description_i18n": {
+        "en": "Develop MCP Apps for ZCode with official SDKs and a small host-extension reference.",
+        "zh-CN": "使用官方 SDK 开发 ZCode MCP App，附宿主扩展约定与独立构建指引。"
+      },
+      "author": {
+        "name": "ZCode"
+      },
+      "source": "./plugins/zcode-mcp-app-dev",
+      "category": "developer-tools"
+    },
+    {
+      "name": "blender",
+      "displayName": "Blender",
+      "displayName_i18n": {
+        "en": "Blender",
+        "zh-CN": "Blender"
+      },
+      "version": "0.2.2",
+      "source": "./plugins/blender",
+      "description": "在 ZCode 对话旁打开 Blender 场景：Agent 修改物体、材质、相机并渲染预览；面板用 Three.js 轻量浏览。",
+      "description_i18n": {
+        "en": "Edit Blender scenes with an interactive 3D panel and MCP tools.",
+        "zh-CN": "在 ZCode 对话旁打开 Blender 场景：Agent 修改物体、材质、相机并渲染预览；面板用 Three.js 轻量浏览。"
+      },
+      "category": "productivity",
+      "author": {
+        "name": "ZCode"
+      }
+    },
+    {
+      "name": "excalidraw",
+      "displayName": "Excalidraw",
+      "displayName_i18n": {
+        "en": "Excalidraw",
+        "zh-CN": "Excalidraw"
+      },
+      "version": "0.2.2",
+      "source": "./plugins/excalidraw",
+      "description": "让 Agent 生成图形，在对话侧栏用 Excalidraw 编辑、引用选区、继续修改并导出。",
+      "description_i18n": {
+        "en": "Create and edit diagrams with Excalidraw and MCP tools.",
+        "zh-CN": "让 Agent 生成图形，在对话侧栏用 Excalidraw 编辑、引用选区、继续修改并导出。"
+      },
+      "category": "productivity",
+      "author": {
+        "name": "ZCode"
+      }
+    },
+    {
+      "name": "openpencil",
+      "displayName": "OpenPencil",
+      "displayName_i18n": {
+        "en": "OpenPencil",
+        "zh-CN": "OpenPencil"
+      },
+      "version": "0.2.2",
+      "source": "./plugins/openpencil",
+      "description": "在对话侧栏用 OpenPencil 编辑工作区里的 Figma .fig 设计稿，Agent 通过设计工具协同修改、引用选区并生成代码。",
+      "description_i18n": {
+        "en": "Edit design files with OpenPencil and MCP tools.",
+        "zh-CN": "在对话侧栏用 OpenPencil 编辑工作区里的 Figma .fig 设计稿，Agent 通过设计工具协同修改、引用选区并生成代码。"
+      },
+      "category": "productivity",
+      "author": {
+        "name": "ZCode"
+      }
+    },
+    {
+      "name": "showcase",
+      "displayName": "Showcase",
+      "displayName_i18n": {
+        "en": "Showcase",
+        "zh-CN": "Showcase"
+      },
+      "version": "0.4.3",
+      "source": "./plugins/showcase",
+      "description": "完整能力演示目录 SC01–SC53：基础插件 UI、App 内模型问答、取消、保活、浏览器存储、失败与隔离边界。",
+      "description_i18n": {
+        "en": "Explore MCP Apps capabilities, interactions, and lifecycle examples.",
+        "zh-CN": "完整能力演示目录 SC01–SC53：基础插件 UI、App 内模型问答、取消、保活、浏览器存储、失败与隔离边界。"
+      },
+      "category": "developer-tools",
+      "author": {
+        "name": "ZCode"
+      }
+    },
+    {
+      "name": "disk-cleaner",
+      "displayName": "Disk Cleaner",
+      "displayName_i18n": {
+        "en": "Disk Cleaner",
+        "zh-CN": "磁盘清理器"
+      },
+      "version": "0.1.2",
+      "source": "./plugins/disk-cleaner",
+      "description": "只读扫描目录占用与大文件，在侧栏逐项确认后移入系统回收站。",
+      "description_i18n": {
+        "en": "Analyze disk usage and large files, then review selected files before moving them to the system trash.",
+        "zh-CN": "只读扫描目录占用与大文件，在侧栏逐项确认后移入系统回收站。"
+      },
+      "author": {
+        "name": "ZCode"
+      },
+      "category": "utilities"
     }
   ]
 }

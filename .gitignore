@@ -1,6 +1,6 @@
-dist/
-!plugins/mimosa/payload/dist/
-!plugins/mimosa/payload/dist/**
+# Only release output and UI source build intermediates are ignored.
+/dist/
+/ui-plugins/**/dist/
 __pycache__/
 .DS_Store
 
@@ -8,3 +8,12 @@ __pycache__/
 mirror-failure.txt
 mirror-result.txt
 publish-failure.txt
+
+# MCP App development dependencies and generated license intermediates.
+node_modules/
+ui-plugins/*/licenses/
+*.tsbuildinfo
+
+# OpenPencil bundles these runtime dependencies for installation.
+!/plugins/openpencil/dist/node_modules/
+!/plugins/openpencil/dist/node_modules/**

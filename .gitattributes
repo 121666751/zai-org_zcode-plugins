@@ -25,3 +25,13 @@ scripts/publish_incremental.py   export-ignore
 tests/test_sync_external_prs.py  export-ignore
 tests/test_distribution.py       export-ignore
 tests/test_public_docs.py        export-ignore
+
+# Generated bundles preserve upstream dependency formatting.
+plugins/blender/dist/** linguist-generated=true -whitespace
+plugins/excalidraw/dist/** linguist-generated=true -whitespace
+plugins/openpencil/dist/** linguist-generated=true -whitespace
+plugins/showcase/dist/** linguist-generated=true -whitespace
+plugins/disk-cleaner/dist/** linguist-generated=true -whitespace
+plugins/blender/ui/dist/** linguist-generated=true -whitespace
+plugins/blender/blender/** linguist-generated=true -whitespace
+plugins/openpencil/licenses/font-NotoNaskhArabic-OFL.txt -whitespace
