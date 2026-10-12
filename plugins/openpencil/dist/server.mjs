@@ -228418,7 +228418,10 @@ function registerDesignResources(server2, {
           text: await readFile4(join4(assetRoot, "panel.html"), "utf8"),
           // 面板要连本机 WebSocket 桥，端口运行时才知道，因此在资源级 _meta 中声明。
           _meta: {
-            ui: { csp: { connectDomains: [bridge2.endpoint.url] }, prefersBorder: false }
+            ui: { csp: { connectDomains: [bridge2.endpoint.url] }, prefersBorder: false },
+            // 默认 CSP 会拦截 Yoga / CanvasKit 的 WASM 和 .fig 的 kiwi schema 动态编译。
+            // 仅为此面板声明所需能力，与 Agent 的 enableEval 工具开关无关。
+            "zcode/csp": { wasmUnsafeEval: true, unsafeEval: true }
           }
         }
       ]
@@ -232295,7 +232298,7 @@ var toolMeta = (name, visibility) => {
 };
 function createDesignServer(options) {
   const { registry: registry3, bridge: bridge2, workspaceRoot: workspaceRoot2, assetRoot } = options;
-  const server2 = new McpServer({ name: PLUGIN_NAME, version: "0.2.2" });
+  const server2 = new McpServer({ name: PLUGIN_NAME, version: "0.2.3" });
   const register = (name, description, inputSchema, visibility, execute) => {
     server2.registerTool(
       name,

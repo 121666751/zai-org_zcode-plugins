@@ -39,6 +39,9 @@ export function registerDesignResources(
           // 面板要连本机 WebSocket 桥，端口运行时才知道，因此在资源级 _meta 中声明。
           _meta: {
             ui: { csp: { connectDomains: [bridge.endpoint.url] }, prefersBorder: false },
+            // 默认 CSP 会拦截 Yoga / CanvasKit 的 WASM 和 .fig 的 kiwi schema 动态编译。
+            // 仅为此面板声明所需能力，与 Agent 的 enableEval 工具开关无关。
+            "zcode/csp": { wasmUnsafeEval: true, unsafeEval: true },
           },
         },
       ],

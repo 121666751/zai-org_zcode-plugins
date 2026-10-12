@@ -48,6 +48,21 @@ pnpm marketplace:local --name my-local-plugins --output dist/my-local-plugins
 
 ## 验收
 
+### OpenPencil 编辑器启动
+
+OpenPencil 的面板资源在 `_meta["zcode/csp"]` 声明 `wasmUnsafeEval` 与 `unsafeEval`：Yoga / CanvasKit 需要 WebAssembly，`.fig` 的 kiwi schema 编译需要动态函数。声明只属于该面板资源；WebSocket 仍只允许 `_meta.ui.csp.connectDomains` 中的运行时回环地址，不改变其他插件的权限或 Agent 的 `enableEval` 工具开关。
+
+加载器必须捕获模块解析、求值和顶层 await 的失败，显示中英文错误及原因，不能一直保留 Loading。模块执行完成后撤销启动错误监听，不把后续编辑错误误报为加载失败。
+
+```text
+读取资源 → 按资源声明施加 CSP → 模块执行 → 载入初始设计稿 → 连接工具桥
+                                  └─ 失败 → 显示加载错误
+```
+
+浏览器回归使用真实安装产物与 MCP 服务，按资源声明生成严格 CSP，验证 `.fig` 载入、CanvasKit、工具桥、编辑与保存；注入模块语法错误及顶层 await 拒绝，验证加载失败提示。这不替代真实 ZCode 桌面沙箱验证。
+
+### 通用安装产物
+
 - 新增任意名称的普通插件和 UI 源码包后，无需修改脚本就能生成目录并构建；未登记的目录不会被自动执行。
 - 修改、删除根清单条目和更新版本会反映到新副本；不改写正式清单或用户安装状态。
 - 缺失构建产物、版本不一致、服务入口缺失或 stage 失败时拒绝生成新副本；失败构建不留下完成标记。

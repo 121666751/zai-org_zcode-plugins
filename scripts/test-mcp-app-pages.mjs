@@ -1,5 +1,5 @@
 // Browser protocol regression: real plugin artifacts and official App/AppBridge.
-// This fixture does not claim to exercise the desktop sandbox security policy.
+// OpenPencil 使用资源声明生成 CSP；此夹具不替代桌面 partition / origin 隔离验证。
 import assert from "node:assert/strict";
 import { createServer } from "node:http";
 import { mkdtemp, rm } from "node:fs/promises";
@@ -74,6 +74,7 @@ try {
     });
     const client = new Client({ name: "page-test", version: "1" });
     const page = await browser.newPage({ viewport: { width: 1100, height: 800 } });
+    let moduleFailure = null;
     let server;
     try {
       console.log(`Starting browser protocol check: ${short}`);
@@ -101,13 +102,30 @@ try {
             response.setHeader("Content-Type", "text/javascript");
             response.end(host.outputFiles[0].text);
           } else if (request.url === "/panel") {
-            response.setHeader("Content-Type", "text/html");
+            response.setHeader("Content-Type", "text/html; charset=utf-8");
+            if (short === "openpencil") {
+              // 旧测试没有 CSP，无法发现安装包漏报 WASM / kiwi 动态编译权限。
+              const meta = panel.contents[0]._meta;
+              const flags = meta?.["zcode/csp"];
+              response.setHeader(
+                "Content-Security-Policy",
+                [
+                  "default-src 'none'",
+                  `script-src 'self' 'unsafe-inline' blob: data:${flags?.unsafeEval === true ? " 'unsafe-eval'" : ""}${flags?.wasmUnsafeEval === true ? " 'wasm-unsafe-eval'" : ""}`,
+                  "style-src 'self' 'unsafe-inline'",
+                  "img-src 'self' data: blob:",
+                  "font-src 'self' data:",
+                  `connect-src ${meta.ui.csp.connectDomains.join(" ")}`,
+                  "worker-src 'self' blob:",
+                ].join("; "),
+              );
+            }
             response.end(panel.contents[0].text);
           } else if (request.url === "/rpc" && request.method === "POST") {
             let body = "";
             for await (const chunk of request) body += chunk;
             const { method, args } = JSON.parse(body);
-            const result =
+            let result =
               method === "initial"
                 ? initial
                 : method === "readResource"
@@ -115,6 +133,16 @@ try {
                   : method === "callTool"
                     ? await client.callTool(args)
                     : null;
+            if (moduleFailure && method === "readResource") {
+              if (args.uri.endsWith("/assets.json"))
+                result = {
+                  contents: [
+                    { uri: args.uri, text: JSON.stringify({ scripts: ["bundle-0.txt"] }) },
+                  ],
+                };
+              else if (args.uri.endsWith("/bundle-0.txt"))
+                result = { contents: [{ uri: args.uri, text: moduleFailure }] };
+            }
             response.setHeader("Content-Type", "application/json");
             response.end(JSON.stringify(result));
           } else response.writeHead(404).end();
@@ -149,6 +177,69 @@ try {
       await page.evaluate(() => window.bridge.sendToolCancelled({ reason: "stopped" }));
       await frame.waitForFunction(() => window.__pluginClient.toolCancelled?.reason === "stopped");
       assert.equal(await page.evaluate(() => window.initializations), 1);
+      if (short === "openpencil") {
+        assert.deepEqual(panel.contents[0]._meta["zcode/csp"], {
+          wasmUnsafeEval: true,
+          unsafeEval: true,
+        });
+        assert.equal(
+          await frame.evaluate(() => window.__openpencilPanel.documents.error.value),
+          null,
+        );
+        assert.equal(
+          await frame.evaluate(() => window.__openpencilPanel.documents.current.value?.id),
+          initial.structuredContent.document.id,
+        );
+        await frame.waitForFunction(
+          () => window.__openpencilPanel.canvasReady && window.__openpencilPanel.bridgeConnected,
+        );
+        const pages = await client.callTool({ name: "list_pages", arguments: {} });
+        assert.ok(!pages.isError, JSON.stringify(pages));
+        // 真实画布交互及 .fig worker 保存，覆盖 WASM 启动后才触发的 kiwi 编译。
+        await frame.getByTestId("op-tool-rectangle").click();
+        const canvas = await frame.getByTestId("op-canvas").boundingBox();
+        assert.ok(canvas);
+        await page.mouse.move(canvas.x + 100, canvas.y + 100);
+        await page.mouse.down();
+        await page.mouse.move(canvas.x + 220, canvas.y + 180, { steps: 5 });
+        await page.mouse.up();
+        await frame.waitForFunction(() => window.__openpencilPanel.documents.isDirty());
+        await frame.evaluate(() => window.__openpencilPanel.flush());
+        assert.equal(
+          await frame.evaluate(() => window.__openpencilPanel.documents.status.value),
+          "saved",
+        );
+        assert.equal(
+          await frame.evaluate(() => window.__openpencilPanel.documents.error.value),
+          null,
+        );
+        // 启动完成后不应再由加载器接管编辑阶段的异常。
+        await frame.evaluate(() =>
+          window.dispatchEvent(new ErrorEvent("error", { message: "later editor error" })),
+        );
+        assert.ok(await frame.getByTestId("op-canvas").isVisible());
+        console.log(
+          "PASS OpenPencil CSP: document loaded, canvas ready, bridge call, draw and save",
+        );
+        for (const source of [
+          "await Promise.reject(new Error('startup rejection'));",
+          "throw new Error('startup evaluation');",
+          "const = ;",
+        ]) {
+          moduleFailure = source;
+          await page.reload({ waitUntil: "domcontentloaded" });
+          const failedFrame = page.frames().find((item) => item !== page.mainFrame());
+          await failedFrame.waitForFunction(() =>
+            document.getElementById("root")?.textContent?.includes("Failed to load:"),
+          );
+          const message = await failedFrame.locator("#root").innerText();
+          assert.ok(!message.includes("Loading design editor"), message);
+          assert.match(message, /startup rejection|startup evaluation|Unexpected token/);
+        }
+        console.log(
+          "PASS OpenPencil module startup errors: rejection, evaluation and syntax error end Loading",
+        );
+      }
       console.log(
         `PASS official App/AppBridge ${short}: one connection, initial result, theme, widget state, cancellation`,
       );

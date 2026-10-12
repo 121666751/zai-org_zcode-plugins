@@ -9,10 +9,13 @@ Git 市场安装包包含已编译的 MCP 服务与 UI 资源，无需用户手�
 
 构建使用锁文件中固定的 OpenPencil 0.14.0 依赖；升级时需重新验证画布编辑、保存、字体和 WASM 加载。
 
+面板通过资源级 `zcode/csp` 声明 Yoga / CanvasKit 所需的 WebAssembly 和 `.fig` schema 所需的动态编译权限。模块启动失败时显示错误原因；该声明不启用 Agent 的可选 eval 工具。
+
 ```bash
 pnpm build   # dist/server.mjs + dist/ui/*
 pnpm --filter @zcode/plugin-openpencil test    # 单测
 node ui-plugins/openpencil/scripts/smoke.mjs   # 真实拉起 stdio server 冒烟
+pnpm test:pages   # 浏览器验证：严格 CSP 下打开、绘制、保存及启动失败提示
 ```
 
 源码开发时先在仓库根目录构建，再在插件商店添加 `dist/local-marketplace` 的绝对路径，安装并启用 `openpencil`。不要添加仓库根目录，其官方来源名称属于保留名称。源码更新后重新构建、刷新来源、重新安装插件，并在新会话测试。安装产物包含打包的 JS，以及 `dist/node_modules` 中所需的 css-tree、CanvasKit 和数据依赖，离开源码仓库也能启动。

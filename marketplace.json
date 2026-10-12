@@ -832,7 +832,7 @@
         "en": "OpenPencil",
         "zh-CN": "OpenPencil"
       },
-      "version": "0.2.2",
+      "version": "0.2.3",
       "source": "./plugins/openpencil",
       "description": "在对话侧栏用 OpenPencil 编辑工作区里的 Figma .fig 设计稿，Agent 通过设计工具协同修改、引用选区并生成代码。",
       "description_i18n": {
