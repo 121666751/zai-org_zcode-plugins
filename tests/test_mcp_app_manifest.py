@@ -15,26 +15,20 @@ spec.loader.exec_module(validator)
 
 
 class McpAppManifestTest(unittest.TestCase):
-    def setUp(self):
-        validator.errors.clear()
-
     def surface(self, **overrides):
-        return {"id": "editor", "title": {"en": "Editor"}, "server": "app", "resourceUri": "ui://test/panel.html", **overrides}
+        return {"id": "editor", "title": {"en": "Editor"}, "server": "app", "resourceUri": "ui://test/panel.html", "availability": "session", **overrides}
 
     def validate(self, *surfaces):
-        validator.validate_ui_surfaces({"mcpServers": {"app": {}}, "ui": {"surfaces": list(surfaces)}}, "test")
-        return validator.errors
+        return validator.ui_surface_errors({"mcpServers": {"app": {}}, "ui": {"surfaces": list(surfaces)}}, Path("."))
 
     def test_valid_panel_and_plugins_without_ui(self):
         self.assertEqual(self.validate(self.surface()), [])
-        validator.validate_ui_surfaces({}, "ordinary skill")
-        self.assertEqual(validator.errors, [])
+        self.assertEqual(validator.ui_surface_errors({}, Path(".")), [])
 
     def test_unresolvable_and_duplicate_surfaces(self):
         self.assertTrue(self.validate(self.surface(), self.surface()))
-        for overrides in [{"server": "missing"}, {"resourceUri": "file:///tmp/panel"}, {"id": "../panel"}, {"availability": "global"}, {"title": {}}, {"server": []}]:
+        for overrides in [{"server": "missing"}, {"resourceUri": "file:///tmp/panel"}, {"id": "../panel"}, {"availability": "global"}, {"title": {}}, {"server": []}, {"resourceUri": "ui://"}, {"availability": None}]:
             with self.subTest(overrides=overrides):
-                validator.errors.clear()
                 self.assertTrue(self.validate(self.surface(**overrides)))
 
     def test_full_and_incremental_zip_boundary_rejects_incomplete_builds(self):

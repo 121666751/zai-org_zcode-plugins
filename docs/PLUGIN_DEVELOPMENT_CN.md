@@ -13,7 +13,7 @@
 
 ### 1.1 给人：快速路径
 
-1. 复制 `plugins/example-plugin/` 到 `plugins/<你的插件名>/`。
+1. 复制 `plugins/example-plugin/` 到 `external_plugins/<你的插件名>/`。
 2. 修改 `.zcode-plugin/plugin.json`，让 `name`、`version` 和描述反映真实能力。
 3. 保留需要的组件，删除不需要的样例；至少留下一个 command、skill、hook、agent 或 MCP server。
 4. 编写语义一致的 `README.md` 和 `README_CN.md`，说明用途、依赖、权限、网络访问和副作用。
@@ -119,7 +119,7 @@ CLI 与桌面必须使用同一应用配置。使用主应用源码时，可用�
 
 ### 1.9 做一个市场分发给团队
 
-把插件放进市场仓库的 `plugins/`，根目录写 `marketplace.json` 列出条目，推到 GitHub。队友在「插件市场 → 新增」填仓库地址即可获取目录，再自行选择安装哪些插件。源放官方市场或本地目录，Hooks 才会运行。
+把外部维护插件放进市场仓库的 `external_plugins/`，官方维护插件放进 `plugins/`，根目录写 `marketplace.json` 列出条目，推到 GitHub。队友在「插件市场 → 新增」填仓库地址即可获取目录，再自行选择安装哪些插件。源放官方市场或本地目录，Hooks 才会运行。
 
 自带的官方插件是最好的范例（skill-creator 最简，ios-simulator/android-emulator 最完整）。从纯技能插件起步，跑通后再加命令、Hooks、MCP。
 

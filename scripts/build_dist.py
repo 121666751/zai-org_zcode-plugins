@@ -34,6 +34,7 @@ import sys
 import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
+from validate import PLUGIN_ROOTS, plugin_manifest_path, resolve_plugin_dir, ui_surface_errors
 
 ROOT = Path(__file__).resolve().parent.parent
 DIST = ROOT / "dist"
@@ -183,6 +184,21 @@ def build_index_entry(entry: dict, artifact_path: Path, base_url: str) -> dict:
     size = artifact_path.stat().st_size
 
     plugin_index = dict(entry)
+    plugin_dir = resolve_plugin_dir(entry, ROOT)
+    manifest = json.loads(plugin_manifest_path(plugin_dir).read_text(encoding="utf-8"))
+    problems = ui_surface_errors(manifest, plugin_dir)
+    if problems:
+        raise UnsafeTree(f"{name}: {'; '.join(problems)}")
+    plugin_index["publisherType"] = PLUGIN_ROOTS[plugin_dir.parent.name]
+    # 能力来自包内清单与组件目录，不接受目录条目自己宣称具备 UI。
+    component_types = [kind for directory, kind in (
+        ("agents", "agent"), ("commands", "command"), ("skills", "skill"), ("hooks", "hook")
+    ) if directory in manifest or (plugin_dir / directory).is_dir()]
+    if manifest.get("mcpServers") or (plugin_dir / ".mcp.json").is_file():
+        component_types.append("mcp")
+    if (manifest.get("ui") or {}).get("surfaces"):
+        component_types.append("ui")
+    plugin_index["componentTypes"] = component_types
     plugin_index["source"] = {
         "source": "url",
         "type": "zip",
@@ -248,9 +264,7 @@ def main() -> int:
     for entry in marketplace["plugins"]:
         name = entry["name"]
         version = entry["version"]
-        plugin_dir = ROOT / entry["source"][2:]
-        if plugin_dir.resolve().parent != (ROOT / "plugins").resolve():
-            raise UnsafeTree(f"{name}: source resolves outside plugins/")
+        plugin_dir = resolve_plugin_dir(entry, ROOT)
 
         artifact_path = DIST / artifact_rel_path(name, version)
         build_zip(plugin_dir, artifact_path)

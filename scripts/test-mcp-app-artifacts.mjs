@@ -23,7 +23,7 @@ try {
     if (!sourceManifest.ui?.surfaces?.length) continue;
     const short = name;
     const installed = join(temporary, name);
-    assert.equal(entry?.source, `./plugins/${name}`);
+    assert.ok([`./plugins/${name}`, `./external_plugins/${name}`].includes(entry.source));
     await cp(join(root, "dist/local-marketplace", entry.source), installed, { recursive: true });
     const manifest = JSON.parse(
       await readFile(join(installed, ".zcode-plugin/plugin.json"), "utf8"),

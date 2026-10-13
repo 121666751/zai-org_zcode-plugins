@@ -13,7 +13,7 @@ This is an executable tutorial for developers and Agents. It takes you from the 
 
 ### 1.1 Human quick path
 
-1. Copy `plugins/example-plugin/` to `plugins/<your-plugin-name>/`.
+1. Copy `plugins/example-plugin/` to `external_plugins/<your-plugin-name>/`.
 2. Edit `.zcode-plugin/plugin.json` so `name`, `version`, and the description reflect the real capability.
 3. Keep the components you need and delete unused samples. Leave at least one command, skill, hook, agent, or MCP server.
 4. Write equivalent `README.md` and `README_CN.md` files covering purpose, dependencies, permissions, network access, and side effects.
@@ -123,7 +123,7 @@ The local generator never edits installed plugins or user configuration. `pnpm m
 
 ### 1.9 Distribute a marketplace
 
-Put plugins under `plugins/`, list them in the root `marketplace.json`, and publish the marketplace repository. A teammate can add the repository through **Plugin Marketplace → New** and receive the catalogue, then choose which plugins to install. Hooks run only when the plugin is installed from an official marketplace or a local directory.
+Put partner/community plugins under `external_plugins/` and officially maintained plugins under `plugins/`, list them in the root `marketplace.json`, and publish the marketplace repository. A teammate can add the repository through **Plugin Marketplace → New** and receive the catalogue, then choose which plugins to install. Hooks run only when the plugin is installed from an official marketplace or a local directory.
 
 The built-in plugins are useful examples: start with a small skill, then add commands, Hooks, and MCP only after the basic path works.
 

@@ -14,7 +14,7 @@ Thank you for improving the ZCode Plugins Marketplace. Use GitHub Issues for pro
 
 Every plugin must:
 
-- live in a unique kebab-case directory under `plugins/`;
+- live in a unique kebab-case directory under `external_plugins/` for partner/community submissions; `plugins/` is reserved for officially maintained plugins;
 - include `.zcode-plugin/plugin.json` with `name`, `description`, `version`, and `author`;
 - have a matching `name`, `version`, and description in the root [`marketplace.json`](./marketplace.json);
 - provide at least one useful component: command, skill, hook, agent, or MCP server;
@@ -31,7 +31,8 @@ Do not commit credentials, private endpoints, customer data, machine-specific pa
 2. Copy the example plugin, or edit the existing plugin in scope:
 
    ```shell
-   cp -R plugins/example-plugin plugins/<your-plugin-name>
+   mkdir -p external_plugins
+   cp -R plugins/example-plugin external_plugins/<your-plugin-name>
    ```
 
 3. Update the manifest, component files, both language READMEs, and the root marketplace entry. Keep the manifest and marketplace versions identical.

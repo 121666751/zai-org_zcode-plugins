@@ -145,11 +145,11 @@ class BytecodeExclusionTest(unittest.TestCase):
 
 class RepositoryTreeTest(unittest.TestCase):
     def test_current_repository_has_no_symlinks_in_published_trees(self) -> None:
-        for name in ("plugins", "assets"):
+        for name in ("plugins", "external_plugins", "assets"):
             self.assertEqual(validate.tree_violations(ROOT / name, name), [])
 
     def test_no_plugin_artifact_would_ship_bytecode(self) -> None:
-        for plugin in sorted((ROOT / "plugins").iterdir()):
+        for plugin in sorted(path for name in validate.PLUGIN_ROOTS for path in (ROOT / name).glob("*")):
             if not plugin.is_dir():
                 continue
             with self.subTest(plugin=plugin.name):

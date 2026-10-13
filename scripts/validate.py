@@ -4,12 +4,12 @@
 Checks:
 - marketplace.json (repo root, ZCode convention) is valid JSON with required
   fields
-- every plugin entry points to an existing ./plugins/<name> directory
+- every plugin entry points to an existing ./plugins/<name> or ./external_plugins/<name> directory
 - plugin names are kebab-case and unique
 - each plugin dir has a manifest whose name/version match the marketplace
   entry; lookup order matches the ZCode client:
   .zcode-plugin/plugin.json (preferred) -> .claude-plugin/plugin.json (compat)
-- every directory under plugins/ is registered in the marketplace, except
+- every directory under both plugin roots is registered in the marketplace, except
   TEMPLATE_DIRS (template sources kept for copying, not published)
 
 Stdlib only. Exit code 0 = pass, 1 = fail.
@@ -23,7 +23,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-PLUGINS_ROOT = (ROOT / "plugins").resolve()
+PLUGIN_ROOTS = {"plugins": "official", "external_plugins": "community"}
 KEBAB = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 
 # Everything under a plugin directory is packaged verbatim and published to a
@@ -109,39 +109,62 @@ def plugin_manifest_path(plugin_dir: Path) -> Path:
     return plugin_dir / ".claude-plugin" / "plugin.json"
 
 
-def validate_ui_surfaces(manifest: dict, label: str) -> None:
-    """Validate the ZCode extension without duplicating the standard MCP schema."""
+def resolve_plugin_dir(entry: dict, root: Path) -> Path:
+    source, name = entry.get("source"), entry.get("name")
+    if not isinstance(name, str) or not KEBAB.fullmatch(name):
+        raise ValueError("plugin name must be kebab-case")
+    if source not in (f"./{directory}/{name}" for directory in PLUGIN_ROOTS):
+        raise ValueError("source must be exactly ./plugins/<name> or ./external_plugins/<name>")
+    directory = root / source[2:]
+    # 根目录也不能是链接，否则单个插件的 realpath 检查会接受整个根被替换。
+    if directory.parent.is_symlink() or directory.is_symlink():
+        raise ValueError("plugin source is a symlink")
+    if directory.resolve().parent != root.resolve() / directory.parent.name:
+        raise ValueError("plugin source resolves outside its declared root")
+    return directory
+
+
+def ui_surface_errors(manifest: dict, plugin_dir: Path) -> list[str]:
     ui = manifest.get("ui")
     if ui is None:
-        return
+        return []
     if not isinstance(ui, dict) or not isinstance(ui.get("surfaces", []), list):
-        err(f"{label}: ui.surfaces must be a list")
-        return
-    servers = manifest.get("mcpServers", {})
-    ids: set[str] = set()
+        return ["ui.surfaces must be an array"]
+    servers = manifest.get("mcpServers", "./.mcp.json")
+    if isinstance(servers, str):
+        path = (plugin_dir / servers).resolve()
+        if not path.is_relative_to(plugin_dir.resolve()):
+            return ["UI MCP declaration must remain inside the plugin"]
+        try:
+            servers = json.loads(path.read_text(encoding="utf-8")) if path.is_file() else {}
+        except (OSError, ValueError):
+            return ["UI MCP declaration must be valid JSON"]
+        if isinstance(servers, dict):
+            servers = servers.get("mcpServers", servers)
+    names = set(servers) if isinstance(servers, dict) else set()
+    problems, seen = [], set()
     for surface in ui.get("surfaces", []):
         if not isinstance(surface, dict):
-            err(f"{label}: each surface must be an object")
+            problems.append("ui.surfaces entry must be an object")
             continue
-        identity = surface.get("id")
-        if not isinstance(identity, str) or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]{0,127}", identity):
-            err(f"{label}: invalid surface id")
-        elif identity in ids:
-            err(f"{label}: duplicate surface id {identity}")
+        surface_id = surface.get("id")
+        if not isinstance(surface_id, str) or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]{0,127}", surface_id) or surface_id in seen:
+            problems.append("ui.surfaces requires unique valid ids")
         else:
-            ids.add(identity)
-        server = surface.get("server")
-        if not isinstance(server, str) or not isinstance(servers, dict) or server not in servers:
-            err(f"{label}: surface server must name a declared mcpServers entry")
-        uri = surface.get("resourceUri")
-        if not isinstance(uri, str) or not uri.startswith("ui://") or len(uri) <= 5:
-            err(f"{label}: surface resourceUri must be a ui:// resource")
+            seen.add(surface_id)
         title = surface.get("title")
-        if not ((isinstance(title, str) and title.strip()) or
-                (isinstance(title, dict) and title and all(isinstance(v, str) and v.strip() for v in title.values()))):
-            err(f"{label}: surface title must be non-empty text or translations")
-        if surface.get("availability", "session") != "session":
-            err(f"{label}: surface availability must be session")
+        titles = list(title.values()) if isinstance(title, dict) else [title]
+        if not titles or not all(isinstance(text, str) and text.strip() for text in titles):
+            problems.append("ui.surfaces title must contain non-empty text")
+        server = surface.get("server")
+        if not isinstance(server, str) or server.strip() not in names:
+            problems.append("ui.surfaces server must name a declared MCP server")
+        uri = surface.get("resourceUri")
+        if not isinstance(uri, str) or not uri.strip().startswith("ui://") or not 5 < len(uri.strip()) <= 2048:
+            problems.append("ui.surfaces resourceUri must use ui:// and be at most 2048 characters")
+        if surface.get("availability") != "session":
+            problems.append("ui.surfaces availability must be session")
+    return problems
 
 
 def main() -> int:
@@ -200,25 +223,17 @@ def main() -> int:
             )
 
         source = entry.get("source", "")
-        if (
-            not isinstance(source, str)
-            or not source.startswith("./plugins/")
-            or ".." in Path(source).parts
-            or source.count("/") != 2
-        ):
-            err(f"{label}: source must be exactly ./plugins/<name>")
+        try:
+            plugin_dir = resolve_plugin_dir(entry, ROOT)
+        except ValueError as exc:
+            err(f"{label}: {exc}")
             continue
-
-        plugin_dir = ROOT / source[2:]
-        registered_dirs.add(plugin_dir.name)
+        registered_dirs.add(source[2:])
         if not plugin_dir.is_dir():
             err(f"{label}: source directory {source} does not exist")
             continue
         if plugin_dir.name != name:
             err(f"{label}: directory name '{plugin_dir.name}' does not match plugin name")
-        if plugin_dir.resolve().parent != PLUGINS_ROOT:
-            err(f"{label}: source resolves outside plugins/")
-            continue
         for problem in tree_violations(plugin_dir, label):
             err(problem)
 
@@ -237,19 +252,22 @@ def main() -> int:
         validate_i18n(f"{label}: plugin.json", manifest, "description_i18n", ("en", "zh-CN"))
         if manifest.get("description_i18n") != entry.get("description_i18n"):
             err(f"{label}: plugin.json description_i18n does not match marketplace entry")
-        validate_ui_surfaces(manifest, label)
+        for problem in ui_surface_errors(manifest, plugin_dir):
+            err(f"{label}: {problem}")
 
-    plugins_root = ROOT / "plugins"
-    if plugins_root.is_dir():
+    for directory in PLUGIN_ROOTS:
+        plugins_root = ROOT / directory
+        if not plugins_root.is_dir():
+            continue
         for child in sorted(plugins_root.iterdir()):
             if child.is_symlink():
-                err(f"plugins/{child.name}: symlink (not allowed)")
+                err(f"{directory}/{child.name}: symlink (not allowed)")
             elif (
                 child.is_dir()
-                and child.name not in registered_dirs
-                and child.name not in TEMPLATE_DIRS
+                and f"{directory}/{child.name}" not in registered_dirs
+                and not (directory == "plugins" and child.name in TEMPLATE_DIRS)
             ):
-                err(f"plugins/{child.name}: directory not registered in marketplace.json")
+                err(f"{directory}/{child.name}: directory not registered in marketplace.json")
 
     # Shared assets are published to the CDN by the same job; same rules apply.
     if (ROOT / "assets").is_dir():

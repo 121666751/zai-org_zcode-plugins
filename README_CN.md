@@ -86,7 +86,7 @@ ZCode 已内置官方插件市场。打开插件管理器，选择需要的插�
 
 欢迎社区开发者参与贡献：
 
-1. 将 [`plugins/example-plugin/`](./plugins/example-plugin) 复制到 `plugins/<你的插件名>/`，并阅读[插件开发教程](./docs/PLUGIN_DEVELOPMENT_CN.md)。
+1. 将 [`plugins/example-plugin/`](./plugins/example-plugin) 复制到 `external_plugins/<你的插件名>/`，并阅读[插件开发教程](./docs/PLUGIN_DEVELOPMENT_CN.md)。
 2. 在 [`marketplace.json`](./marketplace.json) 中注册插件并填写分类。
 3. 提供语义一致的中英文说明。
 4. 在本地运行检查：

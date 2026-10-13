@@ -34,7 +34,7 @@ export async function buildLocalMarketplace(root, options = {}) {
   const staging = await mkdtemp(join(dist, ".local-marketplace-"));
   try {
     for (const plugin of plugins) {
-      const destination = join(staging, "plugins", plugin.entry.name);
+      const destination = join(staging, plugin.entry.source);
       await cp(plugin.installed, destination, { recursive: true, dereference: true });
       // 本地市场名称改变后，显式指向本市场的依赖也必须指向同一份本地快照。
       if (plugin.manifest.dependencies)

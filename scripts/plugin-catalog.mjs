@@ -24,11 +24,12 @@ export async function readPluginCatalog(root) {
       typeof name !== "string" ||
       !/^[a-z0-9][a-z0-9._-]{0,127}$/.test(name) ||
       names.has(name) ||
-      entry.source !== `./plugins/${name}`
+      ![`./plugins/${name}`, `./external_plugins/${name}`].includes(entry.source)
     )
       throw new Error(`${name}: duplicate name or invalid local marketplace source`);
     names.add(name);
-    const installed = join(root, "plugins", name);
+    // 收录目录决定包路径，社区插件不能被重新解释为官方目录。
+    const installed = join(root, entry.source);
     const source = join(root, "ui-plugins", name);
     const manifest = await readJson(join(installed, ".zcode-plugin/plugin.json"));
     if (manifest.name !== name || !manifest.version || manifest.version !== entry.version)

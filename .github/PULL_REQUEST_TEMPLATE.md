@@ -36,7 +36,8 @@ Classify the affected plugin, even when only changing its docs or skills. Adding
 <!-- For plugin changes. Delete this section for repo-level changes (docs/ci).
      插件改动必填；纯仓库级改动（docs/ci）可删除本节。 -->
 
-- [ ] Plugin name is unique kebab-case; directory is `plugins/<name>/` / 插件名唯一且 kebab-case，目录为 `plugins/<name>/`
+- [ ] Plugin name is unique kebab-case; new external plugin directory is `external_plugins/<name>/`; existing fixes retain ownership / 插件名唯一且 kebab-case，外部新增插件位于 `external_plugins/<name>/`，已有插件修复保留原归属
+- [ ] Usage `category` is set independently of publisher ownership / 用途分类 `category` 已填写，与维护归属分开
 - [ ] Plugin type and affected names are declared above / 已在上方声明插件类型与涉及的插件名称
 - [ ] `version` bumped in BOTH `plugin.json` and `marketplace.json` (artifacts are immutable) / `plugin.json` 与 `marketplace.json` 两处版本号已同步升级（制品不可变）
 - [ ] `README.md` (EN) and `README_CN.md` (中文) both updated and equivalent / 中英文 README 均已更新且语义一致

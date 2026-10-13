@@ -87,7 +87,7 @@ Developers in mainland China can join our Feishu group instead — see the [中�
 
 Community contributions are welcome:
 
-1. Copy [`plugins/example-plugin/`](./plugins/example-plugin) to `plugins/<your-plugin-name>/` and follow the [development tutorial](./docs/PLUGIN_DEVELOPMENT.md).
+1. Copy [`plugins/example-plugin/`](./plugins/example-plugin) to `external_plugins/<your-plugin-name>/` and follow the [development tutorial](./docs/PLUGIN_DEVELOPMENT.md).
 2. Register the plugin in [`marketplace.json`](./marketplace.json), including its category.
 3. Provide equivalent English and Chinese documentation.
 4. Run the local checks:

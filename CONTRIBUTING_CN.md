@@ -14,7 +14,7 @@
 
 每个插件都必须：
 
-- 位于 `plugins/` 下唯一的 kebab-case 目录；
+- 外部团队、合作方和社区新增插件位于 `external_plugins/` 下唯一的 kebab-case 目录；`plugins/` 保留给官方维护插件；
 - 包含 `.zcode-plugin/plugin.json`，并填写 `name`、`description`、`version` 和 `author`；
 - 在根目录 [`marketplace.json`](./marketplace.json) 中注册，且 `name`、`version` 和描述保持一致；
 - 至少提供一种有效组件：command、skill、hook、agent 或 MCP server；
@@ -31,7 +31,8 @@
 2. 复制示例插件，或在本次改动涉及的现有插件中修改：
 
    ```shell
-   cp -R plugins/example-plugin plugins/<你的插件名>
+   mkdir -p external_plugins
+   cp -R plugins/example-plugin external_plugins/<你的插件名>
    ```
 
 3. 更新插件清单、组件文件、两种语言的 README 和根目录市场条目，确保清单与市场条目的版本一致。

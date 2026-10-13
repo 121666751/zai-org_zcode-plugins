@@ -1,5 +1,15 @@
 import { afterEach, expect, it } from "vitest";
-import { access, cp, mkdir, mkdtemp, readFile, rm, symlink, writeFile } from "node:fs/promises";
+import {
+  access,
+  cp,
+  mkdir,
+  mkdtemp,
+  readFile,
+  rename,
+  rm,
+  symlink,
+  writeFile,
+} from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { buildLocalMarketplace } from "../scripts/build-local-marketplace.mjs";
@@ -200,3 +210,24 @@ it("resolves MCP declarations from files without assuming the server filename", 
   await rm(join(installed, "dist/app.cjs"));
   await expect(buildLocalMarketplace(root)).rejects.toThrow();
 });
+
+it("preserves external plugin sources in portable ordinary and UI snapshots", async () => {
+  const root = await fixture();
+  const catalogue = await readJson(join(root, "marketplace.json"));
+  await mkdir(join(root, "external_plugins"));
+  for (const entry of catalogue.plugins) {
+    await rename(join(root, "plugins", entry.name), join(root, "external_plugins", entry.name));
+    entry.source = `./external_plugins/${entry.name}`;
+  }
+  await json(join(root, "marketplace.json"), catalogue);
+  const output = await buildPlugins(root);
+  expect((await readJson(join(output, "marketplace.json"))).plugins).toEqual(catalogue.plugins);
+  for (const entry of catalogue.plugins) {
+    expect((await readJson(join(output, entry.source, ".zcode-plugin/plugin.json"))).name).toBe(
+      entry.name,
+    );
+  }
+  await expect(
+    access(join(output, "external_plugins", name, "dist/app.cjs")),
+  ).resolves.toBeUndefined();
+}, 15000);
