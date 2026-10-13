@@ -1,6 +1,8 @@
 // 面板用到的线条图标（16×16，stroke 取 currentColor）。静态字符串，经 icon() 生成节点，不拼接外部输入。
 
 const PATHS = {
+  chevron: '<path d="m4 6 4 4 4-4"/>',
+  copy: '<rect x="5" y="5" width="8" height="9" rx="1.5"/><path d="M10 5V2H2v9h3"/>',
   mesh: '<path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5z"/><path d="M2.5 5 8 8.2 13.5 5M8 8.2v6"/>',
   camera: '<rect x="1.8" y="4.5" width="9" height="7" rx="1.2"/><path d="m10.8 7 3.4-2v6l-3.4-2"/>',
   light:

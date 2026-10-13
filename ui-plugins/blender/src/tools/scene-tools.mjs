@@ -33,7 +33,7 @@ export function registerSceneTools(ctx) {
           .string()
           .describe("Path to a .blend file, absolute or relative to the workspace root"),
       },
-      _meta: uiMeta(["model", "app"], { "openai/ui": { preferredModelDisplayMode: "fullscreen" } }),
+      _meta: uiMeta(["model", "app"]),
     },
     guarded(ctx, async ({ path }, extra) => {
       const abs = resolveInsideRoots(path, ctx.workspaceRoot);

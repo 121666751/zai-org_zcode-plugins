@@ -1,6 +1,6 @@
 {
   "name": "@zcode/plugin-blender",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "private": true,
   "description": "ZCode Blender 插件：在对话旁打开 .blend 场景，让 Agent 修改物体、材质、相机并渲染预览。",
   "license": "MIT",

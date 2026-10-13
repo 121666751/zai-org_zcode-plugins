@@ -1,6 +1,6 @@
 {
   "name": "blender",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "在 ZCode 对话旁打开 Blender 场景：Agent 修改物体、材质、相机并渲染预览；面板用 Three.js 轻量浏览。",
   "skills": "skills",
   "author": {

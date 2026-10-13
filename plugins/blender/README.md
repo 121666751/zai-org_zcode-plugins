@@ -164,3 +164,7 @@ pnpm test:pages                                                # 官方 App/AppB
 ## 独立仓库构建
 
 在 zcode-plugins 根目录执行 `pnpm install --frozen-lockfile`、`pnpm build`、`pnpm typecheck`、`pnpm test` 和 `pnpm test:artifacts`。源码位于 `ui-plugins/blender`，可安装产物位于 `plugins/blender`；不要直接安装源码目录。`python3 scripts/build_dist.py` 生成 marketplace zip。运行需要 Node.js 24；不需要主应用源码或私有插件 SDK。
+
+## 面板交互
+
+面板默认在右侧打开；引擎检测、场景操作和渲染预览使用一致的展示偏好。顶部单行提供使用场景、场景／渲染切换、渲染方式下拉框及独立渲染按钮。右侧紧凑面板在对象列表与属性之间切换。使用场景菜单的提示词最多显示三行，悬停或键盘聚焦时可复制完整内容，不自动发送消息。

@@ -174,11 +174,45 @@ function boot(api: PanelApi) {
     }
     if (state.render && !state.error) dispatch({ type: "tab", tab: "render" });
   }
-  function followUp(kind: "lighting" | "camera") {
-    api
-      .sendFollowUp(followUpPrompt(kind, state))
-      .then(() => toast(t.followUpSent))
-      .catch(() => toast(t.followUpCancelled));
+  function renderPrompts() {
+    for (const kind of ["lighting", "camera"] as const)
+      $(`${kind}-prompt`).textContent = followUpPrompt(kind, state, api.locale);
+  }
+  function toggleUseCases(open: boolean) {
+    $("use-case-menu").hidden = !open;
+    $("btn-use-cases").setAttribute("aria-expanded", String(open));
+    if (open) renderPrompts();
+  }
+  async function copyPrompt(kind: "lighting" | "camera") {
+    const text = $(`${kind}-prompt`).textContent ?? "";
+    try {
+      await navigator.clipboard.writeText(text);
+      toast(t.copied);
+    } catch {
+      // iframe 未获得 Clipboard API 权限时，保留用户手势内的传统复制路径。
+      const area = document.createElement("textarea");
+      area.value = text;
+      area.style.cssText = "position:fixed;opacity:0;pointer-events:none";
+      document.body.append(area);
+      area.select();
+      let copied = false;
+      try {
+        copied = document.execCommand("copy");
+      } catch {
+        /* 失败时允许手动选择。 */
+      }
+      area.remove();
+      document.querySelector<HTMLButtonElement>(`.copy-prompt[data-kind="${kind}"]`)?.focus();
+      toast(copied ? t.copied : t.copyFailed);
+    }
+  }
+  function showInspector(panel: string) {
+    for (const tab of document.querySelectorAll<HTMLButtonElement>("[data-inspector]")) {
+      const selected = tab.dataset.inspector === panel;
+      tab.setAttribute("aria-selected", String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+      $(`${tab.dataset.inspector}-panel`).hidden = !selected;
+    }
   }
   function toast(text: string) {
     toastText = text;
@@ -205,6 +239,7 @@ function boot(api: PanelApi) {
     $("empty").hidden = !empty;
     $("workspace").hidden = empty;
     renderHeader(state, t);
+    renderPrompts();
     renderToolbar(state, t);
     renderBanner();
     $("scene-tab").hidden = state.tab !== "scene";
@@ -229,7 +264,7 @@ function boot(api: PanelApi) {
   }
   mountIcons();
   applyMessages();
-  for (const tab of document.querySelectorAll<HTMLElement>('[role="tab"]')) {
+  for (const tab of document.querySelectorAll<HTMLElement>("[data-tab]")) {
     tab.addEventListener("click", () =>
       dispatch({ type: "tab", tab: tab.dataset.tab === "render" ? "render" : "scene" }),
     );
@@ -247,8 +282,39 @@ function boot(api: PanelApi) {
       `Blender 面板：用户把渲染引擎切到 ${engine === "cycles" ? "Cycles（高质量）" : "EEVEE（快速）"}，之后 render_preview 请传 engine: "${engine}"。`,
     );
   });
-  $("btn-lighting").addEventListener("click", () => followUp("lighting"));
-  $("btn-camera").addEventListener("click", () => followUp("camera"));
+  $("btn-use-cases").addEventListener("click", () => toggleUseCases(!!$("use-case-menu").hidden));
+  document.addEventListener("click", (event) => {
+    if (event.target instanceof Node && !$("btn-use-cases").parentElement?.contains(event.target))
+      toggleUseCases(false);
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !$("use-case-menu").hidden) {
+      toggleUseCases(false);
+      $("btn-use-cases").focus();
+    }
+  });
+  for (const button of document.querySelectorAll<HTMLButtonElement>(".copy-prompt"))
+    button.addEventListener(
+      "click",
+      () => void copyPrompt(button.dataset.kind === "camera" ? "camera" : "lighting"),
+    );
+  for (const tab of document.querySelectorAll<HTMLButtonElement>("[data-inspector]")) {
+    tab.addEventListener("click", () => showInspector(tab.dataset.inspector!));
+    tab.addEventListener("keydown", (event) => {
+      if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+      event.preventDefault();
+      const next =
+        event.key === "Home"
+          ? "objects"
+          : event.key === "End"
+            ? "properties"
+            : tab.dataset.inspector === "objects"
+              ? "properties"
+              : "objects";
+      showInspector(next);
+      $(`tab-${next}`).focus();
+    });
+  }
   $("btn-fit").addEventListener("click", () => {
     if (viewer?.frameAll()) commitCamera(viewer.getCameraPose());
   });

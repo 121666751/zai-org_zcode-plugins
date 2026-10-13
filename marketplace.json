@@ -794,7 +794,7 @@
         "en": "Blender",
         "zh-CN": "Blender"
       },
-      "version": "0.2.2",
+      "version": "0.2.3",
       "source": "./plugins/blender",
       "description": "在 ZCode 对话旁打开 Blender 场景：Agent 修改物体、材质、相机并渲染预览；面板用 Three.js 轻量浏览。",
       "description_i18n": {

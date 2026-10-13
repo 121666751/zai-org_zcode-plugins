@@ -4,7 +4,7 @@
 
 Blender 进程（`blender/bridge.py`）是场景状态的唯一 owner，插件 MCP server 只持有桥缓存的 `SceneState`（file / revision / selected / camera / engine）。每个变更工具都带 `expectedRevision`：server 先用缓存快速拒绝过期请求（不打扰 Blender），桥内 `check_revision` 再做权威校验；冲突返回 `revision_conflict`，state 里给当前 revision 让模型重读，绝不覆盖。每个工作区一条桥（`createBridgeRegistry`），关闭时 `closeAll`。
 
-工具表固定为 `CORE_TOOLS`，`run_python` 只在 `allowPython` 打开时注册；`export_glb` / `pick_scene_file` 是 app-only（面板回调，不进模型工具表）；`open_scene` / `new_scene` 带 fullscreen 偏好拉起侧栏面板。面板经 `ui://blender/panel.html` 提供（`ui/dist/panel.html` 单文件，缺失时退回占位页），渲染与导出产物经 `blender://render/{id}.png`、`blender://export/{id}.glb` 资源读取；GLB 超过 `MAX_GLB_BYTES` 先减半面数重试一次。`ZCODE_BLENDER_FAKE_ENGINE=1` 用内存假引擎替代 Blender，供 CI / e2e。
+工具表固定为 `CORE_TOOLS`，`run_python` 只在 `allowPython` 打开时注册；`export_glb` / `pick_scene_file` 是 app-only（面板回调，不进模型工具表）；所有向模型提供面板的工具统一带 fullscreen 偏好，从引擎检测开始就在右侧打开，避免先在对话内挂载再移动。面板经 `ui://blender/panel.html` 提供（`ui/dist/panel.html` 单文件，缺失时退回占位页），渲染与导出产物经 `blender://render/{id}.png`、`blender://export/{id}.glb` 资源读取；GLB 超过 `MAX_GLB_BYTES` 先减半面数重试一次。`ZCODE_BLENDER_FAKE_ENGINE=1` 用内存假引擎替代 Blender，供 CI / e2e。
 
 运行时源码是 .mjs，`src/contract.ts` 是 TS 侧镜像，`src/contract.test.ts` 用真实 server 校验两边一致。
 

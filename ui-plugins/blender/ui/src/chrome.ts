@@ -1,7 +1,7 @@
 // 面板外壳的 DOM 投影：头部、工具条状态、空态、渲染页。纯函数，输入 PanelState，输出到固定 id 的节点。
 import { fill, type Messages } from "./i18n";
 import { icon, type IconName } from "./icons";
-import { renderIsStale, splitPath, type EngineInfo, type PanelState } from "./panelState";
+import { renderIsStale, splitPath, type PanelState } from "./panelState";
 
 export const $ = <T extends HTMLElement = HTMLElement>(id: string) =>
   document.getElementById(id) as T;
@@ -32,33 +32,24 @@ export function applyStaticMessages(t: Messages, canReadResource: boolean): void
     "btn-render-empty-label": t.renderNow,
     "engine-eevee": t.engineFast,
     "engine-cycles": t.engineHigh,
-    "btn-lighting-label": t.lighting,
-    "btn-camera-label": t.cameraPose,
-    "props-title": t.properties,
+    "lighting-title": t.lighting,
+    "camera-title": t.cameraPose,
+    "use-cases-label": t.useCases,
+    "tab-objects": t.objects,
+    "tab-properties": t.properties,
     "render-empty-text": t.noRender,
   };
   for (const [id, value] of Object.entries(text)) $(id).textContent = value;
   $("render-engine").title = t.renderEngineHint;
-  $("btn-lighting").title = t.lightingHint;
-  $("btn-camera").title = t.cameraHint;
+  for (const button of document.querySelectorAll<HTMLElement>(".copy-prompt")) {
+    button.title = t.copyPrompt;
+    button.setAttribute("aria-label", t.copyPrompt);
+  }
   label("btn-refresh", t.refresh);
   label("btn-fit", t.fitAll);
   label("btn-focus", t.focusSelected);
   label("banner-close", t.dismiss);
   $("viewer-note").textContent = canReadResource ? t.viewerHint : t.noReadResource;
-}
-
-function engineText(engine: EngineInfo, t: Messages): string {
-  const kinds: Record<string, string> = {
-    installed: t.kindInstalled,
-    portable: t.kindPortable,
-    user: t.kindUser,
-    fake: t.kindFake,
-  };
-  return fill(t.engineKind, {
-    version: engine.version ?? "?",
-    kind: kinds[engine.kind] ?? engine.kind,
-  });
 }
 
 export function renderHeader(state: PanelState, t: Messages): void {
@@ -70,22 +61,12 @@ export function renderHeader(state: PanelState, t: Messages): void {
   revision.textContent = `r${state.revision ?? "?"}`;
   revision.title = `${t.revision} ${state.revision ?? "?"}`;
 
-  const engine = $("engine");
-  const missing = state.tier === "gltf-only";
-  engine.className = `engine${missing ? " bad" : state.engine ? " ok" : ""}`;
-  const summary = missing
-    ? t.engineMissing
-    : state.engine
-      ? engineText(state.engine, t)
-      : t.engineUnknown;
-  // 窄宽度只留状态点，完整说明放 tooltip。
-  $("engine-text").textContent = missing ? t.engineMissing : (state.engine?.version ?? "");
-  engine.title = [summary, state.engine?.path, state.engine?.reason].filter(Boolean).join("\n");
+
 }
 
 /** 工具条：标签页、忙碌态、主按钮可用性。 */
 export function renderToolbar(state: PanelState, t: Messages): void {
-  for (const tab of document.querySelectorAll<HTMLElement>('[role="tab"]'))
+  for (const tab of document.querySelectorAll<HTMLElement>("[data-tab]"))
     tab.setAttribute("aria-selected", String(tab.dataset.tab === state.tab));
   $<HTMLSelectElement>("render-engine").value = state.renderEngine;
   const ready = state.phase === "ready" && state.tier !== "gltf-only";

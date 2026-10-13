@@ -43,7 +43,7 @@ export function registerCreateTools(ctx) {
           .optional()
           .describe("Replace the file if it already exists (default false)"),
       },
-      _meta: uiMeta(["model", "app"], { "openai/ui": { preferredModelDisplayMode: "fullscreen" } }),
+      _meta: uiMeta(["model", "app"]),
     },
     guarded(ctx, async ({ path, template, overwrite }, extra) => {
       const abs = resolveInsideRoots(path, ctx.workspaceRoot);

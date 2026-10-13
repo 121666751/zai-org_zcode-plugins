@@ -318,7 +318,19 @@ export function revisionChangeSummary(previous: number | null, current: number |
   return `Blender 面板刷新：场景 revision 从 ${previous ?? "?"} 变为 ${current ?? "?"}，请重新 inspect_scene 后再修改。`;
 }
 
-export function followUpPrompt(kind: "lighting" | "camera", state: PanelState): string {
+export function followUpPrompt(
+  kind: "lighting" | "camera",
+  state: PanelState,
+  locale = "zh",
+): string {
+  if (!locale.toLowerCase().startsWith("zh")) {
+    const context = `Current file: ${state.file ?? "(no scene open)"}${state.selected ? `; selected object: ${state.selected}` : ""}.`;
+    const goal =
+      kind === "lighting"
+        ? "Improve the lighting so the subject stands out."
+        : "Find a better camera angle that highlights the subject while keeping some surroundings in view.";
+    return `${goal} ${context} Inspect the scene first to get its revision, use expectedRevision when editing, then render_preview with engine: ${state.renderEngine}.`;
+  }
   const where = `当前文件 ${state.file ?? "(未打开)"}${state.selected ? `，我在面板里选中的物体是 ${state.selected}` : ""}`;
   const tail = `先 inspect_scene 拿到 revision，修改时带 expectedRevision，改完 render_preview（engine: ${state.renderEngine}）给我看。`;
   return kind === "lighting"

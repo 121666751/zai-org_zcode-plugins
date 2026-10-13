@@ -13,6 +13,9 @@ export const SURFACE_ID = "blender";
 export function uiMeta(visibility, extra = {}) {
   return {
     ui: { resourceUri: PANEL_URI, surface: SURFACE_ID, visibility },
+    ...(visibility.includes("model")
+      ? { "openai/ui": { preferredModelDisplayMode: "fullscreen" } }
+      : {}),
     ...extra,
   };
 }

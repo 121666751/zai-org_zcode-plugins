@@ -37,7 +37,11 @@ export const OPTIONAL_TOOLS = ["run_python"] as const;
 /** visibility ["app"]：只允许面板回调，不进模型工具表。 */
 export const APP_ONLY_TOOLS = ["export_glb", "pick_scene_file"] as const;
 /** 带 fullscreen 偏好、结果一到就拉起侧栏面板的工具。 */
-export const FULLSCREEN_TOOLS = ["open_scene", "new_scene"] as const;
+export const FULLSCREEN_TOOLS = [
+  "ensure_engine", "open_scene", "new_scene", "add_object",
+  "inspect_scene", "set_transform", "set_material",
+  "set_camera", "set_visibility", "render_preview",
+] as const;
 export type BlenderToolName = (typeof CORE_TOOLS)[number] | (typeof OPTIONAL_TOOLS)[number];
 
 /** 工具层 errorResult 的 code；桥内错误（closed / timeout / process_*）也走同一信封。 */

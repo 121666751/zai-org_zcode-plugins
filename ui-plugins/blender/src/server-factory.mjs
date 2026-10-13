@@ -62,7 +62,7 @@ export function createBlenderServer({
     );
   }
   const server = new McpServer(
-    { name: "blender", version: "0.2.2" },
+    { name: "blender", version: "0.2.3" },
     { capabilities: { tools: {}, resources: {} } },
   );
   const registry = createBridgeRegistry(bridgeFactory);
