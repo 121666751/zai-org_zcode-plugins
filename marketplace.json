@@ -22,7 +22,7 @@
       "author": {
         "name": "TencentCloudBase"
       },
-      "icon": "https://docs.cloudbase.net/en/img/favicon.png",
+      "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/cloudbase-skills/icon.png",
       "category": "developer-tools",
       "keywords": [
         "cloudbase",
@@ -771,7 +771,7 @@
       ],
       "source": "./plugins/hyper3d-rodin",
       "category": "developer-tools",
-      "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/hyper3d-rodin/icon.jpg"
+      "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/hyper3d-rodin/icon.png"
     },
     {
       "name": "zcode-mcp-app-dev",
@@ -785,7 +785,8 @@
         "name": "ZCode"
       },
       "source": "./plugins/zcode-mcp-app-dev",
-      "category": "developer-tools"
+      "category": "developer-tools",
+      "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/zcode-mcp-app-dev/icon.png"
     },
     {
       "name": "blender",
@@ -805,7 +806,8 @@
       "category": "productivity",
       "author": {
         "name": "ZCode"
-      }
+      },
+      "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/blender/icon.png"
     },
     {
       "name": "excalidraw",
@@ -825,7 +827,8 @@
       "category": "productivity",
       "author": {
         "name": "ZCode"
-      }
+      },
+      "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/excalidraw/icon.png"
     },
     {
       "name": "openpencil",
@@ -845,7 +848,8 @@
       "category": "productivity",
       "author": {
         "name": "ZCode"
-      }
+      },
+      "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/openpencil/icon.png"
     },
     {
       "name": "showcase",
@@ -865,7 +869,8 @@
       "category": "developer-tools",
       "author": {
         "name": "ZCode"
-      }
+      },
+      "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/showcase/icon.png"
     },
     {
       "name": "disk-cleaner",
@@ -885,7 +890,8 @@
       "author": {
         "name": "ZCode"
       },
-      "category": "utilities"
+      "category": "utilities",
+      "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/disk-cleaner/icon.png"
     },
     {
       "name": "photocraft",

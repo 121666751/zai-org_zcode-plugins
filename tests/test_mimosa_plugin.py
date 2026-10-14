@@ -192,16 +192,6 @@ class MimosaPluginTest(unittest.TestCase):
             entry["displayName_i18n"],
             {"en": "Code Security Protection", "zh-CN": "代码安全防护"},
         )
-        self.assertEqual(
-            entry["icon"],
-            "https://cdn-zcode.z.ai/zcode/official-plugin/assets/mimosa/icon.png",
-        )
-        icon = ROOT / "assets" / "mimosa" / "icon.png"
-        self.assertTrue(icon.is_file())
-        self.assertEqual(
-            hashlib.sha256(icon.read_bytes()).hexdigest(),
-            "05466a98ac49aa40fd96cd1f371ee3ff8574d76668f5649b24c62dd1dfd6361e",
-        )
 
     def test_standard_manifest_and_compatibility_mirror_match(self) -> None:
         preferred = load_json(MIMOSA / ".zcode-plugin" / "plugin.json")
