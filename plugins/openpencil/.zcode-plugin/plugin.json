@@ -1,6 +1,6 @@
 {
   "name": "openpencil",
-  "version": "0.2.3",
+  "version": "0.3.1",
   "description": "在对话侧栏用 OpenPencil 编辑工作区里的 Figma .fig 设计稿，Agent 通过设计工具协同修改、引用选区并生成代码。",
   "author": {
     "name": "ZCode"

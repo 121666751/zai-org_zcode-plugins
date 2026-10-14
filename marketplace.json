@@ -789,6 +789,7 @@
     },
     {
       "name": "blender",
+      "componentTypes": ["ui"],
       "displayName": "Blender",
       "displayName_i18n": {
         "en": "Blender",
@@ -808,6 +809,7 @@
     },
     {
       "name": "excalidraw",
+      "componentTypes": ["ui"],
       "displayName": "Excalidraw",
       "displayName_i18n": {
         "en": "Excalidraw",
@@ -827,12 +829,13 @@
     },
     {
       "name": "openpencil",
+      "componentTypes": ["ui"],
       "displayName": "OpenPencil",
       "displayName_i18n": {
         "en": "OpenPencil",
         "zh-CN": "OpenPencil"
       },
-      "version": "0.2.3",
+      "version": "0.3.1",
       "source": "./plugins/openpencil",
       "description": "在对话侧栏用 OpenPencil 编辑工作区里的 Figma .fig 设计稿，Agent 通过设计工具协同修改、引用选区并生成代码。",
       "description_i18n": {
@@ -846,6 +849,7 @@
     },
     {
       "name": "showcase",
+      "componentTypes": ["ui"],
       "displayName": "Showcase",
       "displayName_i18n": {
         "en": "Showcase",
@@ -865,6 +869,7 @@
     },
     {
       "name": "disk-cleaner",
+      "componentTypes": ["ui"],
       "displayName": "Disk Cleaner",
       "displayName_i18n": {
         "en": "Disk Cleaner",
@@ -881,6 +886,240 @@
         "name": "ZCode"
       },
       "category": "utilities"
+    },
+    {
+      "name": "photocraft",
+      "source": "./plugins/photocraft",
+      "componentTypes": ["ui"],
+      "displayName": "PhotoCraft",
+      "displayName_i18n": {
+        "en": "PhotoCraft",
+        "zh-CN": "PhotoCraft"
+      },
+      "description": "PhotoCraft image editing in a ZCode panel, with workspace file opening and host-mediated exports.",
+      "description_i18n": {
+        "en": "PhotoCraft image editing in a ZCode panel, with workspace file opening and host-mediated exports.",
+        "zh-CN": "在 ZCode 面板中使用 PhotoCraft 进行图片编辑，支持打开工作区文件和通过宿主保存导出。"
+      },
+      "version": "0.2.2",
+      "author": {
+        "name": "ZCode"
+      },
+      "category": "productivity",
+      "keywords": [
+        "artcraft",
+        "wasm",
+        "ui-plugin",
+        "photocraft"
+      ]
+    },
+    {
+      "name": "vectorcraft",
+      "source": "./plugins/vectorcraft",
+      "componentTypes": ["ui"],
+      "displayName": "VectorCraft",
+      "displayName_i18n": {
+        "en": "VectorCraft",
+        "zh-CN": "VectorCraft"
+      },
+      "description": "VectorCraft vector illustration in a ZCode panel, with workspace file opening and host-mediated exports.",
+      "description_i18n": {
+        "en": "VectorCraft vector illustration in a ZCode panel, with workspace file opening and host-mediated exports.",
+        "zh-CN": "在 ZCode 面板中使用 VectorCraft 进行矢量绘图，支持打开工作区文件和通过宿主保存导出。"
+      },
+      "version": "0.2.2",
+      "author": {
+        "name": "ZCode"
+      },
+      "category": "productivity",
+      "keywords": [
+        "artcraft",
+        "wasm",
+        "ui-plugin",
+        "vectorcraft"
+      ]
+    },
+    {
+      "name": "pdfcraft",
+      "source": "./plugins/pdfcraft",
+      "componentTypes": ["ui"],
+      "displayName": "PdfCraft",
+      "displayName_i18n": {
+        "en": "PdfCraft",
+        "zh-CN": "PdfCraft"
+      },
+      "description": "PdfCraft PDF editing in a ZCode panel, with workspace file opening and host-mediated exports.",
+      "description_i18n": {
+        "en": "PdfCraft PDF editing in a ZCode panel, with workspace file opening and host-mediated exports.",
+        "zh-CN": "在 ZCode 面板中使用 PdfCraft 进行PDF 编辑，支持打开工作区文件和通过宿主保存导出。"
+      },
+      "version": "0.2.2",
+      "author": {
+        "name": "ZCode"
+      },
+      "category": "productivity",
+      "keywords": [
+        "artcraft",
+        "wasm",
+        "ui-plugin",
+        "pdfcraft"
+      ]
+    },
+    {
+      "name": "designcraft",
+      "source": "./plugins/designcraft",
+      "componentTypes": ["ui"],
+      "displayName": "DesignCraft",
+      "displayName_i18n": {
+        "en": "DesignCraft",
+        "zh-CN": "DesignCraft"
+      },
+      "description": "DesignCraft page layout in a ZCode panel, with workspace file opening and host-mediated exports.",
+      "description_i18n": {
+        "en": "DesignCraft page layout in a ZCode panel, with workspace file opening and host-mediated exports.",
+        "zh-CN": "在 ZCode 面板中使用 DesignCraft 进行页面排版，支持打开工作区文件和通过宿主保存导出。"
+      },
+      "version": "0.2.2",
+      "author": {
+        "name": "ZCode"
+      },
+      "category": "productivity",
+      "keywords": [
+        "artcraft",
+        "wasm",
+        "ui-plugin",
+        "designcraft"
+      ]
+    },
+    {
+      "name": "wordcraft",
+      "source": "./plugins/wordcraft",
+      "componentTypes": ["ui"],
+      "displayName": "WordCraft",
+      "displayName_i18n": {
+        "en": "WordCraft",
+        "zh-CN": "WordCraft"
+      },
+      "description": "WordCraft word processing in a ZCode panel, with workspace file opening and host-mediated exports.",
+      "description_i18n": {
+        "en": "WordCraft word processing in a ZCode panel, with workspace file opening and host-mediated exports.",
+        "zh-CN": "在 ZCode 面板中使用 WordCraft 进行文字处理，支持打开工作区文件和通过宿主保存导出。"
+      },
+      "version": "0.2.2",
+      "author": {
+        "name": "ZCode"
+      },
+      "category": "productivity",
+      "keywords": [
+        "artcraft",
+        "wasm",
+        "ui-plugin",
+        "wordcraft"
+      ]
+    },
+    {
+      "name": "gridcraft",
+      "source": "./plugins/gridcraft",
+      "componentTypes": ["ui"],
+      "displayName": "GridCraft",
+      "displayName_i18n": {
+        "en": "GridCraft",
+        "zh-CN": "GridCraft"
+      },
+      "description": "GridCraft spreadsheets in a ZCode panel, with workspace file opening and host-mediated exports.",
+      "description_i18n": {
+        "en": "GridCraft spreadsheets in a ZCode panel, with workspace file opening and host-mediated exports.",
+        "zh-CN": "在 ZCode 面板中使用 GridCraft 进行电子表格，支持打开工作区文件和通过宿主保存导出。"
+      },
+      "version": "0.2.2",
+      "author": {
+        "name": "ZCode"
+      },
+      "category": "productivity",
+      "keywords": [
+        "artcraft",
+        "wasm",
+        "ui-plugin",
+        "gridcraft"
+      ]
+    },
+    {
+      "name": "deckcraft",
+      "source": "./plugins/deckcraft",
+      "componentTypes": ["ui"],
+      "displayName": "DeckCraft",
+      "displayName_i18n": {
+        "en": "DeckCraft",
+        "zh-CN": "DeckCraft"
+      },
+      "description": "DeckCraft presentations in a ZCode panel, with workspace file opening and host-mediated exports.",
+      "description_i18n": {
+        "en": "DeckCraft presentations in a ZCode panel, with workspace file opening and host-mediated exports.",
+        "zh-CN": "在 ZCode 面板中使用 DeckCraft 进行演示文稿，支持打开工作区文件和通过宿主保存导出。"
+      },
+      "version": "0.2.2",
+      "author": {
+        "name": "ZCode"
+      },
+      "category": "productivity",
+      "keywords": [
+        "artcraft",
+        "wasm",
+        "ui-plugin",
+        "deckcraft"
+      ]
+    },
+    {
+      "name": "cadcraft",
+      "source": "./plugins/cadcraft",
+      "componentTypes": ["ui"],
+      "displayName": "CADCraft",
+      "displayName_i18n": {
+        "en": "CADCraft",
+        "zh-CN": "CADCraft"
+      },
+      "description": "CADCraft CAD drafting in a ZCode panel, with workspace file opening and host-mediated exports.",
+      "description_i18n": {
+        "en": "CADCraft CAD drafting in a ZCode panel, with workspace file opening and host-mediated exports.",
+        "zh-CN": "在 ZCode 面板中使用 CADCraft 进行CAD 绘图，支持打开工作区文件和通过宿主保存导出。"
+      },
+      "version": "0.2.2",
+      "author": {
+        "name": "ZCode"
+      },
+      "category": "productivity",
+      "keywords": [
+        "artcraft",
+        "wasm",
+        "ui-plugin",
+        "cadcraft"
+      ]
+    },
+    {
+      "name": "soundcraft",
+      "source": "./plugins/soundcraft",
+      "componentTypes": ["ui"],
+      "displayName": "SoundCraft",
+      "displayName_i18n": {
+        "en": "SoundCraft",
+        "zh-CN": "SoundCraft"
+      },
+      "description": "SoundCraft audio editing in a ZCode panel, with workspace file opening and host-mediated exports.",
+      "description_i18n": {
+        "en": "SoundCraft audio editing in a ZCode panel, with workspace file opening and host-mediated exports.",
+        "zh-CN": "在 ZCode 面板中使用 SoundCraft 进行音频编辑，支持打开工作区文件和通过宿主保存导出。"
+      },
+      "version": "0.2.2",
+      "author": {
+        "name": "ZCode"
+      },
+      "category": "productivity",
+      "keywords": [
+        "artcraft",
+        "wasm",
+        "ui-plugin",
+        "soundcraft"
+      ]
     },
     {
       "name": "tripo-3d",

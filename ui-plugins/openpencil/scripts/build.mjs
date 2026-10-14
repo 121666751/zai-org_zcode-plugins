@@ -1,4 +1,5 @@
 import { build } from "esbuild";
+import { buildWebEditor } from "./build-web.mjs";
 import { writeNotices } from "#build/licenses.mjs";
 import { readFile, writeFile, mkdir, copyFile, readdir } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
@@ -24,26 +25,7 @@ const browserStubs = {
   },
 };
 // yoga-layout 用了顶层 await，只能输出 ESM；引导页以 <script type="module"> 内联执行。
-const ui = await build({
-  entryPoints: [join(root, "ui/main.ts")],
-  bundle: true,
-  format: "esm",
-  plugins: [browserStubs],
-  platform: "browser",
-  target: "es2022",
-  minify: true,
-  legalComments: "external",
-  metafile: true,
-  write: false,
-  outdir: join(dist, "ui"),
-  conditions: ["browser", "production"],
-  define: {
-    "process.env.NODE_ENV": '"production"',
-    __VUE_OPTIONS_API__: "true",
-    __VUE_PROD_DEVTOOLS__: "false",
-    __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: "false",
-  },
-});
+const ui = await buildWebEditor();
 // .fig 解析 / 压缩 worker：上游按 import.meta.url 相对路径起 worker，面板里由 assets.ts 换成 blob: 脚本。
 const coreDist = dirname(require.resolve("@open-pencil/core/package.json"));
 for (const [name, entry] of [
@@ -67,11 +49,8 @@ for (const [name, entry] of [
     worker.outputFiles.find((f) => f.path.endsWith(".js")).text,
   );
 }
-const js = ui.outputFiles.find((f) => f.path.endsWith(".js")).text;
-const css = [
-  await readFile(join(root, "ui/panel.css"), "utf8"),
-  ...ui.outputFiles.filter((f) => f.path.endsWith(".css")).map((f) => f.text),
-].join("\n");
+const js = ui.js;
+const css = ui.css;
 // 以原始 UTF-8 字节拆分同插件资源（宿主 readResource 单次 8 MiB，HTML 4 MiB）。
 const bytes = Buffer.from(js);
 const scripts = [];
@@ -86,7 +65,12 @@ while (offset < bytes.length) {
 }
 await writeFile(
   join(dist, "ui/assets.json"),
-  JSON.stringify({ scripts, scriptBytes: bytes.length, cssBytes: Buffer.byteLength(css) }),
+  JSON.stringify({
+    upstream: ui.provenance,
+    scripts,
+    scriptBytes: bytes.length,
+    cssBytes: Buffer.byteLength(css),
+  }),
 );
 await writeFile(join(dist, "ui/panel.css"), css);
 const bootstrap = await build({
@@ -111,8 +95,6 @@ await copyFile(
 );
 for (const font of await readdir(join(root, "ui/fonts")))
   if (font.endsWith(".ttf")) await copyFile(join(root, "ui/fonts", font), join(dist, "ui", font));
-for (const f of ui.outputFiles.filter((f) => f.path.endsWith(".LEGAL.txt")))
-  await writeFile(join(dist, "ui", f.path.split("/").pop()), f.contents);
 
 const server = await build({
   metafile: true,

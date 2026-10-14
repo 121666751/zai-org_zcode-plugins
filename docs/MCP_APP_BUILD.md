@@ -2,7 +2,9 @@
 
 普通插件和带 UI 的插件共用根目录 `marketplace.json`、安装目录、版本规则及宿主的注册、安装、启用、更新入口。开发流程以[现有插件教程](PLUGIN_DEVELOPMENT_CN.md#18-在客户端本地测试)为准；UI 仅增加 MCP 页面资源和 `ui.surfaces`，没有独立注册机制。
 
-Git 来源安装所需的 `plugins/<name>/dist/`、Blender `ui/dist/` 和桥接脚本随仓库提交；OpenPencil 的 `dist/node_modules/` 仅包含运行依赖。修改 UI 源码或版本后必须重新构建并提交产物。根目录 `dist/` 发布 ZIP 和开发依赖不提交。CI 在重建前先验证 Git 中的安装产物。
+`plugins/<name>/dist/`、Blender 的 `ui/dist/` 和桥接脚本、OpenPencil 的 `dist/node_modules/`，以及根目录 `dist/` 的发布 ZIP，都是构建输出，不提交到 Git，由 `.gitignore` 排除，并由 `tests/test_generated_outputs.py` 阻止重新入库。CI 与本地开发使用同一入口 `pnpm build` 从 `ui-plugins/<name>/` 生成它们；CI 中的产物测试、打包和发布预演都在构建之后执行。因此需要编译的插件不能从未构建的 Git checkout 直接安装：本地测试先构建，再使用 `dist/local-marketplace`；正式用户通过已发布的市场安装。
+
+Craft 插件的网页编译快照 `ui-plugins/<name>/web/` 同样是构建输出，不提交。构建时依次使用工作区已有的快照、快照缓存（`CRAFT_BUILD_CACHE`，默认 `.craft-cache/`）、从 `upstream.json` 固定的上游提交现场编译；编译需要 `ui-plugins/craft-runtime/toolchain.json` 固定的 Rust / Trunk、Chrome，以及访问上游仓库、crates.io 和 GitHub Release 的网络。细节见[适配层说明](../ui-plugins/craft-runtime/README.md#build)。
 
 ## 清单与构建所有权
 
@@ -47,6 +49,26 @@ pnpm marketplace:local --name my-local-plugins --output dist/my-local-plugins
 `zcode-mcp-app-dev` 是普通可选的开发 skill 插件，不是运行依赖。它仅在根清单保留该条目时出现在目录中，由开发者自行决定是否安装。
 
 ## 验收
+
+### OpenPencil 完整 Web 编辑器
+
+插件直接构建 OpenPencil v0.14.0 的 Web 编辑器源码，固定 commit 与归档 SHA-256，并使用上游冻结锁文件安装构建依赖。源码包声明固定版本的 Bun 构建依赖，CI 的 `pnpm install` 一并安装，不依赖 runner 全局工具。版本与插件现有 core / MCP 一致。安装包包含全部运行资源，不依赖外部网页或开发服务器。第三方源码、依赖缓存不提交；构建来源及许可证随产物保留。
+
+保留上游 EditorView、页面 / 图层 / Assets、完整绘图工具、属性与自动布局、组件、变量、Code、快捷键、撤销重做和移动布局。替换宿主边界：工作区文件打开与保存使用 MCP；AI 页使用 ZCode 对话；协作入口显示 ZCode 文档状态。上游独立应用的云存储、独立 AI provider、更新与 PWA 不作为插件的第二套服务。
+
+每个标签页持有一个上游 editor 和一个文档控制器，UI 与 MCP 共用这个 editor。MCP 请求按顺序执行，并在请求开始时固定目标标签页，不能因用户切换标签而修改其他文档。已打开文件按 document ID 复用标签；新标签首次保存时选择工作区路径。后台标签仍由对应控制器保存。关闭后解除 live owner，未保存的新文件不得静默丢失。
+
+```text
+ZCode Agent → MCP server → 工具桥 → 目标标签的 editor ← 上游完整 UI
+                                      ↓
+                              文档控制器（revision）
+                                      ↓
+                              工作区 .fig 文件
+```
+
+宿主 theme / locale 更新传入上游界面。资源继续使用 MCP 分片读取，WASM、worker、字体均在严格 CSP 下运行。保存失败与冲突有可见状态；选区能添加到对话上下文、请求 ZCode 修改或生成代码。窄屏分享入口也交给 ZCode 上下文，不创建独立协作房间；缩放居中使用实际画布视口。
+
+验收使用真实安装产物：检查完整页面 / Assets / 属性 / 工具栏；用鼠标绘制并在属性面板修改；通过 MCP 读取 UI 修改并创建节点，确认画布和图层同步；保存并重载 `.fig`；切换两份文件验证身份隔离；验证中英文、深浅主题与窄屏。最后在当前仓库启动的 ZCode 中更新本地安装并实测。
 
 ### OpenPencil 编辑器启动
 

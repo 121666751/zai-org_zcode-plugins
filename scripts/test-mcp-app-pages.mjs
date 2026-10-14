@@ -10,6 +10,7 @@ import { build } from "esbuild";
 import { chromium } from "playwright-core";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+import { checkOpenPencilEditor } from "./tests/openpencil-editor.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const host = await build({
@@ -29,8 +30,8 @@ const bridge = new AppBridge(null, { name: 'page-test', version: '1' }, {
 window.initializations = 0;
 bridge.onreadresource = (args) => rpc('readResource', args);
 bridge.oncalltool = (args) => rpc('callTool', args);
-bridge.onupdatemodelcontext = async () => ({});
-bridge.onmessage = async () => ({});
+bridge.onupdatemodelcontext = async (params) => { window.modelContext = params; return {}; };
+bridge.onmessage = async (params) => { window.followUp = params; return {}; };
 bridge.onsizechange = () => {};
 bridge.setRequestHandler('ui/set-widget-state', { params: z.object({ widgetState: z.unknown() }), result: EmptyResultSchema }, async (params) => { window.savedState = params.widgetState; return {}; });
 bridge.oninitialized = async () => {
@@ -56,7 +57,9 @@ const browser = await chromium.launch(
   process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : { channel: "chrome" },
 );
 try {
-  for (const short of ["blender", "excalidraw", "openpencil"]) {
+  for (const short of ["blender", "excalidraw", "openpencil"].filter(
+    (name) => !process.argv[2] || name === process.argv[2],
+  )) {
     const temporary = await mkdtemp(join(tmpdir(), "mcp-app-page-"));
     const plugin = join(root, "plugins", short);
     const transport = new StdioClientTransport({
@@ -79,6 +82,9 @@ try {
     try {
       console.log(`Starting browser protocol check: ${short}`);
       page.on("pageerror", (error) => console.error(`Browser error (${short}): ${error.message}`));
+      page.on("console", (message) => {
+        if (message.type() === "error") console.error(`Console (${short}): ${message.text()}`);
+      });
       await client.connect(transport);
       const create = {
         blender: { name: "new_scene", arguments: { path: "page.blend" } },
@@ -196,8 +202,8 @@ try {
         const pages = await client.callTool({ name: "list_pages", arguments: {} });
         assert.ok(!pages.isError, JSON.stringify(pages));
         // 真实画布交互及 .fig worker 保存，覆盖 WASM 启动后才触发的 kiwi 编译。
-        await frame.getByTestId("op-tool-rectangle").click();
-        const canvas = await frame.getByTestId("op-canvas").boundingBox();
+        await frame.locator('[data-test-id="toolbar-tool-rectangle"]').click();
+        const canvas = await frame.locator('[data-test-id="canvas-area"]').boundingBox();
         assert.ok(canvas);
         await page.mouse.move(canvas.x + 100, canvas.y + 100);
         await page.mouse.down();
@@ -217,7 +223,8 @@ try {
         await frame.evaluate(() =>
           window.dispatchEvent(new ErrorEvent("error", { message: "later editor error" })),
         );
-        assert.ok(await frame.getByTestId("op-canvas").isVisible());
+        assert.ok(await frame.locator('[data-test-id="canvas-area"]').isVisible());
+        await checkOpenPencilEditor({ page, frame, client, initial });
         console.log(
           "PASS OpenPencil CSP: document loaded, canvas ready, bridge call, draw and save",
         );
@@ -244,6 +251,16 @@ try {
         `PASS official App/AppBridge ${short}: one connection, initial result, theme, widget state, cancellation`,
       );
     } catch (error) {
+      await page.screenshot({ path: `/tmp/mcp-app-${short}-failure.png` }).catch(() => {});
+      for (const frame of page.frames())
+        console.error(
+          (
+            await frame
+              .locator("body")
+              .innerText()
+              .catch(() => "")
+          ).slice(0, 2500),
+        );
       console.error(`Failed ${short}: ${error.stack}`);
       throw error;
     } finally {

@@ -8,6 +8,8 @@ DesignRegistry（插件 MCP server 进程内）是工作区 `.fig` / `.pen` 文�
 
 面板冷启动先加载初始文档，再连接自动化桥；连接就绪不能先于初始文档就绪，避免首个编辑命令读到空 current。
 
+完整 Web UI 复用上游 EditorView，每个文档标签持有独立 editor / controller。工具桥按请求开始时的 `document_id` 固定目标并串行执行。打开同一文件复用已有标签，切换活动标签通知登记表；关闭前保存成功才释放 owner。`new_design open:false` 只创建目标文件，供另存为绑定已有画布，不能推送空文档替换草稿。`write_export` 是 app-only 字节导出入口，受工作区路径和格式约束，禁止覆盖已有文件。
+
 构建分发：本插件的 package.json 声明 build 与 stage。根脚本只调度和校验；stage 按 ZCODE_PLUGIN_INSTALL_DIR 复制本插件额外运行资源，并在完成标记写入前结束。安装目录布局与运行时接口保持不变。
 
 插件身份：目录和清单使用 `openpencil`，对应 MCP 页面资源使用 `ui://openpencil/` 命名空间；客户端、服务端与集成测试保持一致。

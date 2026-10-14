@@ -22,6 +22,7 @@ export async function writeNotices(metafiles, destination) {
   }
   const notices = [];
   const seen = new Set();
+  const missing = [];
   for (const [directory, pkg] of [...packages].sort((a, b) => a[1].name.localeCompare(b[1].name))) {
     const key = `${pkg.name}@${pkg.version}`;
     if (seen.has(key)) continue;
@@ -33,9 +34,11 @@ export async function writeNotices(metafiles, destination) {
     if (!texts.length) {
       // npm 包不带 LICENSE 文件时从 licenses/ 取：@open-pencil/* 用仓库根 LICENSE（MIT），
       // 其余按包名（去掉 @，/ 换成 -）找同名 .txt。
-      const upstream = pkg.name.startsWith("@open-pencil/")
-        ? "open-pencil.txt"
-        : `${pkg.name.replace(/^@/, "").replace(/\//g, "-")}.txt`;
+      const upstream = pkg.name.startsWith("@ai-sdk/")
+        ? "ai-sdk.txt"
+        : pkg.name.startsWith("@open-pencil/")
+          ? "open-pencil.txt"
+          : `${pkg.name.replace(/^@/, "").replace(/\//g, "-")}.txt`;
       const upstreamPath = join(
         dirname(destination),
         "../../../plugins/openpencil/licenses",
@@ -45,10 +48,10 @@ export async function writeNotices(metafiles, destination) {
         () => true,
         () => false,
       );
-      if (!exists)
-        throw new Error(
-          `Missing license for bundled dependency ${key} (expected licenses/${upstream})`,
-        );
+      if (!exists) {
+        missing.push(`${key} (licenses/${upstream})`);
+        continue;
+      }
       if (!upstream) throw new Error(`Missing license for bundled dependency ${key}`);
       texts.push(
         await readFile(
@@ -61,5 +64,6 @@ export async function writeNotices(metafiles, destination) {
       `${key} — ${typeof pkg.license === "string" ? pkg.license : JSON.stringify(pkg.license)}\n${texts.join("\n\n")}`,
     );
   }
+  if (missing.length) throw new Error(`Missing licenses: ${missing.join(", ")}`);
   await writeFile(destination, notices.join("\n\n----------------------------------------\n\n"));
 }

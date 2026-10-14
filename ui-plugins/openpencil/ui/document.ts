@@ -49,6 +49,8 @@ export function createDocumentController(editor: Editor, state: EditorState) {
               populate: "all",
             },
           );
+    // 解析 worker 也会异步返回；旧请求不能在新请求完成后覆盖画布。
+    if (seq !== loadSeq) throw new DesignError("superseded", "被更新的打开请求取代");
     editor.replaceGraph(graph);
     const firstPage = graph.getPages()[0];
     if (firstPage && !graph.getNode(state.currentPageId)) await editor.switchPage(firstPage.id);
@@ -81,6 +83,8 @@ export function createDocumentController(editor: Editor, state: EditorState) {
   async function save(): Promise<void> {
     const doc = current.value;
     if (!doc) return;
+    // 外部变更会更新 revision；普通 Save 不能借新 revision 绕过冲突选择。
+    if (status.value === "conflict") return;
     if (doc.format === "pen") {
       status.value = "readonly";
       return;
@@ -130,12 +134,14 @@ export function createDocumentController(editor: Editor, state: EditorState) {
     if (!current.value || current.value.format === "pen") return;
     if (status.value !== "conflict") status.value = "dirty";
     if (timer) clearTimeout(timer);
+    // 使用上游菜单里的自动保存开关，不能同时存在两套 autosave 状态。
+    if ("autosaveEnabled" in state && state.autosaveEnabled === false) return;
     timer = setTimeout(() => {
       timer = null;
       if (status.value !== "conflict") void save();
     }, delay);
   }
-  watch(
+  const stopWatching = watch(
     () => state.sceneVersion,
     () => {
       if (isDirty()) scheduleSave();
@@ -180,6 +186,28 @@ export function createDocumentController(editor: Editor, state: EditorState) {
     timer = null;
     if (isDirty() && status.value !== "conflict") void save();
   }
+  async function bind(doc: DesignRef) {
+    await saving;
+    if (timer) clearTimeout(timer);
+    const previous = current.value;
+    if (previous)
+      await call("report_panel_state", { documentId: previous.id, live: false, dirty: false });
+    current.value = { ...doc, format: "fig", externalChange: false };
+    savedBase64 = null;
+    savedVersion = -1;
+    status.value = "dirty";
+    await call("report_panel_state", { documentId: doc.id, live: true, dirty: true, active: true });
+  }
+  function dispose() {
+    stopWatching();
+    if (timer) clearTimeout(timer);
+    ++loadSeq;
+    const doc = current.value;
+    if (doc)
+      void call("report_panel_state", { documentId: doc.id, live: false, dirty: isDirty() }).catch(
+        console.error,
+      );
+  }
   return {
     current,
     status,
@@ -191,6 +219,8 @@ export function createDocumentController(editor: Editor, state: EditorState) {
     onExternalChange,
     resolveConflict,
     flush,
+    bind,
+    dispose,
   };
 }
 export type DocumentController = ReturnType<typeof createDocumentController>;

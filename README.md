@@ -27,6 +27,29 @@ Use this repository to browse available plugins, install the marketplace in comp
 | [**wecom-cli**](./plugins/wecom-cli) | `productivity` | WeCom CLI workflows for messages, docs, sheets, mail, calendar, meetings, contacts, and todos with QR authentication. |
 | [**video2code**](./plugins/video2code) | `productivity` | Replicate a webpage from a screen recording or URL: record with the built-in WebView, observe frames, scaffold a React app, and verify against the source. |
 
+### UI plugins
+
+- `blender` `0.2.2`: Edit Blender scenes with an interactive 3D panel and MCP tools.
+- `excalidraw` `0.2.2`: Create and edit diagrams with Excalidraw and MCP tools.
+- `openpencil` `0.2.3`: Edit design files with OpenPencil and MCP tools.
+- `showcase` `0.4.3`: Explore MCP Apps capabilities, interactions, and lifecycle examples.
+- `zcode-mcp-app-dev` `0.1.1`: Develop MCP Apps for ZCode with official SDKs and a small host-extension reference.
+- `disk-cleaner` `0.1.2`: Analyze disk usage and large files, then review selected files before moving them to the system trash.
+
+- `photocraft` `0.2.2`: PhotoCraft image editing.
+- `vectorcraft` `0.2.2`: VectorCraft vector drawing.
+- `pdfcraft` `0.2.2`: PdfCraft PDF editing.
+- `designcraft` `0.2.2`: DesignCraft page layout.
+- `wordcraft` `0.2.2`: WordCraft word processing.
+- `gridcraft` `0.2.2`: GridCraft spreadsheets.
+- `deckcraft` `0.2.2`: DeckCraft presentations.
+- `cadcraft` `0.2.2`: CADCraft CAD drawings.
+- `soundcraft` `0.2.2`: SoundCraft audio editing.
+
+These nine Craft plugins embed pinned Trunk/WASM editors, with workspace imports, saves and all 334 upstream MCP tool definitions connected to the live editor. Native-only capabilities remain subject to the Web platform boundary. See the [adapter documentation](./ui-plugins/craft-runtime/README.md) for build provenance, limitations and validation.
+
+UI plugin runtimes (`plugins/<name>/dist/`) are build outputs and are not committed. The release pipeline builds them from `ui-plugins/` and publishes the ZIPs; a Git checkout alone cannot install a compiled UI plugin. For source development use Node.js 24+ and pnpm 10.33.2: run `pnpm install --frozen-lockfile` and `pnpm build`, then register `dist/local-marketplace`. Rebuild after changing a plugin's source or version.
+
 ### Finance plugins
 
 Ten `finance` plugins covering the sell side, the buy side, corporate banking, and the

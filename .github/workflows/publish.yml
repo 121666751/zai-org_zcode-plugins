@@ -30,7 +30,18 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           version: "10.33.2"
+      # Craft Web snapshots are compiled from pinned upstream sources, not committed.
+      # Keep compiled snapshots and the installed Trunk between runs.
+      - uses: actions/cache@v4
+        with:
+          path: |
+            .craft-cache/snapshots
+            .craft-cache/tools
+          key: craft-${{ runner.os }}-${{ hashFiles('ui-plugins/*/upstream.json', 'ui-plugins/*/patches/**', 'ui-plugins/craft-runtime/**') }}
+          restore-keys: craft-${{ runner.os }}-
       - name: Build and test MCP Apps
+        env:
+          CRAFT_TOOLCHAIN_INSTALL: "1"
         run: |
           pnpm install --frozen-lockfile
           pnpm build

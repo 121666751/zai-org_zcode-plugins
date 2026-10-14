@@ -28,10 +28,15 @@ interface Target {
   pageId: string;
   pageName: string;
 }
-export interface BridgeOptions {
+export interface BridgeSession {
   editor: Editor;
   state: EditorState;
   documents: DocumentController;
+}
+export interface BridgeOptions {
+  getSession: (documentId?: string) => BridgeSession;
+  listSessions: () => BridgeSession[];
+  openDocument: (target: { id: string }) => Promise<void>;
   endpoint: BridgeEndpoint;
   onConnection: (connected: boolean) => void;
 }
@@ -39,14 +44,9 @@ export interface BridgeOptions {
 /**
  * 上游自动化桥的浏览器端（移植自 open-pencil v0.14.0 `src/app/automation/bridge/*`，MIT）：
  * 主动连 server 进程里的 WebSocket，register 后收 `{type:"request", id, command, args}`，
- * 对活文档执行并回 `{type:"response", id, ...}`。单文档模型：document_id 只能是当前文档。
+ * 对活文档执行并回 `{type:"response", id, ...}`。每个请求固定 document_id 对应的标签页 editor，命令串行执行。
  */
-export function connectBridge(options: BridgeOptions) {
-  const { editor, state, documents } = options;
-  let ws: WebSocket | null = null;
-  let reconnectTimer: ReturnType<typeof setTimeout> | undefined;
-  let closed = false;
-
+function createSessionHandlers({ editor, state, documents }: BridgeSession) {
   function resolveTarget(args: UnknownRecord | undefined): Target {
     const doc = documents.current.value;
     if (!doc) throw new Error("No design is open in the panel. Call open_design first.");
@@ -234,7 +234,7 @@ export function connectBridge(options: BridgeOptions) {
                   id: doc.id,
                   name: doc.name,
                   path: doc.path,
-                  active: true,
+                  active: args.active === true,
                   current_page_id: state.currentPageId,
                   current_page_name: page?.name ?? "",
                   pages,
@@ -256,6 +256,38 @@ export function connectBridge(options: BridgeOptions) {
       : { ok: true, result: body, target: { documentId, documentName, path, pageId, pageName } };
   }
 
+  return { handleRequest, selectionSummary };
+}
+
+export function connectBridge(options: BridgeOptions) {
+  let ws: WebSocket | null = null;
+  let reconnectTimer: ReturnType<typeof setTimeout> | undefined;
+  let closed = false;
+  let pending = Promise.resolve();
+  async function handleRequest(command: string, args: unknown) {
+    const values = isRecord(args) ? args : {};
+    if (command === BRIDGE_COMMANDS.openDocument) {
+      await options.openDocument({ id: String(values.documentId) });
+      return { ok: true, result: { opened: true } };
+    }
+    if (command === "list_documents") {
+      // 多标签不能沿用旧单文档的 active:true，否则客户端无法判断当前文档。
+      const activeEditor = options.getSession().editor;
+      const documents = await Promise.all(
+        options.listSessions().map(async (session) => {
+          const response = await createSessionHandlers(session).handleRequest(command, {
+            active: session.editor === activeEditor,
+          });
+          return (response as { result: { documents: unknown[] } }).result.documents;
+        }),
+      );
+      return { ok: true, result: { documents: documents.flat() } };
+    }
+    // 在命令开始时固定 editor，异步字体/导出期间切标签不会改变写入目标。
+    const id = values.document_id ?? values.documentId;
+    const session = options.getSession(typeof id === "string" ? id : undefined);
+    return createSessionHandlers(session).handleRequest(command, args);
+  }
   function connect() {
     if (closed) return;
     let socket: WebSocket;
@@ -270,7 +302,7 @@ export function connectBridge(options: BridgeOptions) {
       socket.send(JSON.stringify({ type: "register", token: options.endpoint.token }));
       options.onConnection(true);
     };
-    socket.onmessage = async (event) => {
+    socket.onmessage = (event) => {
       let msg: { type?: string; id?: string; command?: string; args?: unknown };
       try {
         msg = JSON.parse(String(event.data));
@@ -278,21 +310,23 @@ export function connectBridge(options: BridgeOptions) {
         return;
       }
       if (msg.type !== "request" || !msg.id || !msg.command) return;
-      try {
-        const result = await handleRequest(msg.command, msg.args);
-        if (socket.readyState === WebSocket.OPEN)
-          socket.send(JSON.stringify({ type: "response", id: msg.id, ...(result as object) }));
-      } catch (e) {
-        if (socket.readyState === WebSocket.OPEN)
-          socket.send(
-            JSON.stringify({
-              type: "response",
-              id: msg.id,
-              ok: false,
-              error: e instanceof Error ? e.message : String(e),
-            }),
-          );
-      }
+      pending = pending.then(async () => {
+        try {
+          const result = await handleRequest(msg.command!, msg.args);
+          if (socket.readyState === WebSocket.OPEN)
+            socket.send(JSON.stringify({ type: "response", id: msg.id, ...(result as object) }));
+        } catch (e) {
+          if (socket.readyState === WebSocket.OPEN)
+            socket.send(
+              JSON.stringify({
+                type: "response",
+                id: msg.id,
+                ok: false,
+                error: e instanceof Error ? e.message : String(e),
+              }),
+            );
+        }
+      });
     };
     socket.onclose = () => {
       if (ws === socket) ws = null;
@@ -308,7 +342,7 @@ export function connectBridge(options: BridgeOptions) {
   }
   connect();
   return {
-    selectionSummary,
+    selectionSummary: () => createSessionHandlers(options.getSession()).selectionSummary(),
     disconnect() {
       closed = true;
       clearTimeout(reconnectTimer);

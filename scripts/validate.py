@@ -30,7 +30,9 @@ KEBAB = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 # public CDN by a job that runs on an internal machine. A symlink would make
 # that job read (and publish) whatever it points at, so symlinks are rejected
 # outright rather than skipped. The size caps keep a single entry from turning
-# the artifact build into a disk-filling exercise.
+# the artifact build into a disk-filling exercise. They bound one publishable
+# unit (one plugin, or the shared assets), never a whole plugin root: the
+# marketplace as a whole is allowed to outgrow any single plugin.
 MAX_PLUGIN_FILES = 5000
 MAX_PLUGIN_BYTES = 256 * 1024 * 1024
 SEMVER = re.compile(r"^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?$")
@@ -79,8 +81,12 @@ def validate_i18n(label: str, obj: dict, field: str, required_locales: tuple[str
             err(f"{label}: '{field}.{locale}' must be a non-empty string")
 
 
-def tree_violations(root: Path, label: str) -> list[str]:
-    """Symlinks and oversize trees under *root*, as error strings."""
+def tree_violations(root: Path, label: str, *, caps: bool = True) -> list[str]:
+    """Symlinks and oversize trees under *root*, as error strings.
+
+    Pass ``caps=False`` to sweep a whole plugin root for symlinks without
+    applying the per-plugin file and size caps to the sum of all plugins.
+    """
     if root.is_symlink():
         return [f"{label}: directory is a symlink"]
     found: list[str] = []
@@ -94,6 +100,8 @@ def tree_violations(root: Path, label: str) -> list[str]:
         if path.is_file():
             files += 1
             total += path.stat().st_size
+    if not caps:
+        return found
     if files > MAX_PLUGIN_FILES:
         found.append(f"{label}: {files} files exceeds the {MAX_PLUGIN_FILES} file limit")
     if total > MAX_PLUGIN_BYTES:

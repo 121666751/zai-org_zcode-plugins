@@ -10,5 +10,6 @@
     "allowImportingTsExtensions": true,
     "types": ["node"]
   },
-  "include": ["src/**/*.ts", "ui/**/*.ts", "test/**/*.ts"]
+  "include": ["src/**/*.ts", "ui/**/*.ts", "test/**/*.ts"],
+  "exclude": ["ui/web"]
 }

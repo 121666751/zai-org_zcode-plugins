@@ -46,7 +46,7 @@ const toolMeta = (name: string, visibility: Array<"model" | "app">) => {
 
 export function createDesignServer(options: DesignServerOptions) {
   const { registry, bridge, workspaceRoot, assetRoot } = options;
-  const server = new McpServer({ name: PLUGIN_NAME, version: "0.2.3" });
+  const server = new McpServer({ name: PLUGIN_NAME, version: "0.3.1" });
   const register = (
     name: string,
     description: string,
@@ -130,12 +130,14 @@ export function createDesignServer(options: DesignServerOptions) {
   register(
     "new_design",
     "Create an empty .fig design at a workspace path (e.g. designs/landing.fig), open it and show the panel.",
-    { path: z.string().min(1).max(1024) },
+    { path: z.string().min(1).max(1024), open: z.boolean().default(true) },
     ["model", "app"],
-    async ({ path }) => {
+    async ({ path, open }) => {
       const doc = await registry.create(path);
-      registry.setActive(doc.id);
-      await pushActiveDocument();
+      if (open) {
+        registry.setActive(doc.id);
+        await pushActiveDocument();
+      }
       return { document: designRef(doc) };
     },
   );
@@ -176,11 +178,17 @@ export function createDesignServer(options: DesignServerOptions) {
   register(
     "report_panel_state",
     "Panel-only: declare whether the panel holds the live document and whether it has unsaved edits.",
-    { documentId, live: z.boolean(), dirty: z.boolean().default(false) },
+    {
+      documentId,
+      live: z.boolean(),
+      dirty: z.boolean().default(false),
+      active: z.boolean().default(false),
+    },
     ["app"],
-    async ({ documentId: id, live, dirty }) => ({
-      document: designRef(registry.setOwner(id, live ? "live" : "file", dirty)),
-    }),
+    async ({ documentId: id, live, dirty, active }) => {
+      if (active) registry.setActive(id);
+      return { document: designRef(registry.setOwner(id, live ? "live" : "file", dirty)) };
+    },
   );
   register(
     "resolve_conflict",
@@ -210,6 +218,27 @@ export function createDesignServer(options: DesignServerOptions) {
     },
   );
   register(
+    "write_export",
+    "Panel-only: save a Web editor export in the workspace without overwriting an existing file.",
+    {
+      path: z.string().min(1).max(1024),
+      mime: z.string().max(120),
+      base64: z.string().max(Math.ceil((MAX_DESIGN_BYTES * 4) / 3) + 4),
+    },
+    ["app"],
+    async ({ path, base64 }) => {
+      if (!/\.(png|jpe?g|webp|svg|pdf|pptx|fig)$/i.test(path))
+        throw new DesignError("invalid_format", "不支持的导出格式");
+      const absolute = await writeWorkspaceBytes(
+        workspaceRoot,
+        path,
+        Buffer.from(base64, "base64"),
+        false,
+      );
+      return { path: await workspaceRelative(workspaceRoot, absolute) };
+    },
+  );
+  register(
     "export_design",
     "Export nodes (default: selection, else whole page) of the live document to the workspace: png/jpg/webp images or JSX code. Returns the written path.",
     {
@@ -231,7 +260,7 @@ export function createDesignServer(options: DesignServerOptions) {
       if (format === "jsx") {
         const response = (await bridge.sendRPC({
           command: "export_jsx",
-          args: { nodeIds, style: "tailwind" },
+          args: { document_id: doc.id, nodeIds, style: "tailwind" },
         })) as { result?: { jsx?: string } };
         const jsx = response.result?.jsx;
         if (typeof jsx !== "string") throw new DesignError("export_failed", "面板没有返回 JSX");
@@ -248,7 +277,7 @@ export function createDesignServer(options: DesignServerOptions) {
       }
       const response = (await bridge.sendRPC({
         command: "export",
-        args: { nodeIds, scale, format: format.toUpperCase() },
+        args: { document_id: doc.id, nodeIds, scale, format: format.toUpperCase() },
       })) as { result?: { base64?: string } };
       const base64 = response.result?.base64;
       if (typeof base64 !== "string") throw new DesignError("export_failed", "面板没有返回图片");
