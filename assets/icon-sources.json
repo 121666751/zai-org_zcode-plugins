@@ -2392,5 +2392,104 @@
     "sha256": "ae7d4b0ad4b20a4568854002816acca1d2e03169a3d580eb9872d640ded14942",
     "mimeType": "image/png",
     "transformation": "Solid background, 512x512 PNG; no baked corner radius"
+  },
+  {
+    "name": "photocraft",
+    "icon": "photocraft/icon.png",
+    "source": "https://raw.githubusercontent.com/storytold/photocraft/ed7df56a2455375240959bae6e5273a71d858d84/assets/app-icon/photocraft.svg",
+    "homepage": "https://github.com/storytold/photocraft",
+    "matchedBy": "upstream-app-icon",
+    "mimeType": "image/png",
+    "license": "MIT",
+    "modifications": "Square full-bleed background; 256px PNG. Artwork preserved; corner rounding delegated to client.",
+    "sha256": "94f110c86d6d64243310a6b0bcf1c35be0ec540e39560ffd41cacdd10a31acdc"
+  },
+  {
+    "name": "vectorcraft",
+    "icon": "vectorcraft/icon.png",
+    "source": "https://raw.githubusercontent.com/storytold/vectorcraft/a06717777828867557d759c674283304f63c04ae/assets/app-icon/vectorcraft.svg",
+    "homepage": "https://github.com/storytold/vectorcraft",
+    "matchedBy": "upstream-app-icon",
+    "mimeType": "image/png",
+    "license": "MIT",
+    "modifications": "Square full-bleed background; 256px PNG. Artwork preserved; corner rounding delegated to client.",
+    "sha256": "fcc18fe26422fce4d645ba7e40badb760468638920d38940c3f65e100fdbc9b8"
+  },
+  {
+    "name": "pdfcraft",
+    "icon": "pdfcraft/icon.png",
+    "source": "https://raw.githubusercontent.com/storytold/pdfcraft/c1a41cc5c7c2460fb60af880af69ee28a0c71bd5/assets/app-icon/pdfcraft.svg",
+    "homepage": "https://github.com/storytold/pdfcraft",
+    "matchedBy": "upstream-app-icon",
+    "mimeType": "image/png",
+    "license": "MIT",
+    "modifications": "Square full-bleed background; 256px PNG. Artwork preserved; corner rounding delegated to client.",
+    "sha256": "19ea09fc4afa6f5011d15e6ff4102814fbcd50a8fa6681384b280e1f873b72d9"
+  },
+  {
+    "name": "designcraft",
+    "icon": "designcraft/icon.png",
+    "source": "https://raw.githubusercontent.com/storytold/designcraft/43a46c04bf8cd8c8a48a347f6deaa9613223aa54/assets/app-icon/designcraft.svg",
+    "homepage": "https://github.com/storytold/designcraft",
+    "matchedBy": "upstream-app-icon",
+    "mimeType": "image/png",
+    "license": "MIT",
+    "modifications": "Square full-bleed background; 256px PNG. Artwork preserved; corner rounding delegated to client.",
+    "sha256": "e65ae6801cab8f218d116b661e4012f7ebea15474824c0d3cb4cbd9ef0805b47"
+  },
+  {
+    "name": "wordcraft",
+    "icon": "wordcraft/icon.png",
+    "source": "https://raw.githubusercontent.com/storytold/wordcraft/04f6f53b8a4d8140c7bb62f949b0a6099a473da1/assets/app-icon/wordcraft.svg",
+    "homepage": "https://github.com/storytold/wordcraft",
+    "matchedBy": "upstream-app-icon",
+    "mimeType": "image/png",
+    "license": "MIT",
+    "modifications": "Square full-bleed background; 256px PNG. Artwork preserved; corner rounding delegated to client.",
+    "sha256": "f445b821783eb9f52685845f586afc8decc30a5590a9dfc42d36a5c39a2c4405"
+  },
+  {
+    "name": "gridcraft",
+    "icon": "gridcraft/icon.png",
+    "source": "https://raw.githubusercontent.com/storytold/gridcraft/84acf6293b1dc1fc09837524e035d674eb4d6741/assets/app-icon/gridcraft.svg",
+    "homepage": "https://github.com/storytold/gridcraft",
+    "matchedBy": "upstream-app-icon",
+    "mimeType": "image/png",
+    "license": "MIT",
+    "modifications": "Square full-bleed background; 256px PNG. Artwork preserved; corner rounding delegated to client.",
+    "sha256": "ed2b93a238a06bf7e399776578fc27ede37d47d44f8b9e1058ab75aa547feda2"
+  },
+  {
+    "name": "deckcraft",
+    "icon": "deckcraft/icon.png",
+    "source": "https://raw.githubusercontent.com/storytold/deckcraft/457406a7a5b62425e915926c8ccb0984e61a198c/assets/app-icon/hicolor/scalable/apps/ai.storyteller.deckcraft.svg",
+    "homepage": "https://github.com/storytold/deckcraft",
+    "matchedBy": "upstream-app-icon",
+    "mimeType": "image/png",
+    "license": "MIT",
+    "modifications": "Square full-bleed background; 256px PNG. Artwork preserved; corner rounding delegated to client.",
+    "sha256": "2c1fe6f69085de7a989d50d5425c07a6fb7abab65a72ed979c1c500d93051e6a"
+  },
+  {
+    "name": "cadcraft",
+    "icon": "cadcraft/icon.png",
+    "source": "https://raw.githubusercontent.com/storytold/cadcraft/e707ab4d7cc10102e550ad4c5bcecef1084a9baa/assets/app-icon/cadcraft-1024.png",
+    "homepage": "https://github.com/storytold/cadcraft",
+    "matchedBy": "upstream-app-icon",
+    "mimeType": "image/png",
+    "license": "MIT",
+    "modifications": "Square full-bleed background; 256px PNG. Artwork preserved; corner rounding delegated to client.",
+    "sha256": "522552718e50e2dd2f0abe2df922498aef713d2e73805d8c8dc9777333df8be0"
+  },
+  {
+    "name": "soundcraft",
+    "icon": "soundcraft/icon.png",
+    "source": "https://raw.githubusercontent.com/storytold/soundcraft/c0cb99340891d306e216582db465f3594b89dc1d/assets/app-icon/icon.svg",
+    "homepage": "https://github.com/storytold/soundcraft",
+    "matchedBy": "upstream-app-icon",
+    "mimeType": "image/png",
+    "license": "MIT",
+    "modifications": "Square full-bleed background; 256px PNG. Artwork preserved; corner rounding delegated to client.",
+    "sha256": "f5780e9b7af3f1d624481e72cfe6e5cdd0367458f58c661538c1f67041800673"
   }
 ]
