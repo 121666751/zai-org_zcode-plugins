@@ -182,8 +182,6 @@ Gen UI is a ZCode host capability, not a separate marketplace entry in this repo
 | **Excalidraw** `excalidraw`     | "Draw a system architecture diagram, then modify a selection" | Canvas editing, autosave, targeted changes, context references, and export; start here for a complete example | Local workspaces; persistent documents are separate from temporary view state                                                                                |
 | **OpenPencil** `openpencil`     | "Create designs/landing.fig and add a hero section"           | `.fig` design documents, design tools, selection references, and generating code from designs                 | One live editor per workspace; `.pen` imports are read-only; exports go to `exports/`                                                                        |
 | **Blender** `blender`           | "Create a Blender scene, add objects, and render a preview"   | `.blend` scenes, 3D previews, materials, cameras, lights, and render resources                                | Real operations require the Blender engine; the fake engine is for tests only                                                                                |
-| **Disk Cleaner** `disk-cleaner` | "Find large files taking up space in Downloads"               | Read-only scans, pagination and filters, candidate selection, plan confirmation, and execution feedback       | Cleanup tools are App-only; confirmed actions move files to Trash and do not permanently delete them                                                         |
-| **Showcase** `showcase`         | "Demonstrate all Showcase cases"                              | SC01–SC53 catalogue: resources, messages, state, sampling, page tools, and failure scenarios                  | Cases are classified as directly interactive, assisted, automation-only, or pending; 53 entries do not mean all 53 are implemented or automatically verified |
 
 ## Development and Debugging
 
@@ -253,17 +251,8 @@ If you already use another local source name, preserve that identity with `pnpm 
 | Official App/AppBridge page communication | Plugin repository | `pnpm test:pages`                                            | Real SDK handshakes, initial results, themes, and cancellation for Blender, Excalidraw, and OpenPencil                    |
 | Excalidraw smoke test                     | Plugin repository | `pnpm --filter @zcode/plugin-excalidraw smoke`               | The actual stdio server and resource interfaces                                                                           |
 | Excalidraw browser interactions           | Plugin repository | `pnpm --filter @zcode/plugin-excalidraw test:e2e`            | Real canvas interactions, saving, undo/redo, and cold starts; the test host bridge does not exercise the Electron sandbox |
-| Showcase desktop integration              | Main repository   | The `--showcase-only` command below                          | The Agent, sandbox, real page, and session communication in the current source                                            |
 
 Run `pnpm build` before testing pages. Browser tests require Chrome, or Chromium selected through `CHROME_PATH`. Excalidraw browser screenshots default to `excalidraw-e2e` under the system temporary directory; set `EXCALIDRAW_E2E_ARTIFACTS` to choose an output path.
-
-```sh
-cd "$ZCODE_REPO"
-ZCODE_SHOWCASE_SERVER="$PLUGINS_REPO/plugins/showcase/dist/server.mjs" \
-  node packages/desktop/scripts/mcp-apps-host-e2e.mjs --showcase-only
-```
-
-The desktop fixture uses a temporary profile and a local model fixture, and prints the results directory at the end. Use the same script with `--retention-only`, `--storage-only`, or `--sampling-only` to test capacity/eviction, stable storage, or sampling respectively. These tests do not replace checks with real system permissions, a real Blender engine, or other operating systems.
 
 ### Troubleshooting
 
@@ -351,7 +340,7 @@ The current host implementation and pinned SDK types define the supported behavi
 | `updateModelContext({ content, structuredContent })`            | Attach a selection or other context to the next turn                 | Requires `updateModelContext`; context is visible and removable in the composer, does not immediately send a message, and is not persistent storage   |
 | `createSamplingMessage(params, { signal })`                     | Call the current task's model from the App                           | Requires `sampling`; accepts text and images within supported limits and returns text; the App supplies conversation history                          |
 | `registerTool(name, config, handler)`                           | Expose page tools for model calls                                    | Register before the handshake and declare the App's `tools` capability; tools are registered/revoked with the live page and follow existing approvals |
-| `onlisttools`, `oncalltool`, `sendToolListChanged()`            | Manage the page tool catalogue manually                              | An alternative way to implement page tools; the callback's cancellation signal is `extra.mcpReq?.signal`; Showcase has a complete example             |
+| `onlisttools`, `oncalltool`, `sendToolListChanged()`            | Manage the page tool catalogue manually                              | An alternative way to implement page tools; the callback's cancellation signal is `extra.mcpReq?.signal`             |
 | `requestDisplayMode({ mode })`                                  | Request a change of display location                                 | `inline` is inline and `fullscreen` uses the side panel; use the returned mode; `pip` currently keeps the existing mode                               |
 | `sendSizeChanged({ height })`                                   | Report content height                                                | SDK automatic measurement is available; for manual measurement, measure the content container to avoid feeding viewport height back to the host       |
 | `openLink({ url })`                                             | Open an external link through the host                               | Allows only `http:` / `https:`                                                                                                                        |
@@ -440,7 +429,7 @@ The page HTML must provide the `<pre>` element used in the example. Real compone
 
 HTML resources currently have a **16 MiB** limit, and page resource reads have an **8 MiB** limit; split large pages into resources. Initial tool results also have limits: `structuredContent` 64 KiB, page metadata 16 KiB, and `content` 32 KiB. Oversized fields are omitted and marked; the page should reread complete data from the server.
 
-**Not yet implemented:** full message-content extensions for image-only/resource-link messages, and bidirectional App tool progress (Showcase SC51/SC52). Existing text-with-image messages, resource reads, and model tool row progress do not establish full support for those capabilities.
+**Not yet implemented:** full message-content extensions for image-only/resource-link messages, and bidirectional App tool progress. Existing text-with-image messages, resource reads, and model tool row progress do not establish full support for those capabilities.
 
 See the [MCP Apps API](https://apps.extensions.modelcontextprotocol.io/api/) and [Quickstart](https://apps.extensions.modelcontextprotocol.io/api/documents/quickstart.html) for official SDK concepts and interfaces. Host behavior is determined by the current source covered by this guide and actual capability negotiation; this guide does not promise compatibility with a particular released version.
 
@@ -452,9 +441,7 @@ See the [MCP Apps API](https://apps.extensions.modelcontextprotocol.io/api/) and
 | Excalidraw MCP tools and document interfaces | [server.ts](ui-plugins/excalidraw/src/adapters/server.ts), [contract.ts](ui-plugins/excalidraw/src/contract.ts)                                                          |
 | Excalidraw page and connection               | [main.tsx](ui-plugins/excalidraw/ui/main.tsx), [client.ts](ui-plugins/excalidraw/ui/client.ts)                                                                           |
 | Excalidraw real-browser regressions          | [e2e.mjs](ui-plugins/excalidraw/scripts/e2e.mjs), [cold-start-e2e.mjs](ui-plugins/excalidraw/scripts/cold-start-e2e.mjs)                                                 |
-| Instructions for the other examples          | [OpenPencil](plugins/openpencil/README.md), [Blender](plugins/blender/README.md), [Disk Cleaner](plugins/disk-cleaner/README.md), [Showcase](plugins/showcase/README.md) |
-| Complete capability demo catalogue           | [cases.json](ui-plugins/showcase/cases.json)                                                                                                                             |
-| Sampling and page tool examples              | [lab-sampling.mjs](ui-plugins/showcase/ui/lab-sampling.mjs), [lab-page-tools.mjs](ui-plugins/showcase/ui/lab-page-tools.mjs)                                             |
+| Instructions for the other examples          | [OpenPencil](plugins/openpencil/README.md), [Blender](plugins/blender/README.md) |
 | General plugin development and build rules   | [Development guide](docs/PLUGIN_DEVELOPMENT.md), [build contract (Chinese)](docs/MCP_APP_BUILD.md)                                                                       |
 
 The main repository's `UI_PLUGIN.en.md` provides the corresponding host source entry points. To check host support, inspect `packages/ui/src/plugin-ui`, `packages/shared/src/mcp-apps`, and `packages/desktop/src/renderer/src/plugin-sandbox/aliasApi.ts` there. Those paths belong to the main repository and are not plugin import dependencies. When APIs change, update the shared capability tables in both repositories and both languages.

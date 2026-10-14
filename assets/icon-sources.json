@@ -2170,14 +2170,6 @@
     "transformation": "Solid background, 512x512 PNG; no baked corner radius"
   },
   {
-    "name": "disk-cleaner",
-    "icon": "disk-cleaner/icon.png",
-    "source": "ZCode authored asset",
-    "sha256": "a58839a8761ecb529b639495262c9b194fa3bbfe947e274cb9e843f126281f63",
-    "mimeType": "image/png",
-    "transformation": "Solid background, 512x512 PNG; no baked corner radius"
-  },
-  {
     "name": "documents",
     "icon": "documents/icon.png",
     "source": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/document-skills/icon.png",
@@ -2302,14 +2294,6 @@
     "icon": "presentations/icon.png",
     "source": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/document-skills/icon.png",
     "sha256": "c94b59af0c2eb4e83b9ab627f5508526f5eed0925a5756c81e8f210fcace1950",
-    "mimeType": "image/png",
-    "transformation": "Solid background, 512x512 PNG; no baked corner radius"
-  },
-  {
-    "name": "showcase",
-    "icon": "showcase/icon.png",
-    "source": "ZCode authored asset",
-    "sha256": "fdee9370d58ab9406e3780021eca7d4e82daf4d2a9a783ea84822aa266d89785",
     "mimeType": "image/png",
     "transformation": "Solid background, 512x512 PNG; no baked corner radius"
   },

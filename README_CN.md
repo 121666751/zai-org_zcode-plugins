@@ -32,9 +32,7 @@
 - `blender` `0.2.2`: 在 ZCode 对话旁打开 Blender 场景：Agent 修改物体、材质、相机并渲染预览；面板用 Three.js 轻量浏览。
 - `excalidraw` `0.2.2`: 让 Agent 生成图形，在对话侧栏用 Excalidraw 编辑、引用选区、继续修改并导出。
 - `openpencil` `0.2.3`: 在对话侧栏用 OpenPencil 编辑工作区里的 Figma .fig 设计稿，Agent 通过设计工具协同修改、引用选区并生成代码。
-- `showcase` `0.4.3`: 完整能力演示目录 SC01–SC53：基础插件 UI、App 内模型问答、取消、保活、浏览器存储、失败与隔离边界。
 - `zcode-mcp-app-dev` `0.1.1`: 使用官方 SDK 开发 ZCode MCP App，附宿主扩展约定与独立构建指引。
-- `disk-cleaner` `0.1.2`: 只读扫描目录占用与大文件，在侧栏逐项确认后移入系统回收站。
 
 - `photocraft` `0.2.2`：PhotoCraft 图像编辑。
 - `vectorcraft` `0.2.2`：VectorCraft 矢量绘图。

@@ -32,9 +32,7 @@ Use this repository to browse available plugins, install the marketplace in comp
 - `blender` `0.2.2`: Edit Blender scenes with an interactive 3D panel and MCP tools.
 - `excalidraw` `0.2.2`: Create and edit diagrams with Excalidraw and MCP tools.
 - `openpencil` `0.2.3`: Edit design files with OpenPencil and MCP tools.
-- `showcase` `0.4.3`: Explore MCP Apps capabilities, interactions, and lifecycle examples.
 - `zcode-mcp-app-dev` `0.1.1`: Develop MCP Apps for ZCode with official SDKs and a small host-extension reference.
-- `disk-cleaner` `0.1.2`: Analyze disk usage and large files, then review selected files before moving them to the system trash.
 
 - `photocraft` `0.2.2`: PhotoCraft image editing.
 - `vectorcraft` `0.2.2`: VectorCraft vector drawing.

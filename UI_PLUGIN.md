@@ -182,8 +182,6 @@ Gen UI 是 ZCode 宿主能力，不是本仓库里需要单独安装的市场条
 | **Excalidraw** `excalidraw`   | “画一张系统架构图，再按选区修改”                   | 画布、自动保存、局部编辑、上下文引用和导出，建议作为首个完整示例 | 本地工作区；持久文档与临时视图分开                                                  |
 | **OpenPencil** `openpencil`   | “新建设计稿 designs/landing.fig，放一个 hero 区块” | `.fig` 设计稿、设计工具、选区引用与按稿生成代码                  | 一个工作区一个活编辑器；`.pen` 只读导入；导出到 `exports/`                          |
 | **Blender** `blender`         | “新建一个 Blender 场景，放置物体并渲染预览”        | `.blend` 场景、3D 预览、材质、相机、灯光和渲染资源               | 真实操作需要 Blender 引擎；假引擎仅用于测试                                         |
-| **磁盘清理器** `disk-cleaner` | “看看下载目录里哪些大文件占空间”                   | 只读扫描、分页筛选、候选选择、确认计划与执行反馈                 | 清理工具仅供页面使用；确认后移入回收站，不提供永久删除                              |
-| **Showcase** `showcase`       | “用 Showcase 演示全部 case”                        | SC01–SC53 目录；资源、消息、状态、sampling、页面工具和失败场景   | 目录项分直接操作、配合操作、自动化专用、待实现；53 项不代表 53 项都已实现或自动验收 |
 
 ## 开发与调试
 
@@ -253,17 +251,8 @@ node apps/zcode-cli/packages/cli/dist/zcode.cjs plugins install excalidraw@zcode
 | 官方 App/AppBridge 页面通信 | 插件仓库   | `pnpm test:pages`                                            | Blender、Excalidraw、OpenPencil 的真实 SDK 握手、初始结果、主题和取消 |
 | Excalidraw 冒烟             | 插件仓库   | `pnpm --filter @zcode/plugin-excalidraw smoke`               | 实际 stdio 服务与资源接口                                             |
 | Excalidraw 浏览器交互       | 插件仓库   | `pnpm --filter @zcode/plugin-excalidraw test:e2e`            | 真实画布交互、保存、撤销/重做和冷启动；测试宿主桥不等于 Electron 沙箱 |
-| Showcase 桌面联调           | 主仓库     | 下方 `--showcase-only` 命令                                  | 当前源码的 Agent、沙箱、真实页面与会话通信                            |
 
 测试页面前先 `pnpm build`；浏览器测试需要 Chrome，或通过 `CHROME_PATH` 指定 Chromium。Excalidraw 浏览器截图默认在系统临时目录的 `excalidraw-e2e`，可用 `EXCALIDRAW_E2E_ARTIFACTS` 指定输出路径。
-
-```sh
-cd "$ZCODE_REPO"
-ZCODE_SHOWCASE_SERVER="$PLUGINS_REPO/plugins/showcase/dist/server.mjs" \
-  node packages/desktop/scripts/mcp-apps-host-e2e.mjs --showcase-only
-```
-
-桌面 fixture 使用临时 profile 与本地模型 fixture，末尾输出结果目录。容量/回收、稳定存储、sampling 可分别运行同脚本的 `--retention-only`、`--storage-only`、`--sampling-only`。运行这些测试不会替代具体插件的真实系统权限、真实 Blender 引擎或跨平台验证。
 
 ### 常见问题定位
 
@@ -351,7 +340,7 @@ stdio MCP 服务的 stdout 只输出协议消息，调试日志写 stderr。定�
 | `updateModelContext({ content, structuredContent })`            | 给下一轮对话附加选区等上下文         | 需要 `updateModelContext` 能力；在输入区可见、可删，不立即发消息，不是持久存储                |
 | `createSamplingMessage(params, { signal })`                     | App 内调用当前任务模型               | 需要 `sampling` 能力；支持文本与符合限制的图片输入，返回文本；对话历史由 App 提供             |
 | `registerTool(name, config, handler)`                           | 页面提供可被模型调用的工具           | 握手前登记；声明 App 的 `tools` 能力；随活页面登记/撤销并遵守既有审批                         |
-| `onlisttools`、`oncalltool`、`sendToolListChanged()`            | 手动管理页面工具目录                 | 是另一种页面工具实现方式；取消信号在回调 `extra.mcpReq?.signal` 中；Showcase 提供完整例子     |
+| `onlisttools`、`oncalltool`、`sendToolListChanged()`            | 手动管理页面工具目录                 | 是另一种页面工具实现方式；取消信号在回调 `extra.mcpReq?.signal` 中     |
 | `requestDisplayMode({ mode })`                                  | 请求切换展示位置                     | `inline` 为内联，`fullscreen` 为侧栏；以返回模式为准；`pip` 当前保持原模式                    |
 | `sendSizeChanged({ height })`                                   | 报告内容高度                         | 可用 SDK 自动测量；手动测量内容容器，避免把视口高度反馈给宿主                                 |
 | `openLink({ url })`                                             | 通过宿主打开外链                     | 仅允许 `http:` / `https:`                                                                     |
@@ -440,7 +429,7 @@ async function saveViewState(state: unknown) {
 
 当前 HTML 资源上限 **16 MiB**，页面资源读取上限 **8 MiB**；大页面可拆分资源。初始工具结果存在大小限制：`structuredContent` 64 KiB、页面元数据 16 KiB、`content` 32 KiB；超限字段会被省略并标记，页面应从服务重新读取完整数据。
 
-**尚未实现的范围：**纯图片/资源链接的完整消息内容扩展、App 工具双向进度（Showcase SC51/SC52）。已有的文本附图、资源读取、模型工具行进度不能视为这些能力已经齐备。
+**尚未实现的范围：**纯图片/资源链接的完整消息内容扩展、App 工具双向进度。已有的文本附图、资源读取、模型工具行进度不能视为这些能力已经齐备。
 
 官方 SDK 的概念与接口入口见 [MCP Apps API](https://apps.extensions.modelcontextprotocol.io/api/) 和 [Quickstart](https://apps.extensions.modelcontextprotocol.io/api/documents/quickstart.html)。宿主行为以本文对应的当前源码和实际能力协商为准，不据此承诺某个已发布版本的兼容范围。
 
@@ -452,9 +441,7 @@ async function saveViewState(state: unknown) {
 | Excalidraw MCP 工具与文档接口 | [server.ts](ui-plugins/excalidraw/src/adapters/server.ts)、[contract.ts](ui-plugins/excalidraw/src/contract.ts)                                                          |
 | Excalidraw 页面与连接         | [main.tsx](ui-plugins/excalidraw/ui/main.tsx)、[client.ts](ui-plugins/excalidraw/ui/client.ts)                                                                           |
 | Excalidraw 真实浏览器回归     | [e2e.mjs](ui-plugins/excalidraw/scripts/e2e.mjs)、[cold-start-e2e.mjs](ui-plugins/excalidraw/scripts/cold-start-e2e.mjs)                                                 |
-| 其他示例的操作说明            | [OpenPencil](plugins/openpencil/README.md)、[Blender](plugins/blender/README.md)、[Disk Cleaner](plugins/disk-cleaner/README.md)、[Showcase](plugins/showcase/README.md) |
-| 完整能力演示目录              | [cases.json](ui-plugins/showcase/cases.json)                                                                                                                             |
-| Sampling 和页面工具示例       | [lab-sampling.mjs](ui-plugins/showcase/ui/lab-sampling.mjs)、[lab-page-tools.mjs](ui-plugins/showcase/ui/lab-page-tools.mjs)                                             |
+| 其他示例的操作说明            | [OpenPencil](plugins/openpencil/README.md)、[Blender](plugins/blender/README.md) |
 | 通用插件开发与构建规则        | [开发教程](docs/PLUGIN_DEVELOPMENT_CN.md)、[构建约定](docs/MCP_APP_BUILD.md)                                                                                             |
 
 主仓库的 `UI_PLUGIN.md` 提供对应宿主源码入口。核对宿主支持范围时查看 `packages/ui/src/plugin-ui`、`packages/shared/src/mcp-apps` 和 `packages/desktop/src/renderer/src/plugin-sandbox/aliasApi.ts`；这些路径属于主仓库，不是插件的导入依赖。API 调整时同步维护两边文档中英文版的公共能力表。

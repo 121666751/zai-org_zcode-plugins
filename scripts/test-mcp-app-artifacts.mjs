@@ -3,7 +3,6 @@ import { cp, mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { spawn } from "node:child_process";
 import { readMcpServers } from "./plugin-catalog.mjs";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
@@ -91,8 +90,6 @@ try {
             arguments: { title: "Artifact test", elements: [] },
           },
           openpencil: { name: "new_design", arguments: { path: "artifact.fig" } },
-          showcase: { name: "show_dashboard", arguments: {} },
-          "disk-cleaner": { name: "open_disk_cleaner", arguments: {} },
         }[short];
         if (create) {
           const created = await client.callTool(create);
@@ -106,20 +103,6 @@ try {
             assert.ok(
               (await client.readResource({ uri: `ui://${name}/assets/${file}` })).contents[0]?.text,
             );
-        }
-        if (short === "disk-cleaner") {
-          // 在复制出的安装目录启动完整清理回归；测试只移动自己生成的临时文件。
-          await new Promise((accept, reject) => {
-            const child = spawn(
-              process.execPath,
-              [join(root, "ui-plugins", name, "scripts/smoke.mjs"), installed],
-              { cwd: temporary, stdio: "inherit" },
-            );
-            child.on("error", reject);
-            child.on("exit", (code) =>
-              code === 0 ? accept() : reject(new Error(`Disk cleaner smoke failed: ${code}`)),
-            );
-          });
         }
         console.log(`PASS isolated artifact ${name}@${manifest.version}`);
       } catch (error) {

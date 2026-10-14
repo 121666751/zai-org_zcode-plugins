@@ -16,9 +16,9 @@ Craft 插件的网页编译快照 `ui-plugins/<name>/web/` 同样是构建输出
 
 ## 插件命名
 
-这批 UI 插件使用简短名称 `blender`、`disk-cleaner`、`excalidraw`、`openpencil`、`showcase`。源码目录 `ui-plugins/<name>`、安装目录 `plugins/<name>`、marketplace 条目、安装清单 `name`、MCP 服务身份和 `ui://<name>/...` 资源地址保持一致；没有产品前缀要求。构建清单仍为唯一目录来源。
+这批 UI 插件使用简短名称 `blender`、`excalidraw`、`openpencil`。源码目录 `ui-plugins/<name>`、安装目录 `plugins/<name>`、marketplace 条目、安装清单 `name`、MCP 服务身份和 `ui://<name>/...` 资源地址保持一致；没有产品前缀要求。构建清单仍为唯一目录来源。
 
-用户可见名称由根 marketplace 条目的 `displayName` / `displayName_i18n` 持有，不依赖文件夹名称或从 ID 推导大小写。这五个条目分别显示为 Blender、Excalidraw、OpenPencil、Showcase、Disk Cleaner（中文为磁盘清理器），页面标题也不带产品前缀。本地来源与正式分发目录保留这些展示字段；宿主按完整插件 ID 关联 listing。
+用户可见名称由根 marketplace 条目的 `displayName` / `displayName_i18n` 持有，不依赖文件夹名称或从 ID 推导大小写。这三个条目分别显示为 Blender、Excalidraw、OpenPencil，页面标题也不带产品前缀。本地来源与正式分发目录保留这些展示字段；宿主按完整插件 ID 关联 listing。
 
 改名同步更新客户端、服务端、资源读取、文档、测试和锁文件的工作区路径；安装产物内容变化按版本规则升级。开发安装以插件 ID 区分，新名称须按普通流程重新安装；不自动删除旧安装或迁移旧插件数据。新旧安装中的页面与服务分别使用各自一致的资源地址。刷新来源只更新目录，旧 ID 的已安装副本不会因此改名；更新开发安装时应安装新 ID，并停用旧 ID，保留旧数据。
 
@@ -94,4 +94,4 @@ OpenPencil 的面板资源在 `_meta["zcode/csp"]` 声明 `wasmUnsafeEval` 与 `
 
 使用 Node.js 24.14.0 和 pnpm 10.33.2。依次运行 `pnpm install --frozen-lockfile`、`pnpm build`、`pnpm typecheck`、`pnpm lint`、`pnpm test`、`pnpm test:artifacts`、`python3 scripts/validate.py`、`python3 scripts/build_dist.py`。注册成功与真实桌面交互通过分别报告。
 
-已有插件的专属行为回归仍保留各自测试。Showcase 的桌面集成测试在主应用仓库运行：设置 `ZCODE_SHOWCASE_SERVER` 为安装产物 `plugins/showcase/dist/server.mjs` 的绝对路径，再执行 `node packages/desktop/scripts/mcp-apps-host-e2e.mjs --showcase-only`。浏览器协议测试使用 `pnpm test:pages`，需要 Chrome 或 `CHROME_PATH`；这些测试不替代真实桌面安全隔离验证。
+已有插件的专属行为回归仍保留各自测试。浏览器协议测试使用 `pnpm test:pages`，需要 Chrome 或 `CHROME_PATH`；这些测试不替代真实桌面安全隔离验证。

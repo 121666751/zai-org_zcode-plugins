@@ -852,48 +852,6 @@
       "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/openpencil/icon.png"
     },
     {
-      "name": "showcase",
-      "componentTypes": ["ui"],
-      "displayName": "Showcase",
-      "displayName_i18n": {
-        "en": "Showcase",
-        "zh-CN": "Showcase"
-      },
-      "version": "0.4.3",
-      "source": "./plugins/showcase",
-      "description": "完整能力演示目录 SC01–SC53：基础插件 UI、App 内模型问答、取消、保活、浏览器存储、失败与隔离边界。",
-      "description_i18n": {
-        "en": "Explore MCP Apps capabilities, interactions, and lifecycle examples.",
-        "zh-CN": "完整能力演示目录 SC01–SC53：基础插件 UI、App 内模型问答、取消、保活、浏览器存储、失败与隔离边界。"
-      },
-      "category": "developer-tools",
-      "author": {
-        "name": "ZCode"
-      },
-      "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/showcase/icon.png"
-    },
-    {
-      "name": "disk-cleaner",
-      "componentTypes": ["ui"],
-      "displayName": "Disk Cleaner",
-      "displayName_i18n": {
-        "en": "Disk Cleaner",
-        "zh-CN": "磁盘清理器"
-      },
-      "version": "0.1.2",
-      "source": "./plugins/disk-cleaner",
-      "description": "只读扫描目录占用与大文件，在侧栏逐项确认后移入系统回收站。",
-      "description_i18n": {
-        "en": "Analyze disk usage and large files, then review selected files before moving them to the system trash.",
-        "zh-CN": "只读扫描目录占用与大文件，在侧栏逐项确认后移入系统回收站。"
-      },
-      "author": {
-        "name": "ZCode"
-      },
-      "category": "utilities",
-      "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/disk-cleaner/icon.png"
-    },
-    {
       "name": "photocraft",
       "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/photocraft/icon.png",
       "source": "./plugins/photocraft",
