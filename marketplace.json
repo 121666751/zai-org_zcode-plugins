@@ -1138,6 +1138,38 @@
           "生成一个可 3D 打印的骑士小雕像，导出 STL 文件"
         ]
       }
+    },
+    {
+      "name": "zcode-context",
+      "source": "./external_plugins/zcode-context",
+      "description": "Read-only session usage, model input composition, request differences and compaction events.",
+      "description_i18n": {
+        "en": "Read-only session usage, model input composition, request differences and compaction events.",
+        "zh-CN": "只读查看会话用量、模型输入组成、请求差异和压缩事件。"
+      },
+      "version": "0.3.9",
+      "author": {
+        "name": "Kevinzzz6",
+        "url": "https://github.com/Kevinzzz6"
+      },
+      "category": "developer-tools",
+      "keywords": [
+        "context",
+        "tokens",
+        "usage",
+        "session",
+        "mcp"
+      ],
+      "examplePrompts": [
+        "Show the context composition of this session and which category takes the most room",
+        "What did the last compaction summarize away?"
+      ],
+      "examplePrompts_i18n": {
+        "zh-CN": [
+          "看看这个会话的上下文组成，哪一类内容占得最多",
+          "上一次压缩摘要掉了哪些内容？"
+        ]
+      }
     }
   ]
 }
