@@ -1173,6 +1173,7 @@
     },
     {
       "name": "jupyter-notebook",
+      "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/jupyter-notebook/icon.png",
       "componentTypes": [
         "ui"
       ],
@@ -1195,6 +1196,7 @@
     },
     {
       "name": "typst-workbench",
+      "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/typst-workbench/icon.png",
       "componentTypes": [
         "ui"
       ],
@@ -1217,6 +1219,7 @@
     },
     {
       "name": "zotero",
+      "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/zotero/icon.png",
       "componentTypes": [
         "ui"
       ],

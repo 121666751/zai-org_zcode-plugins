@@ -2475,5 +2475,29 @@
     "license": "MIT",
     "modifications": "Square full-bleed background; 256px PNG. Artwork preserved; corner rounding delegated to client.",
     "sha256": "f5780e9b7af3f1d624481e72cfe6e5cdd0367458f58c661538c1f67041800673"
+  },
+  {
+    "name": "typst-workbench",
+    "icon": "typst-workbench/icon.png",
+    "source": "ZCode authored asset",
+    "sha256": "28a15347a420230e464fe19ddc634a7ecd72565b8aa8739a0107fd3e12d5a2bc",
+    "mimeType": "image/png",
+    "transformation": "Solid background, 512x512 PNG; no baked corner radius"
+  },
+  {
+    "name": "jupyter-notebook",
+    "icon": "jupyter-notebook/icon.png",
+    "source": "ZCode authored asset",
+    "sha256": "167539ba9f405bb96023cd83c2d219d126f816b5f99a2b4db445a23c1deb9f94",
+    "mimeType": "image/png",
+    "transformation": "Solid background, 512x512 PNG; no baked corner radius"
+  },
+  {
+    "name": "zotero",
+    "icon": "zotero/icon.png",
+    "source": "ZCode authored asset",
+    "sha256": "f3f4002481f4b84175634de34730af02bde2cf125fab10add753425fc8dc0727",
+    "mimeType": "image/png",
+    "transformation": "Solid background, 512x512 PNG; no baked corner radius"
   }
 ]
