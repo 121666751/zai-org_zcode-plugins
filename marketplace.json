@@ -817,8 +817,8 @@
         "en": "Excalidraw",
         "zh-CN": "Excalidraw"
       },
-      "version": "0.2.2",
-      "source": "./plugins/excalidraw",
+      "version": "0.2.3",
+      "source": "./external_plugins/excalidraw",
       "description": "让 Agent 生成图形，在对话侧栏用 Excalidraw 编辑、引用选区、继续修改并导出。",
       "description_i18n": {
         "en": "Create and edit diagrams with Excalidraw and MCP tools.",
@@ -826,7 +826,7 @@
       },
       "category": "productivity",
       "author": {
-        "name": "ZCode"
+        "name": "zcoder"
       },
       "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/excalidraw/icon.png"
     },
@@ -838,8 +838,8 @@
         "en": "OpenPencil",
         "zh-CN": "OpenPencil"
       },
-      "version": "0.3.1",
-      "source": "./plugins/openpencil",
+      "version": "0.3.2",
+      "source": "./external_plugins/openpencil",
       "description": "在对话侧栏用 OpenPencil 编辑工作区里的 Figma .fig 设计稿，Agent 通过设计工具协同修改、引用选区并生成代码。",
       "description_i18n": {
         "en": "Edit design files with OpenPencil and MCP tools.",
@@ -847,14 +847,14 @@
       },
       "category": "productivity",
       "author": {
-        "name": "ZCode"
+        "name": "zcoder"
       },
       "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/openpencil/icon.png"
     },
     {
       "name": "photocraft",
       "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/photocraft/icon.png",
-      "source": "./plugins/photocraft",
+      "source": "./external_plugins/photocraft",
       "componentTypes": ["ui"],
       "displayName": "PhotoCraft",
       "displayName_i18n": {
@@ -866,9 +866,9 @@
         "en": "PhotoCraft image editing in a ZCode panel, with workspace file opening and host-mediated exports.",
         "zh-CN": "在 ZCode 面板中使用 PhotoCraft 进行图片编辑，支持打开工作区文件和通过宿主保存导出。"
       },
-      "version": "0.2.2",
+      "version": "0.2.3",
       "author": {
-        "name": "ZCode"
+        "name": "zcoder"
       },
       "category": "productivity",
       "keywords": [
@@ -881,7 +881,7 @@
     {
       "name": "vectorcraft",
       "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/vectorcraft/icon.png",
-      "source": "./plugins/vectorcraft",
+      "source": "./external_plugins/vectorcraft",
       "componentTypes": ["ui"],
       "displayName": "VectorCraft",
       "displayName_i18n": {
@@ -893,9 +893,9 @@
         "en": "VectorCraft vector illustration in a ZCode panel, with workspace file opening and host-mediated exports.",
         "zh-CN": "在 ZCode 面板中使用 VectorCraft 进行矢量绘图，支持打开工作区文件和通过宿主保存导出。"
       },
-      "version": "0.2.2",
+      "version": "0.2.3",
       "author": {
-        "name": "ZCode"
+        "name": "zcoder"
       },
       "category": "productivity",
       "keywords": [
@@ -908,7 +908,7 @@
     {
       "name": "pdfcraft",
       "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/pdfcraft/icon.png",
-      "source": "./plugins/pdfcraft",
+      "source": "./external_plugins/pdfcraft",
       "componentTypes": ["ui"],
       "displayName": "PdfCraft",
       "displayName_i18n": {
@@ -920,9 +920,9 @@
         "en": "PdfCraft PDF editing in a ZCode panel, with workspace file opening and host-mediated exports.",
         "zh-CN": "在 ZCode 面板中使用 PdfCraft 进行PDF 编辑，支持打开工作区文件和通过宿主保存导出。"
       },
-      "version": "0.2.2",
+      "version": "0.2.3",
       "author": {
-        "name": "ZCode"
+        "name": "zcoder"
       },
       "category": "productivity",
       "keywords": [
@@ -935,7 +935,7 @@
     {
       "name": "designcraft",
       "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/designcraft/icon.png",
-      "source": "./plugins/designcraft",
+      "source": "./external_plugins/designcraft",
       "componentTypes": ["ui"],
       "displayName": "DesignCraft",
       "displayName_i18n": {
@@ -947,9 +947,9 @@
         "en": "DesignCraft page layout in a ZCode panel, with workspace file opening and host-mediated exports.",
         "zh-CN": "在 ZCode 面板中使用 DesignCraft 进行页面排版，支持打开工作区文件和通过宿主保存导出。"
       },
-      "version": "0.2.2",
+      "version": "0.2.3",
       "author": {
-        "name": "ZCode"
+        "name": "zcoder"
       },
       "category": "productivity",
       "keywords": [
@@ -962,7 +962,7 @@
     {
       "name": "wordcraft",
       "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/wordcraft/icon.png",
-      "source": "./plugins/wordcraft",
+      "source": "./external_plugins/wordcraft",
       "componentTypes": ["ui"],
       "displayName": "WordCraft",
       "displayName_i18n": {
@@ -974,9 +974,9 @@
         "en": "WordCraft word processing in a ZCode panel, with workspace file opening and host-mediated exports.",
         "zh-CN": "在 ZCode 面板中使用 WordCraft 进行文字处理，支持打开工作区文件和通过宿主保存导出。"
       },
-      "version": "0.2.2",
+      "version": "0.2.3",
       "author": {
-        "name": "ZCode"
+        "name": "zcoder"
       },
       "category": "productivity",
       "keywords": [
@@ -989,7 +989,7 @@
     {
       "name": "gridcraft",
       "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/gridcraft/icon.png",
-      "source": "./plugins/gridcraft",
+      "source": "./external_plugins/gridcraft",
       "componentTypes": ["ui"],
       "displayName": "GridCraft",
       "displayName_i18n": {
@@ -1001,9 +1001,9 @@
         "en": "GridCraft spreadsheets in a ZCode panel, with workspace file opening and host-mediated exports.",
         "zh-CN": "在 ZCode 面板中使用 GridCraft 进行电子表格，支持打开工作区文件和通过宿主保存导出。"
       },
-      "version": "0.2.2",
+      "version": "0.2.3",
       "author": {
-        "name": "ZCode"
+        "name": "zcoder"
       },
       "category": "productivity",
       "keywords": [
@@ -1016,7 +1016,7 @@
     {
       "name": "deckcraft",
       "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/deckcraft/icon.png",
-      "source": "./plugins/deckcraft",
+      "source": "./external_plugins/deckcraft",
       "componentTypes": ["ui"],
       "displayName": "DeckCraft",
       "displayName_i18n": {
@@ -1028,9 +1028,9 @@
         "en": "DeckCraft presentations in a ZCode panel, with workspace file opening and host-mediated exports.",
         "zh-CN": "在 ZCode 面板中使用 DeckCraft 进行演示文稿，支持打开工作区文件和通过宿主保存导出。"
       },
-      "version": "0.2.2",
+      "version": "0.2.3",
       "author": {
-        "name": "ZCode"
+        "name": "zcoder"
       },
       "category": "productivity",
       "keywords": [
@@ -1043,7 +1043,7 @@
     {
       "name": "cadcraft",
       "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/cadcraft/icon.png",
-      "source": "./plugins/cadcraft",
+      "source": "./external_plugins/cadcraft",
       "componentTypes": ["ui"],
       "displayName": "CADCraft",
       "displayName_i18n": {
@@ -1055,9 +1055,9 @@
         "en": "CADCraft CAD drafting in a ZCode panel, with workspace file opening and host-mediated exports.",
         "zh-CN": "在 ZCode 面板中使用 CADCraft 进行CAD 绘图，支持打开工作区文件和通过宿主保存导出。"
       },
-      "version": "0.2.2",
+      "version": "0.2.3",
       "author": {
-        "name": "ZCode"
+        "name": "zcoder"
       },
       "category": "productivity",
       "keywords": [
@@ -1070,7 +1070,7 @@
     {
       "name": "soundcraft",
       "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/soundcraft/icon.png",
-      "source": "./plugins/soundcraft",
+      "source": "./external_plugins/soundcraft",
       "componentTypes": ["ui"],
       "displayName": "SoundCraft",
       "displayName_i18n": {
@@ -1082,9 +1082,9 @@
         "en": "SoundCraft audio editing in a ZCode panel, with workspace file opening and host-mediated exports.",
         "zh-CN": "在 ZCode 面板中使用 SoundCraft 进行音频编辑，支持打开工作区文件和通过宿主保存导出。"
       },
-      "version": "0.2.2",
+      "version": "0.2.3",
       "author": {
-        "name": "ZCode"
+        "name": "zcoder"
       },
       "category": "productivity",
       "keywords": [

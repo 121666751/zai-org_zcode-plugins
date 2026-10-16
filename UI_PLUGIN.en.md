@@ -190,7 +190,7 @@ Gen UI is a ZCode host capability, not a separate marketplace entry in this repo
 | Repository                                                        | Branch           | What to change                                                                 | Where to run or find it                                                   |
 | ----------------------------------------------------------------- | ---------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------- |
 | [zai-org/ZCode](https://github.com/zai-org/ZCode)                 | `feat/ui-plugin` | Host protocol, side panels and inline views, sandbox, approvals, and lifecycle | `pnpm dev:desktop`                                                        |
-| [zai-org/zcode-plugins](https://github.com/zai-org/zcode-plugins) | `feat/ui-plugin` | Plugin manifests, MCP servers, pages, application data, and resource packaging | Sources in `ui-plugins/<name>`; installable artifacts in `plugins/<name>` |
+| [zai-org/zcode-plugins](https://github.com/zai-org/zcode-plugins) | `feat/ui-plugin` | Plugin manifests, MCP servers, pages, application data, and resource packaging | Sources in `ui-plugins/<name>`; installable artifacts in `plugins/<name>` or `external_plugins/<name>` |
 
 The development and debugging steps in this guide target the `feat/ui-plugin` branch in each repository. **This branch is not yet available in the public ZCode repository.** Once it is ready, check it out from the repository above to test plugins with the host.
 
@@ -437,11 +437,11 @@ See the [MCP Apps API](https://apps.extensions.modelcontextprotocol.io/api/) and
 
 | Area to inspect                              | Current source entry point                                                                                                                                               |
 | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Excalidraw features and installation         | [README](plugins/excalidraw/README.md), [manifest](plugins/excalidraw/.zcode-plugin/plugin.json)                                                                         |
+| Excalidraw features and installation         | [README](external_plugins/excalidraw/README.md), [manifest](external_plugins/excalidraw/.zcode-plugin/plugin.json)                                                                         |
 | Excalidraw MCP tools and document interfaces | [server.ts](ui-plugins/excalidraw/src/adapters/server.ts), [contract.ts](ui-plugins/excalidraw/src/contract.ts)                                                          |
 | Excalidraw page and connection               | [main.tsx](ui-plugins/excalidraw/ui/main.tsx), [client.ts](ui-plugins/excalidraw/ui/client.ts)                                                                           |
 | Excalidraw real-browser regressions          | [e2e.mjs](ui-plugins/excalidraw/scripts/e2e.mjs), [cold-start-e2e.mjs](ui-plugins/excalidraw/scripts/cold-start-e2e.mjs)                                                 |
-| Instructions for the other examples          | [OpenPencil](plugins/openpencil/README.md), [Blender](plugins/blender/README.md) |
+| Instructions for the other examples          | [OpenPencil](external_plugins/openpencil/README.md), [Blender](plugins/blender/README.md) |
 | General plugin development and build rules   | [Development guide](docs/PLUGIN_DEVELOPMENT.md), [build contract (Chinese)](docs/MCP_APP_BUILD.md)                                                                       |
 
 The main repository's `UI_PLUGIN.en.md` provides the corresponding host source entry points. To check host support, inspect `packages/ui/src/plugin-ui`, `packages/shared/src/mcp-apps`, and `packages/desktop/src/renderer/src/plugin-sandbox/aliasApi.ts` there. Those paths belong to the main repository and are not plugin import dependencies. When APIs change, update the shared capability tables in both repositories and both languages.

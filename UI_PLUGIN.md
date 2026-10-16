@@ -190,7 +190,7 @@ Gen UI 是 ZCode 宿主能力，不是本仓库里需要单独安装的市场条
 | 仓库地址                                                          | 分支             | 修改范围                                       | 运行位置                                                |
 | ----------------------------------------------------------------- | ---------------- | ---------------------------------------------- | ------------------------------------------------------- |
 | [zai-org/ZCode](https://github.com/zai-org/ZCode)                 | `feat/ui-plugin` | 宿主协议、侧栏和内联展示、沙箱、审批与生命周期 | `pnpm dev:desktop`                                      |
-| [zai-org/zcode-plugins](https://github.com/zai-org/zcode-plugins) | `feat/ui-plugin` | 插件清单、MCP 服务、页面、业务数据与资源打包   | `ui-plugins/<name>` 为源码；`plugins/<name>` 为安装产物 |
+| [zai-org/zcode-plugins](https://github.com/zai-org/zcode-plugins) | `feat/ui-plugin` | 插件清单、MCP 服务、页面、业务数据与资源打包   | `ui-plugins/<name>` 为源码；`plugins/<name>` 或 `external_plugins/<name>` 为安装产物 |
 
 本文的开发与调试步骤对应两个仓库各自的 `feat/ui-plugin` 分支。**ZCode 公开仓库的该分支目前尚未建好**，待分支准备就绪后再从上述仓库检出并联调。
 
@@ -437,11 +437,11 @@ async function saveViewState(state: unknown) {
 
 | 目标                          | 当前源码入口                                                                                                                                                             |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Excalidraw 功能与安装说明     | [README](plugins/excalidraw/README.md)、[清单](plugins/excalidraw/.zcode-plugin/plugin.json)                                                                             |
+| Excalidraw 功能与安装说明     | [README](external_plugins/excalidraw/README.md)、[清单](external_plugins/excalidraw/.zcode-plugin/plugin.json)                                                                             |
 | Excalidraw MCP 工具与文档接口 | [server.ts](ui-plugins/excalidraw/src/adapters/server.ts)、[contract.ts](ui-plugins/excalidraw/src/contract.ts)                                                          |
 | Excalidraw 页面与连接         | [main.tsx](ui-plugins/excalidraw/ui/main.tsx)、[client.ts](ui-plugins/excalidraw/ui/client.ts)                                                                           |
 | Excalidraw 真实浏览器回归     | [e2e.mjs](ui-plugins/excalidraw/scripts/e2e.mjs)、[cold-start-e2e.mjs](ui-plugins/excalidraw/scripts/cold-start-e2e.mjs)                                                 |
-| 其他示例的操作说明            | [OpenPencil](plugins/openpencil/README.md)、[Blender](plugins/blender/README.md) |
+| 其他示例的操作说明            | [OpenPencil](external_plugins/openpencil/README.md)、[Blender](plugins/blender/README.md) |
 | 通用插件开发与构建规则        | [开发教程](docs/PLUGIN_DEVELOPMENT_CN.md)、[构建约定](docs/MCP_APP_BUILD.md)                                                                                             |
 
 主仓库的 `UI_PLUGIN.md` 提供对应宿主源码入口。核对宿主支持范围时查看 `packages/ui/src/plugin-ui`、`packages/shared/src/mcp-apps` 和 `packages/desktop/src/renderer/src/plugin-sandbox/aliasApi.ts`；这些路径属于主仓库，不是插件的导入依赖。API 调整时同步维护两边文档中英文版的公共能力表。

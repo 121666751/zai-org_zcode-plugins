@@ -29,24 +29,26 @@ Use this repository to browse available plugins, install the marketplace in comp
 
 ### UI plugins
 
+Excalidraw, OpenPencil, and the nine Craft plugins are community plugins maintained by `zcoder` in [`external_plugins/`](./external_plugins/).
+
 - `blender` `0.2.2`: Edit Blender scenes with an interactive 3D panel and MCP tools.
-- `excalidraw` `0.2.2`: Create and edit diagrams with Excalidraw and MCP tools.
-- `openpencil` `0.2.3`: Edit design files with OpenPencil and MCP tools.
+- `excalidraw` `0.2.3`: Create and edit diagrams with Excalidraw and MCP tools.
+- `openpencil` `0.3.2`: Edit design files with OpenPencil and MCP tools.
 - `zcode-mcp-app-dev` `0.1.1`: Develop MCP Apps for ZCode with official SDKs and a small host-extension reference.
 
-- `photocraft` `0.2.2`: PhotoCraft image editing.
-- `vectorcraft` `0.2.2`: VectorCraft vector drawing.
-- `pdfcraft` `0.2.2`: PdfCraft PDF editing.
-- `designcraft` `0.2.2`: DesignCraft page layout.
-- `wordcraft` `0.2.2`: WordCraft word processing.
-- `gridcraft` `0.2.2`: GridCraft spreadsheets.
-- `deckcraft` `0.2.2`: DeckCraft presentations.
-- `cadcraft` `0.2.2`: CADCraft CAD drawings.
-- `soundcraft` `0.2.2`: SoundCraft audio editing.
+- `photocraft` `0.2.3`: PhotoCraft image editing.
+- `vectorcraft` `0.2.3`: VectorCraft vector drawing.
+- `pdfcraft` `0.2.3`: PdfCraft PDF editing.
+- `designcraft` `0.2.3`: DesignCraft page layout.
+- `wordcraft` `0.2.3`: WordCraft word processing.
+- `gridcraft` `0.2.3`: GridCraft spreadsheets.
+- `deckcraft` `0.2.3`: DeckCraft presentations.
+- `cadcraft` `0.2.3`: CADCraft CAD drawings.
+- `soundcraft` `0.2.3`: SoundCraft audio editing.
 
 These nine Craft plugins embed pinned Trunk/WASM editors, with workspace imports, saves and all 334 upstream MCP tool definitions connected to the live editor. Native-only capabilities remain subject to the Web platform boundary. See the [adapter documentation](./ui-plugins/craft-runtime/README.md) for build provenance, limitations and validation.
 
-UI plugin runtimes (`plugins/<name>/dist/`) are build outputs and are not committed. The release pipeline builds them from `ui-plugins/` and publishes the ZIPs; a Git checkout alone cannot install a compiled UI plugin. For source development use Node.js 24+ and pnpm 10.33.2: run `pnpm install --frozen-lockfile` and `pnpm build`, then register `dist/local-marketplace`. Rebuild after changing a plugin's source or version.
+UI plugin runtimes (`plugins/<name>/dist/` / `external_plugins/<name>/dist/`) are build outputs and are not committed. The release pipeline builds them from `ui-plugins/` and publishes the ZIPs; a Git checkout alone cannot install a compiled UI plugin. For source development use Node.js 24+ and pnpm 10.33.2: run `pnpm install --frozen-lockfile` and `pnpm build`, then register `dist/local-marketplace`. Rebuild after changing a plugin's source or version.
 
 ### Finance plugins
 
@@ -130,4 +132,4 @@ Apache License 2.0
 
 ## MCP Apps
 
-Interactive plugin sources are maintained in `ui-plugins/` and their installable packages in `plugins/`. See [build and verification](docs/MCP_APP_BUILD.md). The optional `zcode-mcp-app-dev` skill provides official SDK guidance and ZCode extension examples; it is not a runtime dependency.
+Interactive plugin sources are maintained in `ui-plugins/` and their installable packages in `plugins/` or `external_plugins/`. See [build and verification](docs/MCP_APP_BUILD.md). The optional `zcode-mcp-app-dev` skill provides official SDK guidance and ZCode extension examples; it is not a runtime dependency.

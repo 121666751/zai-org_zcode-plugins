@@ -10,9 +10,11 @@ import { build } from "esbuild";
 import { chromium } from "playwright-core";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+import { readPluginCatalog } from "./plugin-catalog.mjs";
 import { checkOpenPencilEditor } from "./tests/openpencil-editor.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const { plugins } = await readPluginCatalog(root);
 const host = await build({
   stdin: {
     contents: `
@@ -61,7 +63,8 @@ try {
     (name) => !process.argv[2] || name === process.argv[2],
   )) {
     const temporary = await mkdtemp(join(tmpdir(), "mcp-app-page-"));
-    const plugin = join(root, "plugins", short);
+    const plugin = plugins.find(({ entry }) => entry.name === short)?.installed;
+    assert.ok(plugin, `Missing marketplace entry: ${short}`);
     const transport = new StdioClientTransport({
       command: process.execPath,
       args: [join(plugin, "dist/server.mjs")],
