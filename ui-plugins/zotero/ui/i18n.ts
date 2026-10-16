@@ -15,7 +15,7 @@ export const DOWNLOAD_URL = "https://www.zotero.org/download/";
 /** 手动安装：每个系统一条命令。 */
 export const MANUAL_COMMANDS = {
   macos: "brew install --cask zotero",
-  windows: "winget install --id DigitalScholar.Zotero",
+  windows: "winget install --id DigitalScholar.Zotero -e --source winget --accept-source-agreements --accept-package-agreements",
   linux: "flatpak install flathub org.zotero.Zotero",
 } as const;
 

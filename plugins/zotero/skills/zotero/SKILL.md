@@ -53,7 +53,7 @@ Writes go through Zotero's own permission dialog (Zotero 8 or later). The first 
 
 When the user asks you to install or update Zotero — usually with the panel's message *Set up Zotero for the Zotero panel*, which lists the operating system, where it looked and the package managers it found — follow its steps:
 
-- Install Zotero 7 or later with the package manager the message names: `brew install --cask zotero` (Homebrew), `winget install --id DigitalScholar.Zotero`, or `flatpak install flathub org.zotero.Zotero`. Otherwise use the official installer from https://www.zotero.org/download/. Ask before using `sudo`.
+- Install Zotero 7 or later with the package manager the message names: `brew install --cask zotero` (Homebrew), `winget install --id DigitalScholar.Zotero -e --source winget --accept-source-agreements --accept-package-agreements`, or `flatpak install flathub org.zotero.Zotero`. Otherwise use the official installer from https://www.zotero.org/download/. Ask before using `sudo`.
 - Open Zotero once so it creates its profile (on macOS `open -a Zotero`).
 - The local API switch is a checkbox in Zotero's own settings: walk the user through *Settings → Advanced → Allow other applications on this computer to communicate with Zotero* (on Windows and Linux the menu is *Edit → Settings…*). Do not edit Zotero's preference files.
 - The panel checks again every few seconds and connects by itself; then call `list_collections`.

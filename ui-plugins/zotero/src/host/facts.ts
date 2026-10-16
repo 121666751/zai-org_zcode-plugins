@@ -1,5 +1,5 @@
 import { execFile } from "node:child_process";
-import { access, constants, readFile, stat } from "node:fs/promises";
+import { access, constants, lstat, readFile, stat } from "node:fs/promises";
 import { homedir, release } from "node:os";
 import { delimiter, join, sep } from "node:path";
 import type { HostFacts } from "#z/contract.ts";
@@ -43,6 +43,8 @@ async function isExecutable(path: string, platform: NodeJS.Platform): Promise<bo
     await access(path, platform === "win32" ? constants.F_OK : constants.X_OK);
     return true;
   } catch {
+    // Windows 的应用执行别名（如 WindowsApps\winget.exe）无法 stat，lstat 把它报告为符号链接；它能直接运行。
+    if (platform === "win32") return lstat(path).then((info) => info.isSymbolicLink(), () => false);
     return false;
   }
 }

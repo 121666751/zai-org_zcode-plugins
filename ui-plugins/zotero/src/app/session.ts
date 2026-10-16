@@ -746,10 +746,19 @@ export class ZoteroSession {
         parent = next;
       }
     }
-    if (real !== root && !real.startsWith(root + sep))
+    if (!isInside(root, real))
       throw new ZoteroError("path_outside_workspace", `${path} is outside the workspace (${this.workspaceRoot}).`);
     return real;
   }
+}
+
+/**
+ * target 是否在 root 之中（含 root 本身）。用 relative 判断：root 为盘符根目录（如 D:\）时也成立，
+ * Windows 上不区分大小写，跨盘符时 relative 返回绝对路径。
+ */
+export function isInside(root: string, target: string, path: Pick<typeof import("node:path"), "relative" | "isAbsolute" | "sep"> = { relative, isAbsolute, sep }): boolean {
+  const rel = path.relative(root, target);
+  return !path.isAbsolute(rel) && rel !== ".." && !rel.startsWith(`..${path.sep}`);
 }
 
 /** 1 起的物理页码（read_fulltext 中的 "page N"）到页序。 */
