@@ -136,11 +136,19 @@ export function renderApp(ctx) {
   if(!ctx.overview){add(node("section",{class:"card"},node("p",{class:"muted",id:"loading"},ctx.t("loading"))));return page;}
   if(view.page==="usage"){add(usagePage(ctx),about(ctx));return page;}
   if(!ctx.items.length) {
-    add(node("section",{class:"card empty"},node("h2",{},ctx.t("empty")),node("p",{class:"muted"},ctx.t("emptyHint"))),eventsCard(ctx),about(ctx));
+    add(retentionBanner(ctx),node("section",{class:"card empty"},node("h2",{},ctx.t("empty")),node("p",{class:"muted"},ctx.t("emptyHint"))),eventsCard(ctx),about(ctx));
     return page;
   }
-  add(pinnedBar(ctx),summaryCard(ctx),trendCard(ctx),browserCard(ctx),eventsCard(ctx),about(ctx));
+  add(retentionBanner(ctx),pinnedBar(ctx),summaryCard(ctx),trendCard(ctx),browserCard(ctx),eventsCard(ctx),about(ctx));
   return page;
+}
+// Default recording drops older messages irrecoverably, so the panel shows where the retention setting is on first
+// open; dismissing it once hides it for good.
+function retentionBanner(ctx) {
+  const {t,actions:a}=ctx;
+  if(ctx.retentionDismissed)return null;
+  return node("section",{class:"card retention",id:"retention"},node("p",{class:"note"},node("span",{},t("retentionBanner")),spacer(),
+    button("×",()=>a.dismissRetention(),{class:"icon-btn",id:"retention-dismiss",title:t("dismiss"),ariaLabel:t("dismiss")})));
 }
 
 function toolbar(ctx) {
@@ -187,7 +195,7 @@ function noticeBar(ctx) {
 }
 
 function summaryCard(ctx) {
-  const {t,view,selected:s,detail:d,actions:a,latestKey}=ctx;
+  const {t,view,selected:s,actions:a,latestKey}=ctx;
   if(!s)return null;
   const buckets=bucketsOf(s),sum=buckets.reduce((n,x)=>n+x.estimatedTokens,0)||1;
   const live=view.follow&&view.selectedKey===latestKey;
@@ -603,9 +611,9 @@ function bodyText(ctx,c) {
   return el;
 }
 function bodyFoot(ctx,c) {
-  const {t,view,actions:a}=ctx,p=view.open,parts=Math.ceil(c.totalChars/CHUNK),part=Math.floor(c.offset/CHUNK)+1;
+  const {t,view,actions:a}=ctx,p=view.open,parts=Math.ceil(c.totalChars/CHUNK);
   const keys=e=>{
-    if(e.key==="Enter"){e.preventDefault();e.shiftKey?a.prevMatch():a.nextMatch();}
+    if(e.key==="Enter"){e.preventDefault();if(e.shiftKey)a.prevMatch();else a.nextMatch();}
     else if(e.key==="Escape"&&e.target.value){e.preventDefault();e.target.value="";a.bodySearch("");}
   };
   const position=p.matchIndex>=0&&c.matchCount?t("matchOf",{i:p.matchIndex+1,n:full(c.matchCount)}):t("matches",{n:full(c.matchCount)});

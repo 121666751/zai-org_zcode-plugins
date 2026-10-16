@@ -27,7 +27,15 @@ Clicking an event opens the exact item it brought into the context; a compaction
 
 ## Install
 
-Install from the ZCode plugin marketplace, then enable **zcode-context**. A **Context** side pane becomes available for sessions in local workspaces.
+Install from the ZCode plugin marketplace, then enable **zcode-context**. In a local workspace session, use the top-right panel switcher to open **Context** in the session sidebar.
+
+## Recording and retention
+
+For complete future request inputs, enable **full Model I/O retention** in **Settings → General**. Default recording keeps only a trailing portion of each request's messages plus later deltas, and older session record files are periodically pruned. Missing historical content cannot be recovered by enabling the setting later.
+
+The overview shows a reminder about this setting. Closing it saves the dismissal in local storage; the reminder does not detect whether full retention is already enabled.
+
+Full retention does not remove the plugin's own reading and cache limits. When first loading a record file, the plugin reads only its last 24 MiB and keeps a bounded request cache. A history-window notice can therefore remain even when newer requests are fully recorded; check each request's completeness indicator to distinguish incomplete input from unloaded history.
 
 ## Components
 
@@ -54,6 +62,10 @@ The plugin reads ZCode CLI's local records only — the session database (`db/db
 ## Development
 
 Source lives in [`ui-plugins/zcode-context/`](../../ui-plugins/zcode-context). Build with `pnpm install` and `pnpm build` from the repository root; tests run with `node --test test/*.test.mjs`. Upstream project: <https://github.com/Kevinzzz6/zcode-context>.
+
+## Acknowledgements
+
+UI and interaction design draws on [dsh-context](https://github.com/bowenliang123/dsh-context), reimplemented for ZCode. Thanks to its author for sharing the project.
 
 ## License
 
