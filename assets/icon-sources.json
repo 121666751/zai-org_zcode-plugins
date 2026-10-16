@@ -1963,6 +1963,15 @@
     "sha256": "a8384578a86e4e7ae1fe273572ffff566d748c98b7eb6eff1321294005bd8b2b"
   },
   {
+    "name": "unreal-engine",
+    "icon": "unreal-engine/icon.png",
+    "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/4d29a35c954699b389a834aacc97dd6e7e74143c/icons/unrealengine.svg",
+    "matchedBy": "brand-vector-mirror-solid-black-background",
+    "homepage": "https://www.unrealengine.com/en-US/branding",
+    "mimeType": "image/png",
+    "sha256": "8f384cbb86e11b04a0ad257319efcb58a9cad2fac21362c883e4cb7e9bc65d53"
+  },
+  {
     "name": "unreal-engine-skills-for-claude-code",
     "icon": "unreal-engine-skills-for-claude-code/icon.png",
     "source": "https://edc-cdn.net/assets/images/favicon-light.png",
