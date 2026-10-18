@@ -2508,5 +2508,13 @@
     "sha256": "f3f4002481f4b84175634de34730af02bde2cf125fab10add753425fc8dc0727",
     "mimeType": "image/png",
     "transformation": "Solid background, 512x512 PNG; no baked corner radius"
+  },
+  {
+    "name": "zcode-site",
+    "icon": "zcode-site/icon.png",
+    "source": "ZCode authored asset",
+    "sha256": "9d7f32e5bf2e0bf1f1b1967268534090c611fd308659a0360c1c729b35553d7d",
+    "mimeType": "image/png",
+    "transformation": "Solid background, 512x512 PNG; no baked corner radius"
   }
 ]
