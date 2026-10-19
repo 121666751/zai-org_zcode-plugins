@@ -1,6 +1,6 @@
 {
   "name": "excalidraw",
-  "version": "0.2.3",
+  "version": "0.3.4",
   "description": "让 Agent 生成图形，在对话侧栏用 Excalidraw 编辑、引用选区、继续修改并导出。",
   "author": {
     "name": "zcoder"
