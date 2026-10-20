@@ -2516,5 +2516,14 @@
     "sha256": "9d7f32e5bf2e0bf1f1b1967268534090c611fd308659a0360c1c729b35553d7d",
     "mimeType": "image/png",
     "transformation": "Solid background, 512x512 PNG; no baked corner radius"
+  },
+  {
+    "name": "anet",
+    "icon": "anet/icon.png",
+    "source": "https://avatars.githubusercontent.com/u/305781773?s=256&v=4",
+    "matchedBy": "official-github-organization-avatar",
+    "homepage": "https://agentnetwork.org.cn",
+    "mimeType": "image/png",
+    "sha256": "2ff11555dd0be1f5efeac9005014770d2898f220d20367da32ba4434566d2a68"
   }
 ]
