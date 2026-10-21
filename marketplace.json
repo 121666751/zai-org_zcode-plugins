@@ -9,6 +9,10 @@
     "name": "Z.ai",
     "url": "https://z.ai"
   },
+  "unlistedPlugins": [
+    { "name": "blender", "source": "./plugins/blender" },
+    { "name": "openpencil", "source": "./external_plugins/openpencil" }
+  ],
   "plugins": [
     {
       "name": "cloudbase-skills",
@@ -789,27 +793,6 @@
       "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/zcode-mcp-app-dev/icon.png"
     },
     {
-      "name": "blender",
-      "componentTypes": ["ui"],
-      "displayName": "Blender",
-      "displayName_i18n": {
-        "en": "Blender",
-        "zh-CN": "Blender"
-      },
-      "version": "0.2.3",
-      "source": "./plugins/blender",
-      "description": "在 ZCode 对话旁打开 Blender 场景：Agent 修改物体、材质、相机并渲染预览；面板用 Three.js 轻量浏览。",
-      "description_i18n": {
-        "en": "Edit Blender scenes with an interactive 3D panel and MCP tools.",
-        "zh-CN": "在 ZCode 对话旁打开 Blender 场景：Agent 修改物体、材质、相机并渲染预览；面板用 Three.js 轻量浏览。"
-      },
-      "category": "productivity",
-      "author": {
-        "name": "ZCode"
-      },
-      "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/blender/icon.png"
-    },
-    {
       "name": "excalidraw",
       "componentTypes": ["ui"],
       "displayName": "Excalidraw",
@@ -829,27 +812,6 @@
         "name": "zcoder"
       },
       "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/excalidraw/icon.png"
-    },
-    {
-      "name": "openpencil",
-      "componentTypes": ["ui"],
-      "displayName": "OpenPencil",
-      "displayName_i18n": {
-        "en": "OpenPencil",
-        "zh-CN": "OpenPencil"
-      },
-      "version": "0.3.2",
-      "source": "./external_plugins/openpencil",
-      "description": "在对话侧栏用 OpenPencil 编辑工作区里的 Figma .fig 设计稿，Agent 通过设计工具协同修改、引用选区并生成代码。",
-      "description_i18n": {
-        "en": "Edit design files with OpenPencil and MCP tools.",
-        "zh-CN": "在对话侧栏用 OpenPencil 编辑工作区里的 Figma .fig 设计稿，Agent 通过设计工具协同修改、引用选区并生成代码。"
-      },
-      "category": "productivity",
-      "author": {
-        "name": "zcoder"
-      },
-      "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/openpencil/icon.png"
     },
     {
       "name": "photocraft",
