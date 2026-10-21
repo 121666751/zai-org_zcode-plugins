@@ -1133,7 +1133,7 @@
         "en": "KiCad 10 inside the conversation: agents design 2-layer boards from a circuit spec (real KiCad libraries, auto-route, DRC, Gerber/BOM/CPL); the side panel shows the 3D render and DRC verdict; one click opens the board in the real KiCad PCB Editor and every save syncs back.",
         "zh-CN": "把 KiCad 10 嵌入对话：Agent 用电路 spec 设计双层板（真实 KiCad 库、自动布线、DRC、Gerber/BOM/贴片坐标），侧栏面板显示 3D 渲染和 DRC 结论；一键在真实的 KiCad PCB Editor 里继续编辑，保存后自动同步回对话。"
       },
-      "version": "0.6.0",
+      "version": "0.6.1",
       "author": {
         "name": "冯小平",
         "url": "https://github.com/fxp"

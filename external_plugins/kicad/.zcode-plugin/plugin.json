@@ -1,6 +1,6 @@
 {
   "name": "kicad",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "KiCad 10 inside the conversation: agents design 2-layer boards from a circuit spec (real KiCad libraries, auto-route, DRC, Gerber/BOM/CPL); the side panel shows the 3D render and DRC verdict; one click opens the board in the real KiCad PCB Editor and every save syncs back.",
   "author": {
     "name": "冯小平",

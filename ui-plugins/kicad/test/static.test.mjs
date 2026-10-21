@@ -129,7 +129,7 @@ test("the launcher adds kicad-python as an optional dependency (the plugin still
 
 
 // A machine without uv (or a usable Python) must not get a plugin that silently fails to connect: the launcher then answers the MCP handshake itself, serves the panel and
-// one tool that says what to install. This is also what keeps the repository's `test:artifacts` (CI has no uv) able to start the server.
+// one tool that says what to install. CI separately requires a prepared real runtime.
 test("without a Python runner the launcher still answers the MCP handshake, serves the panel and explains what is missing", async () => {
   const { spawn } = await import("node:child_process");
   const child = spawn(process.execPath, [join(DIST, "server.mjs")], { stdio: ["pipe", "pipe", "pipe"], env: { PATH: process.env.PATH ?? "", HOME: process.env.HOME ?? "", KICAD_PLUGIN_NO_RUNNER: "1" } });
@@ -171,4 +171,14 @@ test("the panel's heights do not follow the viewport while it is inline", async 
   const withVh = css.split("\n").filter((l) => /\bvh\b|\d(vh|dvh|svh)\b/.test(l));
   assert.ok(withVh.length >= 1 && withVh.every((l) => l.trimStart().startsWith('html[data-mode="fullscreen"]') || l.trimStart().startsWith("/*") || l.startsWith("   ")), `viewport units outside the fullscreen block:\n${withVh.join("\n")}`);
   assert.match(await read(ROOT, "ui/src/dom.js"), /dataset\.mode = ctx\.displayMode === "fullscreen"/);
+});
+
+
+test("runtime preparation fails explicitly instead of returning the fallback server", () => {
+  const result = spawnSync(process.execPath, [join(DIST, "server.mjs"), "--prepare-runtime"], {
+    encoding: "utf8", env: { KICAD_PLUGIN_NO_RUNNER: "1" }, timeout: 5000,
+  });
+  assert.equal(result.status, 1);
+  assert.equal(result.stdout, "");
+  assert.match(result.stderr, /No Python runner/);
 });

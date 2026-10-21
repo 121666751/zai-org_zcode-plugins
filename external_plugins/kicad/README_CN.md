@@ -65,6 +65,8 @@
 
 * 需要已安装 **KiCad 10**（`/Applications/KiCad/KiCad.app`，或设置「KiCad.app 路径」）。插件调用其中的 `kicad-cli`、自带 Python（pcbnew 脚本）并读取其符号/封装库；不打包、不修改 KiCad。
 * **Python**：推荐 `uv`，或装有 `fastmcp`、`pydantic`、`numpy` 的 Python ≥ 3.11（实时连接另需可选的 `kicad-python`）。**如果既没有 uv、也没有这样的 Python，或 uv 取不到依赖（首次启动时离线），插件仍会启动：面板能打开并说明缺什么，模型会得到一个工具 `kicad_setup_help`。** uv 以 `UV_NO_CONFIG=1` 运行，所以工作区里的 `uv.toml` 或 `pyproject.toml` 无法改变依赖来源。**网络**：首次启动时 `uv` 会下载这些依赖（加上 kicad-python 及 pynng、protobuf、jsonschema）（本机没有 ≥ 3.11 的 Python 时还会下载 Python）。除此之外不使用网络，没有遥测。
+CI 会先准备 Python 运行环境，再开始 60 秒的 MCP 握手。依赖准备日志写入 stderr；运行环境不可用时，产物检查会失败，不会把缺依赖的帮助面板当作正常服务。也可以在已安装插件目录运行 `node dist/server.mjs --prepare-runtime`，成功时 stdout 返回 `ready`。产物检查使用同一个隔离 HOME 和缓存的 Python 环境，以离线模式完成握手。
+
 * **执行的命令**：`kicad-cli`（DRC、渲染、SVG/GLB/STEP/Gerber 导出、`sch erc`、符号/封装 SVG）、KiCad 自带 Python、`uv`；只有当你点「在 KiCad 中编辑」或 Agent 调用 `kicad_open_in_kicad` 时，才会执行 `open -a "PCB Editor.app"`（macOS），随后只读地检查它是否保持运行：`pgrep -x pcbnew`，启动失败后再执行 `xattr -p com.apple.quarantine` 并查看 `~/Library/Logs/DiagnosticReports/pcbnew-*.ips`。插件本身不会修改隔离标记。
 * **读取的文件**：除你的板子和 KiCad 库外，只读地读取 `~/Library/Preferences/kicad/*/kicad_common.json` 里「Enable KiCad API」的值（用来告诉你 API 是否打开）。**Socket**：只有当面板打开且显示着一块板子时，它每 3 秒问一次 KiCad 的 API 是否应答（一次 ping 和已打开文档列表，不含板子数据）来画实时指示，实时标签页每 1.5 秒读一次板子；Agent 的 `kicad_live_*` 调用连接的是同一个本机 socket（见上面的安全说明）。面板关闭、也没有 Agent 调用时，不会连接。
 * **写入的文件**：工作区的 `./kicad/`（spec、导出文件含 `kicad/out/<名称>.glb`、`kicad/edit/<名称>/` KiCad 工程）和插件数据目录（产物库、标签页视图缓存、KiCad 私有配置）。文件类工具（`pcb_spec_example`、`kicad_check_spec_file`、`kicad_export_files`、GLB 导出）只使用工作区内的路径（符号链接会被解析，越出工作区的路径被拒绝）；`pcb_spec_example` 不会替换与示例不同的 spec，除非 `overwrite=true`；`kicad_open_in_kicad` 从不覆盖 `kicad/edit/` 里已有的板子，而是在旁边新建 `<名称>-r2`、`-r3`……随包的工作器不读取 `.env` 或其他配置文件。没有 Hook。

@@ -19,7 +19,11 @@ const LIVE_DEPS = ["kicad-python>=0.8,<0.9"]; // optional: the live link to a ru
 const log = (msg) => process.stderr.write(`[kicad-plugin] ${msg}\n`);
 
 function ok(command, args, timeout = 60000, env = {}) {
-  const r = spawnSync(command, args, { stdio: "ignore", timeout, env: { ...process.env, ...env } });
+  const started = Date.now();
+  const provisioning = args[0] === "run";
+  if (provisioning) log(`Preparing Python dependencies (budget ${timeout / 1000}s)`);
+  const r = spawnSync(command, args, { stdio: provisioning ? ["ignore", "ignore", "inherit"] : "ignore", timeout, env: { ...process.env, ...env } });
+  if (provisioning) log(`Python dependency preparation ${r.status === 0 ? "completed" : "failed"} after ${Date.now() - started}ms${r.error ? ` (${r.error.code})` : ""}`);
   return r.status === 0;
 }
 
@@ -34,7 +38,7 @@ function resolveRunner() {
     if (uv.includes("/") && !existsSync(uv)) continue;
     if (!ok(uv, ["--version"])) continue;
     // `--python`: fastmcp 4 needs Python >= 3.10, but a sandboxed PATH may only offer macOS's /usr/bin/python3 (3.9.6); uv then picks an installed 3.11+ or fetches one
-    const withDeps = (deps) => ["run", "--quiet", "--no-project", "--python", ">=3.11", ...deps.flatMap((d) => ["--with", d]), "python"];
+    const withDeps = (deps) => ["run", "--no-project", "--python", ">=3.11", ...deps.flatMap((d) => ["--with", d]), "python"];
     // kicad-python (+ pynng, protobuf) is fetched like the other dependencies; if it cannot be resolved (offline first start) the plugin starts without the live link instead of not at all
     // UV_NO_CONFIG: the server runs in the user's workspace, and uv would read a uv.toml / pyproject.toml found there (an `index-url` in a cloned repository could decide
     // which package is installed and executed here); only the plugin's own pins decide.
@@ -109,7 +113,14 @@ function startRealServer(runner) {
 }
 
 const runner = resolveRunner();
-if (runner.fallback) {
+if (process.argv.includes("--prepare-runtime")) {
+  // Populate the same uv caches before the MCP deadline starts. Do not return
+  // sys.executable: uv may use an ephemeral interpreter that does not survive.
+  if (runner.fallback) {
+    log(runner.fallback);
+    process.exitCode = 1;
+  } else process.stdout.write("ready\n");
+} else if (runner.fallback) {
   log(`${runner.fallback} Answering the MCP handshake only; see the kicad_setup_help tool.`);
   serveFallback(runner.fallback);
 } else {
