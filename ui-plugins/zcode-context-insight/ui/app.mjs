@@ -19,7 +19,7 @@ import {
 } from '../src/shared/estimate.mjs'
 
 const PREVIEW = window.__ZCODE_CONTEXT_PREVIEW__ ?? null
-const VERSION = '0.1.0'
+const VERSION = '0.1.1'
 const CATS = ['system', 'tools', 'user', 'inject', 'skill', 'assistant', 'tool', 'unknown']
 const CAT_COLOR = {
   system: 'var(--cat-system)',

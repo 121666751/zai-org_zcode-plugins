@@ -16,7 +16,7 @@ import { ContextError } from './domain/errors.mjs'
 import { readSessionContext } from './domain/session.mjs'
 
 const RESOURCE_URI = 'ui://zcode-context-insight/context.html'
-const VERSION = '0.1.0'
+const VERSION = '0.1.1'
 const READ_TIMEOUT_MS = 30_000
 
 class Reader {

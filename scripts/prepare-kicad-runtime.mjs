@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
+import { userInfo } from "node:os";
+import { join } from "node:path";
 
 // Keep network access in an explicit preparation phase, outside MCP's 60s
 // request deadline. Do not inherit unrelated CI credentials into the plugin.
@@ -18,7 +20,11 @@ export async function prepareKicadRuntime(launcher, cwd, options = {}) {
     env.https_proxy = source.CRAFT_HTTPS_PROXY;
     process.stderr.write("kicad: using build proxy for Python runtime preparation\n");
   }
-  env.HOME = cwd; // Match the isolated MCP process, including uv-managed Python location.
+  // HOME is deliberately disposable. Keep uv's managed Python installations
+  // outside it, just like the launcher's shared wheel cache, so each artifact
+  // check does not download the same interpreter again. Respect an override.
+  env.UV_PYTHON_INSTALL_DIR ||= join(userInfo().homedir, ".cache", "zcode-plugins", "uv-python");
+  env.HOME = cwd; // Preserve isolation of plugin data and all other home files.
   process.stderr.write("kicad: preparing Python runtime before MCP artifact check\n");
   await new Promise((resolve, reject) => {
     const child = spawn(process.execPath, [launcher, "--prepare-runtime"], { cwd, env, detached: process.platform !== "win32", stdio: ["ignore", "pipe", "inherit"] });

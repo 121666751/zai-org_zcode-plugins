@@ -46,8 +46,7 @@ async function writeThirdPartyNotices(dist, metafiles) {
   await writeFile(join(dist, 'THIRD_PARTY_NOTICES.txt'), notices, 'utf8')
 }
 
-export async function buildAll({ quiet = false } = {}) {
-  const dist = join(ROOT, 'dist')
+export async function buildAll({ quiet = false, dist = join(ROOT, 'dist') } = {}) {
   await rm(dist, { recursive: true, force: true })
   await mkdir(dist, { recursive: true })
   const logLevel = quiet ? 'silent' : 'info'
@@ -108,7 +107,7 @@ export async function buildAll({ quiet = false } = {}) {
   const manifest = JSON.parse(await readFile(manifestPath, 'utf8'))
   await writeFile(
     join(dist, 'build.json'),
-    JSON.stringify({ name: manifest.name, version: manifest.version, builtAt: new Date().toISOString() }, null, 2),
+    JSON.stringify({ name: manifest.name, version: manifest.version }, null, 2),
   )
   if (!quiet) console.log(`built ${manifest.name}@${manifest.version}: dist/server.mjs, dist/worker.mjs, dist/context.html`)
   return manifest

@@ -1,6 +1,6 @@
 {
   "name": "zcode-context-insight",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "See what every model request carries: context composition, per-step trend, full request browser, injections and compactions, file activity, the agent fleet, and cross-session insights — read-only and offline.",
   "description_i18n": {
     "en": "See what every model request carries: context composition, per-step trend, full request browser, injections and compactions, file activity, the agent fleet, and cross-session insights — read-only and offline.",

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { mkdtemp, writeFile, rm } from "node:fs/promises";
-import { tmpdir } from "node:os";
+import { tmpdir, userInfo } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
 import { assertKicadRuntimeTools, prepareKicadRuntime } from "./prepare-kicad-runtime.mjs";
@@ -23,7 +23,7 @@ test("preparation waits for runtime and forwards only allowed network settings",
   `);
   assert.deepEqual(await prepareKicadRuntime(launcher, cwd, { env: {
     HTTPS_PROXY: "http://localhost:1234", CI_JOB_TOKEN: "must-not-reach-child",
-  } }), { UV_OFFLINE: "1" });
+  } }), { UV_OFFLINE: "1", UV_PYTHON_INSTALL_DIR: join(userInfo().homedir, ".cache", "zcode-plugins", "uv-python") });
 });
 
 test("failed preparation cannot become a successful fallback artifact", async (t) => {
@@ -56,7 +56,7 @@ test("preparation reuses CI build egress without leaking it into the MCP environ
     assert.equal(process.env.CRAFT_HTTPS_PROXY, undefined);
     console.log('ready');
   `);
-  assert.deepEqual(await prepareKicadRuntime(launcher, cwd, { env: { CRAFT_HTTPS_PROXY: "http://localhost:5678" } }), { UV_OFFLINE: "1" });
+  assert.deepEqual(await prepareKicadRuntime(launcher, cwd, { env: { CRAFT_HTTPS_PROXY: "http://localhost:5678" } }), { UV_OFFLINE: "1", UV_PYTHON_INSTALL_DIR: join(userInfo().homedir, ".cache", "zcode-plugins", "uv-python") });
 });
 
 test("an explicit lowercase HTTPS proxy wins over CI build egress", async (t) => {
@@ -67,4 +67,32 @@ test("an explicit lowercase HTTPS proxy wins over CI build egress", async (t) =>
     console.log('ready');
   `);
   await prepareKicadRuntime(launcher, cwd, { env: { https_proxy: "http://localhost:1234", CRAFT_HTTPS_PROXY: "http://localhost:5678" } });
+});
+
+
+test("fresh isolated homes reuse one managed Python directory", async (t) => {
+  const script = `
+    import assert from 'node:assert/strict';
+    assert.notEqual(process.env.UV_PYTHON_INSTALL_DIR, process.env.HOME);
+    assert.ok(!process.env.UV_PYTHON_INSTALL_DIR.startsWith(process.env.HOME + '/'));
+    console.log('ready');
+  `;
+  const first = await fixture(t, script);
+  const second = await fixture(t, script);
+  const firstEnv = await prepareKicadRuntime(...first);
+  const secondEnv = await prepareKicadRuntime(...second);
+  assert.equal(firstEnv.UV_PYTHON_INSTALL_DIR, secondEnv.UV_PYTHON_INSTALL_DIR);
+});
+
+test("an explicit managed Python directory is used for preparation and handshake", async (t) => {
+  const [launcher, cwd] = await fixture(t, `
+    import assert from 'node:assert/strict';
+    assert.equal(process.env.UV_PYTHON_INSTALL_DIR, '/configured/python-cache');
+    const { realpathSync } = await import('node:fs');
+    assert.equal(realpathSync(process.env.HOME), process.cwd());
+    console.log('ready');
+  `);
+  const env = await prepareKicadRuntime(launcher, cwd, { env: { UV_PYTHON_INSTALL_DIR: '/configured/python-cache' } });
+  assert.equal(env.UV_PYTHON_INSTALL_DIR, '/configured/python-cache');
+  assert.equal(env.UV_OFFLINE, '1');
 });
