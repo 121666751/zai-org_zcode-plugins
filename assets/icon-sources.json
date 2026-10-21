@@ -2525,5 +2525,14 @@
     "homepage": "https://agentnetwork.org.cn",
     "mimeType": "image/png",
     "sha256": "2ff11555dd0be1f5efeac9005014770d2898f220d20367da32ba4434566d2a68"
+  },
+  {
+    "name": "kicad",
+    "icon": "kicad/icon.png",
+    "source": "Original artwork drawn for this plugin: ui-plugins/kicad/ui/src/logo.svg (a chat bubble holding a PCB trace with pads and a via; the same file is inlined in the panel header), rendered to PNG with headless Chrome; contains no KiCad logo or other third-party image",
+    "matchedBy": "original-artwork",
+    "mimeType": "image/png",
+    "sha256": "0df90e74c4865fda417b2ccb0f95266a6392834ccb449fc1602bb059482d62ad",
+    "transformation": "Solid background, 512x512 PNG; no baked corner radius"
   }
 ]

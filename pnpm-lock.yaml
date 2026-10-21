@@ -178,6 +178,27 @@ importers:
         specifier: 19.2.7
         version: 19.2.7(react@19.2.7)
 
+  ui-plugins/kicad:
+    devDependencies:
+      '@modelcontextprotocol/core':
+        specifier: 2.0.0
+        version: 2.0.0
+      '@modelcontextprotocol/ext-apps':
+        specifier: 2.0.0
+        version: 2.0.0(@modelcontextprotocol/client@2.2.0)(@modelcontextprotocol/core@2.0.0)(@modelcontextprotocol/server@2.0.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.6.5)
+      '@modelcontextprotocol/sdk':
+        specifier: 1.29.0
+        version: 1.29.0(zod@4.6.5)
+      esbuild:
+        specifier: 0.25.12
+        version: 0.25.12
+      playwright-core:
+        specifier: 1.59.1
+        version: 1.59.1
+      zod:
+        specifier: 4.6.5
+        version: 4.6.5
+
   ui-plugins/openpencil:
     dependencies:
       '@modelcontextprotocol/sdk':
