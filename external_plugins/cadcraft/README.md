@@ -27,3 +27,7 @@ UI source: `ui-plugins/cadcraft` and shared adapter `ui-plugins/craft-runtime`. 
 Upstream: [CADCraft](https://github.com/storytold/cadcraft), version 0.5.0, commit `c57879a5c8f5e3a6be574a820add5e28eb25e9b1`. The snapshot is compiled locally using Trunk, not downloaded from a release. `dist/BUILD.json` records provenance and hashes. Upstream and dependency notices are retained under `dist/licenses/`; the Rust application is MIT OR Apache-2.0. ArtCraft branding retains its upstream trademark terms.
 
 This is an independent ZCode integration based on the upstream project, not an official ArtCraft plugin. PdfCraft and DesignCraft omit the separately licensed brand artwork; patches and their hashes are retained in source and build records.
+
+## Background retention
+
+This editor requests background retention so editing can continue while hidden. The host may reclaim inactive pages after 30 minutes when more than four retained pages are in the background. Save changes before leaving; reclamation does not preserve unsaved page memory.

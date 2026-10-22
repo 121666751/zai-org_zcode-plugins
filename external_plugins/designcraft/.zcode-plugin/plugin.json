@@ -1,6 +1,6 @@
 {
   "name": "designcraft",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "DesignCraft page layout in a ZCode panel, with workspace file opening and host-mediated exports.",
   "description_i18n": {
     "en": "DesignCraft page layout in a ZCode panel, with workspace file opening and host-mediated exports.",

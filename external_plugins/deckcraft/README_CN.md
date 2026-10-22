@@ -27,3 +27,7 @@
 上游为 [DeckCraft](https://github.com/storytold/deckcraft)，版本 0.5.0，提交 `be14248577b92059eb2b8c0c9460cceffbc1f01d`。快照由 Trunk 从源码编译生成，不是下载的 Release。`dist/BUILD.json` 记录来源和文件哈希。上游及依赖的许可保留在 `dist/licenses/`，Rust 应用采用 MIT OR Apache-2.0；ArtCraft 品牌仍遵循上游商标条款。
 
 这是基于上游项目的独立 ZCode 封装，不是 ArtCraft 官方插件。PdfCraft、DesignCraft 的品牌图形已按上游条款移除；补丁及哈希保留在源码和构建记录中。
+
+## 后台保留
+
+编辑器声明后台保留，以便隐藏后继续工作。同一窗口超过四个后台保留页面时，宿主可回收三十分钟未活跃且不忙的页面。离开前请保存；回收不保留未保存的页面内存。

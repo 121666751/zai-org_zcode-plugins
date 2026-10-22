@@ -28,3 +28,7 @@ UI source: `ui-plugins/photocraft` and shared adapter `ui-plugins/craft-runtime`
 Upstream: [PhotoCraft](https://github.com/storytold/photocraft), version 0.7.0, commit `649b1d5d92c08bf846631a868adc8a5c6ec6e888`. The snapshot is compiled locally using Trunk, not downloaded from a release. `dist/BUILD.json` records provenance and hashes. Upstream and dependency notices are retained under `dist/licenses/`; the Rust application is MIT OR Apache-2.0. ArtCraft branding retains its upstream trademark terms.
 
 This is an independent ZCode integration based on the upstream project, not an official ArtCraft plugin. PdfCraft and DesignCraft omit the separately licensed brand artwork; patches and their hashes are retained in source and build records.
+
+## Background retention
+
+This editor requests background retention so editing can continue while hidden. The host may reclaim inactive pages after 30 minutes when more than four retained pages are in the background. Save changes before leaving; reclamation does not preserve unsaved page memory.

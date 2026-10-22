@@ -1,6 +1,6 @@
 {
   "name": "vectorcraft",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "VectorCraft vector illustration in a ZCode panel, with workspace file opening and host-mediated exports.",
   "description_i18n": {
     "en": "VectorCraft vector illustration in a ZCode panel, with workspace file opening and host-mediated exports.",

@@ -1,6 +1,6 @@
 {
   "name": "soundcraft",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "SoundCraft audio editing in a ZCode panel, with workspace file opening and host-mediated exports.",
   "description_i18n": {
     "en": "SoundCraft audio editing in a ZCode panel, with workspace file opening and host-mediated exports.",

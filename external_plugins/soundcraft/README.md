@@ -27,3 +27,7 @@ UI source: `ui-plugins/soundcraft` and shared adapter `ui-plugins/craft-runtime`
 Upstream: [SoundCraft](https://github.com/storytold/soundcraft), version 0.5.0, commit `acb08ff5f00d654a5303194ad04dad799c68a9fb`. The snapshot is compiled locally using Trunk, not downloaded from a release. `dist/BUILD.json` records provenance and hashes. Upstream and dependency notices are retained under `dist/licenses/`; the Rust application is MIT OR Apache-2.0. ArtCraft branding retains its upstream trademark terms.
 
 This is an independent ZCode integration based on the upstream project, not an official ArtCraft plugin. PdfCraft and DesignCraft omit the separately licensed brand artwork; patches and their hashes are retained in source and build records.
+
+## Background retention
+
+This editor requests background retention so editing can continue while hidden. The host may reclaim inactive pages after 30 minutes when more than four retained pages are in the background. Save changes before leaving; reclamation does not preserve unsaved page memory.

@@ -828,7 +828,7 @@
         "en": "PhotoCraft image editing in a ZCode panel, with workspace file opening and host-mediated exports.",
         "zh-CN": "在 ZCode 面板中使用 PhotoCraft 进行图片编辑，支持打开工作区文件和通过宿主保存导出。"
       },
-      "version": "0.2.3",
+      "version": "0.2.4",
       "author": {
         "name": "zcoder"
       },
@@ -855,7 +855,7 @@
         "en": "VectorCraft vector illustration in a ZCode panel, with workspace file opening and host-mediated exports.",
         "zh-CN": "在 ZCode 面板中使用 VectorCraft 进行矢量绘图，支持打开工作区文件和通过宿主保存导出。"
       },
-      "version": "0.2.3",
+      "version": "0.2.4",
       "author": {
         "name": "zcoder"
       },
@@ -882,7 +882,7 @@
         "en": "PdfCraft PDF editing in a ZCode panel, with workspace file opening and host-mediated exports.",
         "zh-CN": "在 ZCode 面板中使用 PdfCraft 进行PDF 编辑，支持打开工作区文件和通过宿主保存导出。"
       },
-      "version": "0.2.3",
+      "version": "0.2.4",
       "author": {
         "name": "zcoder"
       },
@@ -909,7 +909,7 @@
         "en": "DesignCraft page layout in a ZCode panel, with workspace file opening and host-mediated exports.",
         "zh-CN": "在 ZCode 面板中使用 DesignCraft 进行页面排版，支持打开工作区文件和通过宿主保存导出。"
       },
-      "version": "0.2.3",
+      "version": "0.2.4",
       "author": {
         "name": "zcoder"
       },
@@ -936,7 +936,7 @@
         "en": "WordCraft word processing in a ZCode panel, with workspace file opening and host-mediated exports.",
         "zh-CN": "在 ZCode 面板中使用 WordCraft 进行文字处理，支持打开工作区文件和通过宿主保存导出。"
       },
-      "version": "0.2.3",
+      "version": "0.2.4",
       "author": {
         "name": "zcoder"
       },
@@ -963,7 +963,7 @@
         "en": "GridCraft spreadsheets in a ZCode panel, with workspace file opening and host-mediated exports.",
         "zh-CN": "在 ZCode 面板中使用 GridCraft 进行电子表格，支持打开工作区文件和通过宿主保存导出。"
       },
-      "version": "0.2.3",
+      "version": "0.2.4",
       "author": {
         "name": "zcoder"
       },
@@ -990,7 +990,7 @@
         "en": "DeckCraft presentations in a ZCode panel, with workspace file opening and host-mediated exports.",
         "zh-CN": "在 ZCode 面板中使用 DeckCraft 进行演示文稿，支持打开工作区文件和通过宿主保存导出。"
       },
-      "version": "0.2.3",
+      "version": "0.2.4",
       "author": {
         "name": "zcoder"
       },
@@ -1017,7 +1017,7 @@
         "en": "CADCraft CAD drafting in a ZCode panel, with workspace file opening and host-mediated exports.",
         "zh-CN": "在 ZCode 面板中使用 CADCraft 进行CAD 绘图，支持打开工作区文件和通过宿主保存导出。"
       },
-      "version": "0.2.3",
+      "version": "0.2.4",
       "author": {
         "name": "zcoder"
       },
@@ -1044,7 +1044,7 @@
         "en": "SoundCraft audio editing in a ZCode panel, with workspace file opening and host-mediated exports.",
         "zh-CN": "在 ZCode 面板中使用 SoundCraft 进行音频编辑，支持打开工作区文件和通过宿主保存导出。"
       },
-      "version": "0.2.3",
+      "version": "0.2.4",
       "author": {
         "name": "zcoder"
       },
