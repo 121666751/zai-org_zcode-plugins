@@ -1,6 +1,6 @@
 {
   "name": "unreal-engine",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Control a separately installed Unreal Editor through Epic Unreal MCP and adapted official skills. Requires UE with ModelContextProtocol and AllToolsets enabled.",
   "description_i18n": {
     "zh-CN": "通过 Epic 官方 MCP 和 Skills 操作独立安装的 UE 编辑器。需启用 ModelContextProtocol 和 AllToolsets。",

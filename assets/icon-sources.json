@@ -2534,5 +2534,14 @@
     "mimeType": "image/png",
     "sha256": "0df90e74c4865fda417b2ccb0f95266a6392834ccb449fc1602bb059482d62ad",
     "transformation": "Solid background, 512x512 PNG; no baked corner radius"
+  },
+  {
+    "name": "unity",
+    "icon": "unity/icon.png",
+    "source": "https://github.com/Unity-Technologies.png?size=256",
+    "matchedBy": "official-github-organization-avatar",
+    "homepage": "https://unity.com",
+    "mimeType": "image/png",
+    "sha256": "300cc9cf57b29fe09b43e587b23f563c390bb67242227524acfcc28fc477f4f7"
   }
 ]

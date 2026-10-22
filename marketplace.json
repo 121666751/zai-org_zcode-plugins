@@ -1207,7 +1207,7 @@
         "zh-CN": "通过 Epic 官方 MCP 和 Skills 操作独立安装的 UE 编辑器。需启用 ModelContextProtocol 和 AllToolsets。",
         "en": "Control a separately installed Unreal Editor through Epic Unreal MCP and adapted official skills. Requires UE with ModelContextProtocol and AllToolsets enabled."
       },
-      "version": "0.1.0",
+      "version": "0.1.2",
       "author": {
         "name": "Z.ai"
       },
@@ -1362,6 +1362,27 @@
         "render",
         "scene",
         "official"
+      ]
+    },
+    {
+      "name": "unity",
+      "version": "0.1.4",
+      "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/unity/icon.png",
+      "description": "Official Unity CLI skill and references, with ZCode installation guidance and local environment checks.",
+      "description_i18n": {
+        "en": "Official Unity CLI skill and references, with ZCode installation guidance and local environment checks.",
+        "zh-CN": "打包 Unity 官方 CLI Skill 及完整参考文件，补充 ZCode 安装指引和本地环境检查。"
+      },
+      "author": {
+        "name": "Z.ai"
+      },
+      "source": "./plugins/unity",
+      "category": "developer-tools",
+      "keywords": [
+        "unity",
+        "game-development",
+        "unity-cli",
+        "skills"
       ]
     }
   ]

@@ -9,6 +9,8 @@ The goal is three things:
 
 Identify the intended `.uproject` from the workspace or user request before editing it; ask only if the target is ambiguous. Explain any required project changes.
 
+If the editor is not running or only shows the Project Browser, follow [startup.md](startup.md) to locate the project and launch the GUI editor from the host shell.
+
 ## 1. Enable the plugins in the `.uproject`
 
 Two plugins are required. `ModelContextProtocol` is the server and transport; `AllToolsets` provides the tools. With only `ModelContextProtocol` enabled the server starts but exposes no tools.

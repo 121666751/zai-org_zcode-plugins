@@ -4,6 +4,8 @@
   "license": "MIT",
   "adaptations": [
     "ZCode connection and setup instructions",
-    "Removed unavailable Claude docked context guidance"
+    "Removed unavailable Claude docked context guidance",
+    "ZCode editor discovery, project launch, bounded readiness and client reconnection guidance",
+    "Observed dispatch, localized Blueprint and parameter compatibility guidance; bounded smoke-test verification and cleanup"
   ]
 }
