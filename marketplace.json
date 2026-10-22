@@ -773,7 +773,7 @@
         "mcp"
       ],
       "source": "./plugins/hyper3d-rodin",
-      "category": "developer-tools",
+      "category": "游戏/3D",
       "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/hyper3d-rodin/icon.png"
     },
     {
@@ -1074,7 +1074,7 @@
         "url": "https://www.tripo3d.ai"
       },
       "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/tripo-3d/icon.png",
-      "category": "productivity",
+      "category": "游戏/3D",
       "keywords": [
         "3d",
         "asset-generation",
@@ -1212,7 +1212,7 @@
         "name": "Z.ai"
       },
       "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/unreal-engine/icon.png",
-      "category": "developer-tools",
+      "category": "游戏/3D",
       "keywords": [
         "unreal-engine",
         "ue",
@@ -1264,7 +1264,7 @@
         "url": "https://github.com/liuzhiqiang23"
       },
       "license": "MIT",
-      "category": "utilities",
+      "category": "游戏/3D",
       "keywords": [
         "holographic",
         "card",
@@ -1321,7 +1321,7 @@
         "en": "Godot",
         "zh-CN": "Godot"
       },
-      "category": "developer-tools",
+      "category": "游戏/3D",
       "keywords": [
         "godot",
         "game",
@@ -1352,7 +1352,7 @@
       "repository": "https://projects.blender.org/lab/blender_mcp",
       "license": "GPL-3.0-or-later",
       "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/blender/icon.png",
-      "category": "productivity",
+      "category": "游戏/3D",
       "keywords": [
         "blender",
         "mcp",
@@ -1377,7 +1377,7 @@
         "name": "Z.ai"
       },
       "source": "./plugins/unity",
-      "category": "developer-tools",
+      "category": "游戏/3D",
       "keywords": [
         "unity",
         "game-development",

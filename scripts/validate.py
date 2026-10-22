@@ -37,7 +37,7 @@ MAX_PLUGIN_FILES = 5000
 MAX_PLUGIN_BYTES = 256 * 1024 * 1024
 SEMVER = re.compile(r"^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?$")
 LOCALE = re.compile(r"^[a-z]{2}(-[A-Za-z0-9]+)*$")
-CATEGORIES = {"developer-tools", "productivity", "utilities", "guides", "finance", "template", "other"}
+CATEGORIES = {"游戏/3D", "developer-tools", "productivity", "utilities", "guides", "finance", "template", "other"}
 
 # Template plugin sources stay in the repo as copy-and-start scaffolding but are
 # deliberately absent from marketplace.json, so the registration check skips them.
