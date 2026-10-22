@@ -1278,6 +1278,31 @@
         "watermark",
         "video"
       ]
+    },
+    {
+      "name": "libtv-cli",
+      "displayName": "LibTV CLI",
+      "displayName_i18n": {
+        "en": "LibTV CLI",
+        "zh-CN": "LibTV CLI"
+      },
+      "source": "./plugins/libtv-cli",
+      "description": "Official LibTV CLI skill for video creation canvases, workspaces, nodes, models, uploads, and generation workflows.",
+      "description_i18n": {
+        "en": "Official LibTV CLI skill for video creation canvases, workspaces, nodes, models, uploads, and generation workflows.",
+        "zh-CN": "LibTV 官方 CLI 技能，支持视频创作画布、工作区、节点、模型、素材上传与生成工作流。"
+      },
+      "version": "0.2.0",
+      "author": {
+        "name": "Z.ai",
+        "url": "https://z.ai"
+      },
+      "keywords": [
+        "libtv-cli",
+        "cli",
+        "skills"
+      ],
+      "category": "productivity"
     }
   ]
 }
