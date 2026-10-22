@@ -1303,6 +1303,33 @@
         "skills"
       ],
       "category": "productivity"
+    },
+    {
+      "name": "godot",
+      "version": "0.3.1",
+      "description": "Native Godot game development with hybridindie MCP and companion skills.",
+      "description_i18n": {
+        "en": "Native Godot game development with hybridindie MCP and companion skills.",
+        "zh-CN": "通过 hybridindie MCP 和配套 skills 直接操作原生 Godot 编辑器，创建、运行和调试游戏。"
+      },
+      "author": {
+        "name": "ZCode"
+      },
+      "source": "./plugins/godot",
+      "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/godot/icon.png",
+      "displayName": "Godot",
+      "displayName_i18n": {
+        "en": "Godot",
+        "zh-CN": "Godot"
+      },
+      "category": "developer-tools",
+      "keywords": [
+        "godot",
+        "game",
+        "3d",
+        "native",
+        "mcp"
+      ]
     }
   ]
 }

@@ -1,0 +1,29 @@
+{
+  "name": "godot",
+  "version": "0.3.1",
+  "description": "Native Godot game development with hybridindie MCP and companion skills.",
+  "description_i18n": {
+    "en": "Native Godot game development with hybridindie MCP and companion skills.",
+    "zh-CN": "通过 hybridindie MCP 和配套 skills 直接操作原生 Godot 编辑器，创建、运行和调试游戏。"
+  },
+  "author": {
+    "name": "ZCode"
+  },
+  "license": "MIT",
+  "commands": "commands",
+  "mcpServers": {
+    "godot": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "${ZCODE_PLUGIN_ROOT}/dist/native.mjs",
+        "serve"
+      ],
+      "cwd": "${ZCODE_PROJECT_DIR}",
+      "env": {
+        "ZCODE_WORKSPACE_ROOT": "${ZCODE_PROJECT_DIR}"
+      }
+    }
+  },
+  "skills": "skills"
+}
