@@ -66,7 +66,6 @@ try {
           ZCODE_WORKSPACE_ROOT: temporary,
           ZCODE_PLUGIN_ROOT: installed,
           ZCODE_PLUGIN_DATA: join(temporary, `${short}-data`),
-          ZCODE_BLENDER_FAKE_ENGINE: "1",
           ZCODE_DISK_CLEANER_TEST_TRASH: join(temporary, "trash"),
         },
         stderr: "pipe",
@@ -92,7 +91,6 @@ try {
           assert.ok(!html.includes("/*__JS__*/"));
         }
         const create = {
-          blender: { name: "new_scene", arguments: { path: "artifact.blend" } },
           excalidraw: {
             name: "create_diagram",
             arguments: { title: "Artifact test", elements: [] },

@@ -1,0 +1,27 @@
+{
+  "name": "blender",
+  "version": "0.3.0",
+  "description": "Official Blender Lab MCP integration (MCP-only, no UI panel): inspect and edit a running Blender 5.1+ scene, execute bpy code, search bundled API and manual docs, capture screenshots, and render previews.",
+  "description_i18n": {
+    "en": "Official Blender Lab MCP integration (MCP-only, no UI panel): inspect and edit a running Blender 5.1+ scene, execute bpy code, search bundled API and manual docs, capture screenshots, and render previews.",
+    "zh-CN": "Blender 官方 Lab MCP 集成（仅 MCP，无 UI 面板）：检查并修改正在运行的 Blender 5.1+ 场景、执行 bpy 代码、检索内置 API 与手册、截图和渲染预览。"
+  },
+  "author": {
+    "name": "Z.ai",
+    "url": "https://z.ai"
+  },
+  "homepage": "https://www.blender.org/lab/mcp-server/",
+  "repository": "https://projects.blender.org/lab/blender_mcp",
+  "license": "GPL-3.0-or-later",
+  "keywords": [
+    "blender",
+    "mcp",
+    "blender-lab",
+    "bpy",
+    "3d",
+    "render",
+    "scene",
+    "official"
+  ],
+  "skills": "skills"
+}

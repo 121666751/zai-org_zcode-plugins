@@ -181,7 +181,6 @@ Gen UI 是 ZCode 宿主能力，不是本仓库里需要单独安装的市场条
 | ----------------------------- | -------------------------------------------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | **Excalidraw** `excalidraw`   | “画一张系统架构图，再按选区修改”                   | 画布、自动保存、局部编辑、上下文引用和导出，建议作为首个完整示例 | 本地工作区；持久文档与临时视图分开                                                  |
 | **OpenPencil** `openpencil`   | “新建设计稿 designs/landing.fig，放一个 hero 区块” | `.fig` 设计稿、设计工具、选区引用与按稿生成代码                  | 一个工作区一个活编辑器；`.pen` 只读导入；导出到 `exports/`                          |
-| **Blender** `blender`         | “新建一个 Blender 场景，放置物体并渲染预览”        | `.blend` 场景、3D 预览、材质、相机、灯光和渲染资源               | 真实操作需要 Blender 引擎；假引擎仅用于测试                                         |
 
 ## 开发与调试
 
@@ -248,7 +247,7 @@ node apps/zcode-cli/packages/cli/dist/zcode.cjs plugins install excalidraw@zcode
 | 插件静态检查                | 插件仓库   | `pnpm typecheck`、`pnpm lint`、`python3 scripts/validate.py` | 类型、代码规则和清单一致性                                            |
 | 通信与业务单测              | 插件仓库   | `pnpm test`                                                  | 连接顺序、版本冲突、取消等自动化回归                                  |
 | 独立安装产物                | 插件仓库   | `pnpm test:artifacts`                                        | 从仓库外启动构建产物、读取页面/资源，检查运行依赖                     |
-| 官方 App/AppBridge 页面通信 | 插件仓库   | `pnpm test:pages`                                            | Blender、Excalidraw、OpenPencil 的真实 SDK 握手、初始结果、主题和取消 |
+| 官方 App/AppBridge 页面通信 | 插件仓库   | `pnpm test:pages`                                            | Excalidraw、OpenPencil 的真实 SDK 握手、初始结果、主题和取消 |
 | Excalidraw 冒烟             | 插件仓库   | `pnpm --filter @zcode/plugin-excalidraw smoke`               | 实际 stdio 服务与资源接口                                             |
 | Excalidraw 浏览器交互       | 插件仓库   | `pnpm --filter @zcode/plugin-excalidraw test:e2e`            | 真实画布交互、保存、撤销/重做和冷启动；测试宿主桥不等于 Electron 沙箱 |
 
@@ -441,7 +440,7 @@ async function saveViewState(state: unknown) {
 | Excalidraw MCP 工具与文档接口 | [server.ts](ui-plugins/excalidraw/src/adapters/server.ts)、[contract.ts](ui-plugins/excalidraw/src/contract.ts)                                                          |
 | Excalidraw 页面与连接         | [main.tsx](ui-plugins/excalidraw/ui/main.tsx)、[client.ts](ui-plugins/excalidraw/ui/client.ts)                                                                           |
 | Excalidraw 真实浏览器回归     | [e2e.mjs](ui-plugins/excalidraw/scripts/e2e.mjs)、[cold-start-e2e.mjs](ui-plugins/excalidraw/scripts/cold-start-e2e.mjs)                                                 |
-| 其他示例的操作说明            | [OpenPencil](external_plugins/openpencil/README.md)、[Blender](plugins/blender/README.md) |
+| 其他示例的操作说明            | [OpenPencil](external_plugins/openpencil/README.md) |
 | 通用插件开发与构建规则        | [开发教程](docs/PLUGIN_DEVELOPMENT_CN.md)、[构建约定](docs/MCP_APP_BUILD.md)                                                                                             |
 
 主仓库的 `UI_PLUGIN.md` 提供对应宿主源码入口。核对宿主支持范围时查看 `packages/ui/src/plugin-ui`、`packages/shared/src/mcp-apps` 和 `packages/desktop/src/renderer/src/plugin-sandbox/aliasApi.ts`；这些路径属于主仓库，不是插件的导入依赖。API 调整时同步维护两边文档中英文版的公共能力表。

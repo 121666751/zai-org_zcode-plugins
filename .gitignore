@@ -4,9 +4,6 @@
 /ui-plugins/**/dist/
 /plugins/*/dist/
 /external_plugins/*/dist/
-# Blender's stage script copies its panel and bridge scripts next to dist/.
-/plugins/blender/ui/dist/
-/plugins/blender/blender/
 __pycache__/
 .DS_Store
 

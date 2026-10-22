@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "blender-lab": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "${ZCODE_PLUGIN_ROOT}/scripts/run.mjs"
+      ],
+      "cwd": "${ZCODE_PROJECT_DIR}",
+      "env": {
+        "UV_NO_CONFIG": "1",
+        "BLENDER_PATH": "${user_config.blenderPath}",
+        "BLENDER_MCP_HOST": "${user_config.host}",
+        "BLENDER_MCP_PORT": "${user_config.port}"
+      },
+      "enabled": true,
+      "timeoutMs": 180000
+    }
+  }
+}

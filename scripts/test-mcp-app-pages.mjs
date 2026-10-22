@@ -59,7 +59,7 @@ const browser = await chromium.launch(
   process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : { channel: "chrome" },
 );
 try {
-  for (const short of ["blender", "excalidraw", "openpencil"].filter(
+  for (const short of ["excalidraw", "openpencil"].filter(
     (name) => !process.argv[2] || name === process.argv[2],
   )) {
     const temporary = await mkdtemp(join(tmpdir(), "mcp-app-page-"));
@@ -74,7 +74,6 @@ try {
         HOME: temporary,
         ZCODE_WORKSPACE_ROOT: temporary,
         ZCODE_PLUGIN_DATA: join(temporary, "data"),
-        ZCODE_BLENDER_FAKE_ENGINE: "1",
       },
       stderr: "pipe",
     });
@@ -90,7 +89,6 @@ try {
       });
       await client.connect(transport);
       const create = {
-        blender: { name: "new_scene", arguments: { path: "page.blend" } },
         excalidraw: {
           name: "create_diagram",
           arguments: { id: "page", title: "Page", elements: [] },

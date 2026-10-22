@@ -18,6 +18,7 @@ Use this repository to browse available plugins, install the marketplace in comp
 | Plugin | Category | Description |
 | --- | --- | --- |
 | [**cloudbase-skills**](./plugins/cloudbase-skills) | `developer-tools` | CloudBase development skills and MCP integration for Web, Mini Program, database, cloud functions, CloudRun, storage, and AI projects. |
+| [**blender**](./plugins/blender) | `productivity` | Official Blender Lab MCP integration (MCP-only, no UI panel): inspect and edit Blender scenes, run bpy, search docs, capture screenshots, and render. |
 | [**mimosa**](./plugins/mimosa) | `developer-tools` | Local-first security guardrails with pre-write hooks, review and Git gates, security commands, and optional sealed deep scans. |
 | [**github**](./plugins/github) | `developer-tools` | GitHub CLI workflows for commits, pull requests, issues, releases, Actions, repositories, and Codespaces. |
 | [**gitlab**](./plugins/gitlab) | `developer-tools` | GitLab CLI workflows for merge requests, issues, CI/CD, repositories, releases, and API operations, including self-managed instances. |
@@ -31,7 +32,6 @@ Use this repository to browse available plugins, install the marketplace in comp
 
 Excalidraw, OpenPencil, and the nine Craft plugins are community plugins maintained by `zcoder` in [`external_plugins/`](./external_plugins/).
 
-- `blender` `0.2.2`: Edit Blender scenes with an interactive 3D panel and MCP tools.
 - `excalidraw` `0.2.3`: Create and edit diagrams with Excalidraw and MCP tools.
 - `openpencil` `0.3.2`: Edit design files with OpenPencil and MCP tools.
 - `zcode-mcp-app-dev` `0.1.1`: Develop MCP Apps for ZCode with official SDKs and a small host-extension reference.
