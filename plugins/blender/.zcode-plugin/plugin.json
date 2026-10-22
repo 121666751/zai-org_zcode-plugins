@@ -1,10 +1,10 @@
 {
   "name": "blender",
-  "version": "0.3.0",
-  "description": "Official Blender Lab MCP integration (MCP-only, no UI panel): inspect and edit a running Blender 5.1+ scene, execute bpy code, search bundled API and manual docs, capture screenshots, and render previews.",
+  "version": "0.3.1",
+  "description": "Create and edit 3D models and scenes in Blender, adjust materials and lighting, and render images to preview your work.",
   "description_i18n": {
-    "en": "Official Blender Lab MCP integration (MCP-only, no UI panel): inspect and edit a running Blender 5.1+ scene, execute bpy code, search bundled API and manual docs, capture screenshots, and render previews.",
-    "zh-CN": "Blender 官方 Lab MCP 集成（仅 MCP，无 UI 面板）：检查并修改正在运行的 Blender 5.1+ 场景、执行 bpy 代码、检索内置 API 与手册、截图和渲染预览。"
+    "en": "Create and edit 3D models and scenes in Blender, adjust materials and lighting, and render images to preview your work.",
+    "zh-CN": "在 Blender 中创建和编辑 3D 模型与场景、调整材质和灯光，渲染图片并预览效果。"
   },
   "author": {
     "name": "Z.ai",

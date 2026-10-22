@@ -751,12 +751,12 @@
         "en": "Hyper3D Rodin",
         "zh-CN": "Hyper3D Rodin"
       },
-      "description": "Generate 3D models from text or reference images with Hyper3D Rodin Gen-2.5, split completed models with BANG, and retrieve results.",
+      "description": "Turn text or reference images into 3D models, split generated models into parts, and download assets for your project.",
       "description_i18n": {
-        "en": "Generate 3D models from text or reference images with Hyper3D Rodin Gen-2.5, split completed models with BANG, and retrieve results.",
-        "zh-CN": "通过文字或参考图片生成 Hyper3D Rodin Gen-2.5 三维模型，使用 BANG 拆分已完成模型，并获取生成结果。"
+        "en": "Turn text or reference images into 3D models, split generated models into parts, and download assets for your project.",
+        "zh-CN": "将文字或参考图片生成 3D 模型，把生成的模型拆分为独立部件，并下载到项目中使用。"
       },
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": {
         "name": "Deemos",
         "url": "https://hyper3d.ai"
@@ -1063,12 +1063,12 @@
         "en": "Tripo 3D",
         "zh-CN": "Tripo 3D"
       },
-      "description": "Generate textured, rig-ready 3D models from a text prompt or a reference image with Tripo, and export GLB/FBX/OBJ/STL/USDZ/3MF straight into your project. Connect your China-mainland Tripo account once in the browser (OAuth), no API key pasting.",
+      "description": "Generate textured 3D models from text or images, add rigging and animation, simplify meshes, and export assets for games or 3D printing. Requires a mainland China Tripo account.",
       "description_i18n": {
-        "en": "Generate textured, rig-ready 3D models from a text prompt or a reference image with Tripo, and export GLB/FBX/OBJ/STL/USDZ/3MF straight into your project. Connect your China-mainland Tripo account once in the browser (OAuth), no API key pasting.",
-        "zh-CN": "用 Tripo 从一句话或一张图生成带贴图、可绑骨的 3D 模型，支持动画、减面与 GLB/FBX/OBJ/STL/USDZ/3MF 导出，文件直接落到项目里。浏览器里授权一次国内站 Tripo 账号即可使用，无需粘贴 API Key。"
+        "en": "Generate textured 3D models from text or images, add rigging and animation, simplify meshes, and export assets for games or 3D printing. Requires a mainland China Tripo account.",
+        "zh-CN": "用文字或图片生成带贴图的 3D 模型，添加骨骼与动画、精简模型面数，导出用于游戏或 3D 打印的素材。需使用 Tripo 国内站账号。"
       },
-      "version": "0.1.3",
+      "version": "0.1.4",
       "author": {
         "name": "VAST",
         "url": "https://www.tripo3d.ai"
@@ -1202,12 +1202,12 @@
       "name": "unreal-engine",
       "source": "./plugins/unreal-engine",
       "displayName": "Unreal Engine",
-      "description": "Control a separately installed Unreal Editor through Epic Unreal MCP and adapted official skills. Requires UE with ModelContextProtocol and AllToolsets enabled.",
+      "description": "Build and edit Unreal Engine levels, adjust scene actors, and create and debug Blueprint logic for game prototypes.",
       "description_i18n": {
-        "zh-CN": "通过 Epic 官方 MCP 和 Skills 操作独立安装的 UE 编辑器。需启用 ModelContextProtocol 和 AllToolsets。",
-        "en": "Control a separately installed Unreal Editor through Epic Unreal MCP and adapted official skills. Requires UE with ModelContextProtocol and AllToolsets enabled."
+        "zh-CN": "在 Unreal Engine 中搭建和编辑关卡、调整场景物体，创建与调试蓝图逻辑，制作游戏原型。",
+        "en": "Build and edit Unreal Engine levels, adjust scene actors, and create and debug Blueprint logic for game prototypes."
       },
-      "version": "0.1.2",
+      "version": "0.1.3",
       "author": {
         "name": "Z.ai"
       },
@@ -1305,11 +1305,11 @@
     },
     {
       "name": "godot",
-      "version": "0.3.1",
-      "description": "Native Godot game development with hybridindie MCP and companion skills.",
+      "version": "0.3.2",
+      "description": "Create 2D and 3D games in Godot: build scenes, edit nodes and scripts, run projects, and troubleshoot gameplay.",
       "description_i18n": {
-        "en": "Native Godot game development with hybridindie MCP and companion skills.",
-        "zh-CN": "通过 hybridindie MCP 和配套 skills 直接操作原生 Godot 编辑器，创建、运行和调试游戏。"
+        "en": "Create 2D and 3D games in Godot: build scenes, edit nodes and scripts, run projects, and troubleshoot gameplay.",
+        "zh-CN": "用 Godot 开发 2D 和 3D 游戏：搭建场景、编辑节点与脚本，运行项目并排查游戏问题。"
       },
       "author": {
         "name": "ZCode"
@@ -1338,12 +1338,12 @@
         "zh-CN": "Blender"
       },
       "source": "./plugins/blender",
-      "description": "Official Blender Lab MCP integration (MCP-only, no UI panel): inspect and edit a running Blender 5.1+ scene, execute bpy code, search bundled API and manual docs, capture screenshots, and render previews.",
+      "description": "Create and edit 3D models and scenes in Blender, adjust materials and lighting, and render images to preview your work.",
       "description_i18n": {
-        "en": "Official Blender Lab MCP integration (MCP-only, no UI panel): inspect and edit a running Blender 5.1+ scene, execute bpy code, search bundled API and manual docs, capture screenshots, and render previews.",
-        "zh-CN": "Blender 官方 Lab MCP 集成（仅 MCP，无 UI 面板）：检查并修改正在运行的 Blender 5.1+ 场景、执行 bpy 代码、检索内置 API 与手册、截图和渲染预览。"
+        "en": "Create and edit 3D models and scenes in Blender, adjust materials and lighting, and render images to preview your work.",
+        "zh-CN": "在 Blender 中创建和编辑 3D 模型与场景、调整材质和灯光，渲染图片并预览效果。"
       },
-      "version": "0.3.0",
+      "version": "0.3.1",
       "author": {
         "name": "Z.ai",
         "url": "https://z.ai"
@@ -1366,12 +1366,12 @@
     },
     {
       "name": "unity",
-      "version": "0.1.4",
+      "version": "0.1.5",
       "icon": "https://cdn-zcode.z.ai/zcode/official-plugin/assets/unity/icon.png",
-      "description": "Official Unity CLI skill and references, with ZCode installation guidance and local environment checks.",
+      "description": "Build game scenes in Unity, edit objects and assets, write C# scripts, and run and debug gameplay prototypes.",
       "description_i18n": {
-        "en": "Official Unity CLI skill and references, with ZCode installation guidance and local environment checks.",
-        "zh-CN": "打包 Unity 官方 CLI Skill 及完整参考文件，补充 ZCode 安装指引和本地环境检查。"
+        "en": "Build game scenes in Unity, edit objects and assets, write C# scripts, and run and debug gameplay prototypes.",
+        "zh-CN": "在 Unity 中搭建游戏场景、编辑物体和资源、编写 C# 脚本，运行并调试游戏原型。"
       },
       "author": {
         "name": "Z.ai"

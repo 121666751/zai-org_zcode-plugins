@@ -1,10 +1,10 @@
 {
   "name": "godot",
-  "version": "0.3.1",
-  "description": "Native Godot game development with hybridindie MCP and companion skills.",
+  "version": "0.3.2",
+  "description": "Create 2D and 3D games in Godot: build scenes, edit nodes and scripts, run projects, and troubleshoot gameplay.",
   "description_i18n": {
-    "en": "Native Godot game development with hybridindie MCP and companion skills.",
-    "zh-CN": "通过 hybridindie MCP 和配套 skills 直接操作原生 Godot 编辑器，创建、运行和调试游戏。"
+    "en": "Create 2D and 3D games in Godot: build scenes, edit nodes and scripts, run projects, and troubleshoot gameplay.",
+    "zh-CN": "用 Godot 开发 2D 和 3D 游戏：搭建场景、编辑节点与脚本，运行项目并排查游戏问题。"
   },
   "author": {
     "name": "ZCode"
