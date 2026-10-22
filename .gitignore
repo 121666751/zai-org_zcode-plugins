@@ -23,3 +23,6 @@ ui-plugins/*/licenses/
 # Craft Web snapshots are compiled from the pinned upstream; caches are local.
 /.craft-cache/
 /ui-plugins/*/web/
+
+# JetBrain IDE
+.idea/*
