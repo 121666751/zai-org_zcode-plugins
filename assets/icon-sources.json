@@ -2543,5 +2543,14 @@
     "homepage": "https://unity.com",
     "mimeType": "image/png",
     "sha256": "300cc9cf57b29fe09b43e587b23f563c390bb67242227524acfcc28fc477f4f7"
+  },
+  {
+    "name": "libtv-cli",
+    "icon": "libtv-cli/icon.png",
+    "source": "https://www.liblib.tv/pwa/libtv/icon-512.png",
+    "matchedBy": "official-pwa-icon-512",
+    "homepage": "https://www.liblib.tv",
+    "mimeType": "image/png",
+    "sha256": "ada9717d540928baec64105056b93e8e8bc6cfbff145f9f3a9eadb6dd9b90689"
   }
 ]
