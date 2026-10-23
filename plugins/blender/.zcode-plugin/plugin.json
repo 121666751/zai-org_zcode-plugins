@@ -1,47 +1,27 @@
 {
   "name": "blender",
-  "version": "0.3.1",
-  "description": "Create and edit 3D models and scenes in Blender, adjust materials and lighting, and render images to preview your work.",
+  "version": "0.4.1",
+  "description": "Use the official Blender CLI to install or locate Blender, model in visible desktop iterations, and inspect images before refining the same project.",
   "description_i18n": {
-    "en": "Create and edit 3D models and scenes in Blender, adjust materials and lighting, and render images to preview your work.",
-    "zh-CN": "在 Blender 中创建和编辑 3D 模型与场景、调整材质和灯光，渲染图片并预览效果。"
+    "en": "Use the official Blender CLI to install or locate Blender, model in visible desktop iterations, and inspect images before refining the same project.",
+    "zh-CN": "引导安装和使用官方 Blender CLI，逐轮打开界面建模，实际看图后调整同一项目。"
   },
   "author": {
     "name": "Z.ai",
     "url": "https://z.ai"
   },
-  "homepage": "https://www.blender.org/lab/mcp-server/",
-  "repository": "https://projects.blender.org/lab/blender_mcp",
+  "homepage": "https://www.blender.org",
+  "repository": "https://github.com/blender/blender",
   "license": "GPL-3.0-or-later",
   "keywords": [
     "blender",
-    "mcp",
-    "blender-lab",
-    "bpy",
+    "blender-cli",
     "3d",
     "render",
-    "scene",
-    "official"
+    "bpy",
+    "gltf",
+    "batch",
+    "automation"
   ],
-  "skills": "skills",
-  "userConfig": {
-    "blenderPath": {
-      "type": "string",
-      "default": "blender",
-      "title": "Blender 可执行文件",
-      "description": "后台 CLI 工具（execute_blender_code_for_cli 等）使用。默认从 PATH 查找；macOS 常见为 /Applications/Blender.app/Contents/MacOS/Blender。"
-    },
-    "host": {
-      "type": "string",
-      "default": "localhost",
-      "title": "Blender MCP 主机",
-      "description": "与 Blender 插件里的 MCP Server Host 保持一致，默认 localhost。"
-    },
-    "port": {
-      "type": "string",
-      "default": "9876",
-      "title": "Blender MCP 端口",
-      "description": "与 Blender 插件里的 MCP Server Port 保持一致，默认 9876。"
-    }
-  }
+  "skills": "skills"
 }

@@ -1,71 +1,15 @@
-# Blender MCP (Official Blender Lab)
+# Blender
 
-<p align="center"><img src="https://cdn-zcode.z.ai/zcode/official-plugin/assets/blender/icon.png" width="96" alt="Blender"></p>
+[中文](README_CN.md)
 
-[中文文档](./README_CN.md)
+A lightweight Z.ai guidance plugin for the official Blender executable. It does not bundle or modify Blender, add a custom CLI, or require MCP or a bridge.
 
-This plugin wraps the **official Blender Lab MCP server** (`blender_mcp`) for ZCode. It connects to a running Blender 5.1+ instance through the Blender Lab MCP add-on and exposes the official server's 26 tools: scene inspection, bpy execution, bundled API/manual search, screenshots, and rendering.
+Ask the Agent to “set up Blender” or “use Blender CLI to create a small turtle”. The `setup` skill finds or installs Blender and verifies its executable; the `cli` skill guides modeling and image inspection.
 
-This MCP-only plugin replaces the previous UI-based `blender` plugin; it adds no side panel. It is not the community `ahujasid/blender-mcp` project. The Blender binary and add-on are not bundled; both are installed locally.
+Modeling opens a visible Blender window. Each refinement uses the same project. Before reopening it, close only the task-owned window through Blender’s normal UI save/close flow using a host UI tool. If that cannot be verified, ask the user to save and close the window, and wait before continuing. The Agent reads preview images to decide whether to refine; the final window remains open. This shows iteration results, not necessarily every operation within a long script. The CLI cannot inspect live unsaved edits; a prior save or completion marker is insufficient. Never terminate the process with signals or overwrite the project from another process while awaiting closure. Explicit batch jobs may run headlessly.
 
-## Components
+Blender includes its CLI; no separate CLI package is needed. Installation requires an explicit request or consent, including prior consent to install Blender if missing; a modeling request alone is insufficient. Host permissions still apply. A visible desktop and an Agent image-reading tool are needed for the full workflow. Platform installation paths differ; Windows and Linux runtime behavior has not been validated for this plugin.
 
-| Component | What it does |
-| --- | --- |
-| MCP server `blender-lab` | Official `blender-mcp` Python server, launched with `uvx` from the pinned upstream tag `v1.0.3` |
-| Skill `setup` | Checks Blender 5.1+, installs/verifies the official add-on and `uv`, starts the bridge, verifies the full MCP chain |
-| Skill `blender` | Operating loop and safety rules for the official tools: inspect → execute → verify → save |
-| Launcher `scripts/run.mjs` | Finds `uvx` from PATH, Homebrew, `~/.local/bin`, or `~/.cargo/bin`, then starts the pinned server |
+References: [Blender downloads](https://www.blender.org/download/), [CLI manual](https://docs.blender.org/manual/en/latest/advanced/command_line/arguments.html), [Python API](https://docs.blender.org/api/current/).
 
-## Requirements
-
-- **Blender 5.1.0 or newer**.
-- The **MCP add-on** from Blender Lab installed and enabled, with **Start MCP Server** running (default `localhost:9876`).
-- **Allow Online Access** enabled in Blender Preferences → System → Network; the add-on refuses to start otherwise.
-- **uv / uvx** available. On macOS: `brew install uv`. Official installer: <https://docs.astral.sh/uv/getting-started/installation/>.
-- Network access on first use so `uvx` can download the pinned official package and its dependencies.
-
-## Setup
-
-Install and enable `blender` from the ZCode plugin manager, then run `/blender:setup` in a new task. The skill checks each layer and reports exactly what is missing.
-
-Manual path:
-
-1. Install Blender 5.1+.
-2. In Blender: Preferences → Get Extensions → Repositories → add `https://lab.blender.org/`, then install and enable the **MCP** add-on. Alternatively install `mcp-1.0.3.zip` from the official release page via **Install from Disk**.
-3. Enable **Allow Online Access**, then click **Start MCP Server** in the add-on preferences.
-4. Install `uv` and confirm `uvx --version` works.
-5. Keep the target `.blend` open in Blender and ask ZCode to inspect it.
-
-The pinned add-on release is `v1.0.3`: <https://projects.blender.org/lab/blender_mcp/releases/tag/v1.0.3>. Update the launcher's tag and the add-on together.
-
-## Usage
-
-Examples:
-
-- `Inspect the current scene and list the 10 objects with the highest polygon count.`
-- `Rename all material data-blocks to the LGT-/GEO-/MAT- convention and report each change.`
-- `Add a three-point light setup and render a 960x720 preview to /tmp/still.png.`
-- `Use the CLI tools to audit every .blend in ./assets for missing external files.`
-- `Search the bundled API docs for the glTF export operator and show its parameters.`
-
-The `blender` skill activates on Blender/bpy/3D requests. You can also pick it explicitly from the composer's Skills group.
-
-## Safety
-
-- The official server **executes model-written Python inside Blender**. Its add-on has only a weak guard for a few operators and `sys.exit`; treat it as arbitrary code execution, not a sandbox.
-- Work on copies and make backups before destructive edits. Saving or overwriting a `.blend` requires an explicit user request.
-- Do not expose the bridge beyond loopback. Keep host `localhost`; do not bind `0.0.0.0` or publish port `9876`.
-- Do not send scene data, credentials, or secrets to external services from executed code.
-- The community package is also named `blender-mcp` and uses port `9876`. Do not run both the official and community servers at the same time.
-
-## Upstream and license
-
-- Official page: <https://www.blender.org/lab/mcp-server/>
-- Source: <https://projects.blender.org/lab/blender_mcp>
-- Upstream release: `v1.0.3`, commit `2cea8d566dde07fbac28a61d698909d69724e853`
-- License: GPL-3.0-or-later. See [`LICENSE`](./LICENSE) and [`UPSTREAM.md`](./UPSTREAM.md).
-
-This ZCode wrapper is maintained by Z.ai and is not published by the Blender Foundation or Blender Lab.
-
-Open a new ZCode session after enabling or updating the plugin so the Skill catalog and MCP server list refresh.
+Version 0.4.0 replaces the previous MCP integration. Existing MCP tool names and host/port settings no longer apply; start a new conversation after updating. No account or API key is required. Setup may download Blender; modeling runs local Python and writes project/preview files. This guidance retains the package GPL-3.0-or-later license; Blender itself is distributed separately under its upstream license.
