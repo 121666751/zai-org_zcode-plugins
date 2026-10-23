@@ -2,31 +2,31 @@
 
 [中文](README_CN.md)
 
-Develop native Godot games through the bundled hybridindie MCP server and four skills. This standard plugin has no ZCode side pane or Web editor; it controls the original Godot desktop editor.
+Develop games with the official Godot CLI and view each iteration in the original desktop editor. This standard plugin provides two skills and an `open` command; it bundles no engine, MCP server, addon or side pane.
 
 ## Start
 
-Ask the Agent to “set up Godot and create a game”, or invoke the plugin's `open` command. `godot-setup` checks Node, native Godot 4.4+ and uv, installs missing prerequisites from official sources within the user's authorization, then installs/enables the project addon. Godot and uv are not bundled. Existing installations and unmanaged addons are preserved. C# projects additionally require Godot .NET and its SDK.
-
-Open ZCode in the directory containing `project.godot`. Run `node "${ZCODE_PLUGIN_ROOT}/dist/native.mjs" launch "/absolute/project/path"` to prepare and launch it; use `setup` for an already open project, save changes and reload the project. Replace `${ZCODE_PLUGIN_ROOT}` with the installed plugin path when running manually. Require `godot_health_check` to report `bridge_connected=true` and inspect project identity before editing. Restart the MCP connection after installing dependencies. Only one MCP client per project is supported.
+Ask the Agent to “use Godot to create a game and open the editor”, or invoke `open` with a project directory. The setup skill locates a compatible native Godot 4.x installation or installs one from official sources within your authorization. C# projects require the .NET edition and SDK.
 
 | Skill | Purpose |
 | --- | --- |
-| godot-setup | Dependency detection/installation, addon setup and connection checks |
-| godot-getting-started | Tool discovery, prompts and resources |
-| godot-expert | Scene/script authoring and engine conventions |
-| godot-playtest-and-debug | Run, simulate input, inspect state and debug |
+| setup | Locate/install Godot and verify its built-in CLI |
+| cli | Edit project files, open the desktop editor, run scenes and export on request |
 
-## Dependencies and side effects
+The Agent works in one local directory containing `project.godot`, edits scripts/scenes/resources, and launches `godot --editor --path "/absolute/project"`. Existing windows and unsaved edits are preserved. External file changes may require focusing the editor or accepting its reload dialog; CLI does not expose the current selection or unsaved editor state. Visible desktop access is required to show windows. Background execution is not a visual verification.
 
-Node launches uv, which provisions Python and installs the pinned upstream dependencies on first use (network required). Build downloads a checksum-verified upstream source archive from GitHub. Dependency setup may download Godot and uv from their official distributors. No paid API or separate model key is required; the Agent uses the host's configured model.
+## Dependencies and migration
 
-Setup writes `addons/godot_mcp`, enables it in `project.godot`, and stores private connection credentials in `.godot/zcode-mcp.json`; ignore `.godot/` in Git. State, Python environments and editor logs live in `~/.zcode/plugin-data/godot-native/` (`ZCODE_GODOT_DATA_DIR` overrides this for isolation). The bridge binds localhost with token authentication. Launch starts an editor with an isolated debugger port. MCP tools can edit files/scenes, execute project code and run subprocesses; only use trusted projects. Toolsets, prompts, resources and upstream mutation confirmations are preserved.
+Godot is the only required runtime. No uv, Python service, MCP credentials or separate model API key is needed; the Agent uses the configured ZCode model. Installing a missing engine requires network access to official distributors. Commands may create project files/import caches, run project code, open windows and write renders/exports under the user's authorization.
 
-Override executable discovery with `GODOT_PATH` / `GODOT_MCP_GODOT_BIN` and `ZCODE_UV_PATH` in the MCP environment. A terminal-only environment change does not alter an already running host. Missing prerequisites are handled by the setup skill, not silently installed by MCP startup.
+When upgrading from 0.3.x, restart the session to unload the previous MCP server. The plugin no longer installs an addon. Existing `addons/godot_mcp`, autoloads and project settings are not automatically removed: inspect their ownership and dependencies before separately migrating the project. Do not delete user modifications or stop unrelated editor processes.
 
-## Provenance and validation
+## Validation and license
 
-Bundled [hybridindie/godot-mcp](https://github.com/hybridindie/godot-mcp), version 2026.10.21b2, commit `39055305346cf3b46a18ddc31385427230ef9382`, is MIT licensed (see LICENSE-hybridindie.txt). Build applies small addon adaptations for per-project credentials and native debugger session handling. The Godot icon is from Godot Engine under MIT; see `assets/godot/LICENSE.txt` in the source repository. This is a community MCP integration, not an official Godot MCP product.
+On macOS with Godot 4.7.2, the installed 0.4.0 plugin was exercised in ZCode using DeepSeek Flash: both skills loaded, project files and mesh/material resources were generated, and native Godot produced PNG renders that were opened for inspection. This validates the functional authoring/render path, not product-model accuracy. Windows/Linux installation and interactive editor reload were not independently validated in this run.
 
-macOS/Godot 4.7.2 was exercised through the installed MCP entry: script/scene writes, save, native play, input, three successful catches, completion/restart assertions and game screenshots. Windows/Linux setup instructions have not been validated on physical machines. The existing ZCode UI session was not used to repeat this native MCP end-to-end run. Plugin sources use the repository's existing `ui-plugins/godot` build convention despite providing no UI.
+Godot and its icon are MIT licensed; see the repository's `assets/godot/LICENSE.txt`. This plugin uses Godot's official executable and does not bundle hybridindie code.
+
+An enabled legacy addon may keep trying to connect to its retired bridge; these connection errors are not game defects. Check the enabled plugin entry and `.godot/zcode-mcp.json` without exposing its token. With authorization, save/back up the project, disable the addon, and remove only verified unused addon/autoload entries and project credentials. Old state lives under `~/.zcode/plugin-data/godot-native/` or `ZCODE_GODOT_DATA_DIR`; verify project ownership and active clients before authorized cleanup. Shared Python environments must be retained while any legacy client uses them.
+
+Packaging rejects `dist/` in a plugin with no build source, including residual 0.3.x output. Inspect and remove only the stale generated directory before rebuilding; it is never silently included in the CLI package.

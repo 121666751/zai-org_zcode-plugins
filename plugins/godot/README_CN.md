@@ -2,31 +2,31 @@
 
 [English](README.md)
 
-通过打包的 hybridindie MCP 和四套 skills 开发原生 Godot 游戏。这是普通插件，没有 ZCode 侧栏 UI 或 Web 编辑器，直接操作原版桌面 Godot。
+使用官方 Godot CLI 开发游戏，在原版桌面编辑器中查看每轮结果。这个普通插件提供两个 Skill 和一个 `open` 命令，不打包引擎、MCP 服务、addon 或侧栏界面。
 
 ## 开始使用
 
-让 Agent“配置 Godot 并创建游戏”，或调用插件的 `open` 命令。`godot-setup` 检查 Node、原生 Godot 4.4+ 和 uv，在用户授权范围内从官方来源安装缺失依赖，再安装并启用项目 addon。插件不包含 Godot 或 uv 本体；保留已有安装与非插件托管的 addon。C# 项目还需要 Godot .NET 和对应 SDK。
-
-将 ZCode 工作区设为包含 `project.godot` 的目录。执行 `node "${ZCODE_PLUGIN_ROOT}/dist/native.mjs" launch "/absolute/project/path"` 初始化并启动；如果项目已经打开，使用 `setup`，保存改动后重新载入项目。手动执行时将 `${ZCODE_PLUGIN_ROOT}` 替换为实际插件安装路径。编辑前确认 `godot_health_check` 返回 `bridge_connected=true`，并核对项目身份。安装依赖后重新连接 MCP。同一项目当前只支持一个 MCP 客户端。
+让 Agent“使用 Godot 创建游戏并打开编辑器”，或调用 `open` 并指定项目目录。setup Skill 查找兼容的原生 Godot 4.x，缺失时在授权范围内从官方来源安装。C# 工程需要 .NET 版与 SDK。
 
 | Skill | 用途 |
 | --- | --- |
-| godot-setup | 检测和安装依赖、初始化 addon、检查连接 |
-| godot-getting-started | 工具发现、提示词和资源接口 |
-| godot-expert | 场景、脚本编写与引擎约定 |
-| godot-playtest-and-debug | 运行、模拟输入、读取状态和调试 |
+| setup | 检测/安装 Godot 并验证内置 CLI |
+| cli | 修改工程文件、打开桌面编辑器、运行场景及按需导出 |
 
-## 依赖与副作用
+Agent 在包含 `project.godot` 的同一本地目录中修改脚本、场景和资源，使用 `godot --editor --path "/absolute/project"` 打开工程，保留现有窗口与未保存修改。外部文件变化可能需要让编辑器获得焦点或确认重新加载；CLI 不提供当前选区或未保存场景状态。展示窗口需要可见桌面，后台运行不能代替视觉验证。
 
-Node 启动 uv，首次使用时联网配置 Python 并安装锁定的上游依赖。构建从 GitHub 下载并校验上游源码归档。环境初始化可能从官方来源下载 Godot 和 uv。不需要付费 API 或独立模型密钥；Agent 使用宿主配置的模型。
+## 依赖与迁移
 
-初始化写入 `addons/godot_mcp`、在 `project.godot` 启用插件，并将私有连接凭据写入 `.godot/zcode-mcp.json`；请让 Git 忽略 `.godot/`。状态、Python 环境和编辑器日志位于 `~/.zcode/plugin-data/godot-native/`，可用 `ZCODE_GODOT_DATA_DIR` 隔离。桥接仅监听 localhost，并进行 token 认证。启动编辑器使用独立调试端口。MCP 可以编辑文件和场景、执行项目代码及启动子进程，仅用于可信项目；保留上游工具分组、提示词、资源和修改操作确认机制。
+唯一必需的运行时是 Godot。不需要 uv、Python 服务、MCP 凭据或独立模型 API 密钥，Agent 使用 ZCode 配置的模型。安装缺失引擎需要访问官方分发源。命令在用户授权范围内创建工程文件与导入缓存、执行项目代码、打开窗口及写入渲染/导出产物。
 
-在 MCP 环境配置 `GODOT_PATH` / `GODOT_MCP_GODOT_BIN` 和 `ZCODE_UV_PATH` 可覆盖程序发现。仅在终端设置环境变量不会改变已运行的宿主。缺失依赖由 setup skill 处理，MCP 启动过程不会静默安装这些程序。
+从 0.3.x 升级后重启会话，卸载旧 MCP 服务。本插件不再安装 addon；已有 `addons/godot_mcp`、autoload 和项目设置不会被自动删除，应先检查归属与依赖，再单独迁移工程。不删除用户修改，不停止其他编辑器进程。
 
-## 来源与验证范围
+## 验证与许可
 
-打包的 [hybridindie/godot-mcp](https://github.com/hybridindie/godot-mcp) 版本为 2026.10.21b2，提交 `39055305346cf3b46a18ddc31385427230ef9382`，遵循 MIT 许可，见 LICENSE-hybridindie.txt。构建对 addon 增加项目级凭据读取和原生调试会话兼容处理。Godot 图标来自 Godot Engine，遵循 MIT，许可见源码仓库 `assets/godot/LICENSE.txt`。这是社区 MCP 集成，并非 Godot 官方 MCP 产品。
+已在 macOS、Godot 4.7.2 和 ZCode 的 DeepSeek Flash 会话中验证安装后的 0.4.0：两个 Skill 被加载，生成了工程文件、网格与材质资源，原生 Godot 输出了 PNG 渲染图并实际读取检查。这验证创作与渲染的功能链路，不代表产品模型精度验收。本轮未独立验证 Windows/Linux 安装和编辑器交互式重新加载。
 
-已在 macOS/Godot 4.7.2 通过安装后的 MCP 入口验证：写脚本和场景、保存、原生运行、模拟输入、钓满三条鱼、完成/重置断言和游戏截图。Windows/Linux 安装说明尚未实机验证；没有在现有 ZCode UI 会话中重复本次原生 MCP 端到端流程。源码沿用仓库 `ui-plugins/godot` 构建目录约定，但插件不提供 UI。
+Godot 及其图标遵循 MIT 许可，见仓库 `assets/godot/LICENSE.txt`。插件使用 Godot 官方可执行文件，不再打包 hybridindie 代码。
+
+仍启用的旧 addon 会尝试连接已停用的 bridge，这类连接错误不属于游戏缺陷。检查启用项与 `.godot/zcode-mcp.json`，不输出 token。获得迁移授权后先保存/备份工程、禁用 addon，再移除确认不再使用的 addon、autoload 项和项目凭据。旧状态位于 `~/.zcode/plugin-data/godot-native/` 或 `ZCODE_GODOT_DATA_DIR`，清理须先核对项目归属和活跃客户端；仍被其他旧客户端使用的共享 Python 环境必须保留。
+
+打包会拒绝无构建源码插件中的 `dist/`，包括 0.3.x 残留产物。请先检查并移除确认已废弃的生成目录，再重新构建，避免旧代码混入 CLI 包。

@@ -1,29 +1,24 @@
 {
   "name": "godot",
-  "version": "0.3.2",
-  "description": "Create 2D and 3D games in Godot: build scenes, edit nodes and scripts, run projects, and troubleshoot gameplay.",
+  "version": "0.4.0",
+  "description": "Develop games with the official Godot CLI and show each iteration in the original desktop editor.",
   "description_i18n": {
-    "en": "Create 2D and 3D games in Godot: build scenes, edit nodes and scripts, run projects, and troubleshoot gameplay.",
-    "zh-CN": "用 Godot 开发 2D 和 3D 游戏：搭建场景、编辑节点与脚本，运行项目并排查游戏问题。"
+    "en": "Develop games with the official Godot CLI and show each iteration in the original desktop editor.",
+    "zh-CN": "使用官方 Godot CLI 开发游戏，在原版桌面编辑器中查看每轮场景与运行效果。"
   },
   "author": {
     "name": "ZCode"
   },
   "license": "MIT",
   "commands": "commands",
-  "mcpServers": {
-    "godot": {
-      "type": "stdio",
-      "command": "node",
-      "args": [
-        "${ZCODE_PLUGIN_ROOT}/dist/native.mjs",
-        "serve"
-      ],
-      "cwd": "${ZCODE_PROJECT_DIR}",
-      "env": {
-        "ZCODE_WORKSPACE_ROOT": "${ZCODE_PROJECT_DIR}"
-      }
-    }
-  },
-  "skills": "skills"
+  "skills": "skills",
+  "homepage": "https://godotengine.org",
+  "keywords": [
+    "godot",
+    "godot-cli",
+    "game",
+    "3d",
+    "gdscript",
+    "native"
+  ]
 }
